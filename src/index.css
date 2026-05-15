@@ -43,13 +43,13 @@ body {
 }
 
 .surface {
-  background: #0D1219;
-  border: 1px solid #141E2C;
+  background: #0F1623;
+  border: 1px solid #1E2D42;
 }
 
 .surface-raised {
-  background: #111827;
-  border: 1px solid #1A2535;
+  background: #141F2E;
+  border: 1px solid #243347;
 }
 
 /* ── Typography ── */
@@ -91,10 +91,10 @@ body {
 
 .label {
   font-size: 0.75rem;
-  font-weight: 500;
-  letter-spacing: 0.06em;
+  font-weight: 600;
+  letter-spacing: 0.07em;
   text-transform: uppercase;
-  color: #64748B;
+  color: #7EA8C8;
 }
 
 /* ── Gradient text ── */

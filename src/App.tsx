@@ -84,7 +84,7 @@ function Navbar() {
         {/* Mobile toggle */}
         <button
           onClick={() => setMobile(!mobile)}
-          className="md:hidden w-8 h-8 flex items-center justify-center text-[#64748B] hover:text-[#CBD5E1]"
+          className="md:hidden w-8 h-8 flex items-center justify-center text-[#94A3B8] hover:text-[#E2E8F0]"
         >
           {mobile ? <X size={18} /> : <Menu size={18} />}
         </button>
@@ -140,8 +140,8 @@ function DashboardMockup() {
           <div className="w-2.5 h-2.5 rounded-full bg-[#28C840]" />
           <div className="flex-1 mx-3">
             <div className="bg-[#0B1018] rounded-[5px] px-3 py-1 flex items-center gap-2 max-w-48">
-              <Search size={9} className="text-[#334155]" />
-              <span className="text-[#334155] text-[11px] font-mono">app.launchpilot.ai</span>
+              <Search size={9} className="text-[#475569]" />
+              <span className="text-[#64748B] text-[11px] font-mono">app.launchpilot.ai</span>
             </div>
           </div>
           <div className="badge !py-0.5 !px-2 !text-[10px]">
@@ -159,7 +159,7 @@ function DashboardMockup() {
               className={`px-3 py-2.5 text-[11px] font-medium transition-all duration-150 border-b-2 ${
                 activeTab === i
                   ? 'text-[#38BDF8] border-[#38BDF8]'
-                  : 'text-[#334155] border-transparent hover:text-[#64748B]'
+                  : 'text-[#64748B] border-transparent hover:text-[#94A3B8]'
               }`}
             >
               {t}
@@ -210,7 +210,7 @@ function DashboardMockup() {
               ))}
             </div>
             <div className="flex justify-between mt-1.5">
-              <span className="text-[#475569] text-[9px]">2019</span>
+              <span className="text-[#64748B] text-[9px]">2019</span>
               <span className="text-[#38BDF8] text-[9px] font-medium">2025 proj.</span>
             </div>
           </div>
@@ -361,7 +361,7 @@ function InteractiveDemo() {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             rows={3}
-            className="w-full bg-[#0B1018] border border-[#1A2535] rounded-xl px-3.5 py-2.5 text-[#CBD5E1] text-sm font-medium resize-none focus:outline-none focus:border-[#0EA5E9]/40 transition-colors placeholder-[#1E293B]"
+            className="w-full bg-[#0B1018] border border-[#1A2535] rounded-xl px-3.5 py-2.5 text-[#CBD5E1] text-sm font-medium resize-none focus:outline-none focus:border-[#0EA5E9]/40 transition-colors placeholder-[#3D5470]"
             placeholder="Describe your startup idea…"
           />
           <button
@@ -425,9 +425,9 @@ function InteractiveDemo() {
       {/* ── Right panel ── */}
       <div className="space-y-4">
         {/* Market metrics */}
-        <div className={`surface rounded-2xl p-5 transition-all duration-700 ${done ? 'opacity-100' : 'opacity-20 pointer-events-none'}`}>
+        <div className={`surface rounded-2xl p-5 transition-all duration-700 ${done ? 'opacity-100' : 'opacity-40 pointer-events-none'}`}>
           <div className="flex items-center justify-between mb-4">
-            <span className="text-[#94A3B8] text-sm font-semibold flex items-center gap-2">
+            <span className="text-[#CBD5E1] text-sm font-semibold flex items-center gap-2">
               <Activity size={13} className="text-[#38BDF8]" />
               Market Analysis
             </span>
@@ -441,16 +441,16 @@ function InteractiveDemo() {
               { short: 'CAGR', long: 'Growth Rate',       val: '32%'   },
             ].map((m) => (
               <div key={m.short} className="surface-raised rounded-xl px-3 py-2.5">
-                <div className="text-[#64748B] text-[10px] font-medium">{m.long}</div>
-                <div className="gradient-text-subtle text-lg font-bold leading-tight mt-0.5">{m.val}</div>
+                <div className="text-[#94A3B8] text-[10px] font-medium uppercase tracking-wide">{m.long}</div>
+                <div className="text-[#38BDF8] text-lg font-bold leading-tight mt-0.5">{m.val}</div>
               </div>
             ))}
           </div>
         </div>
 
         {/* Competitors */}
-        <div className={`surface rounded-2xl p-5 transition-all duration-700 delay-150 ${done ? 'opacity-100' : 'opacity-20 pointer-events-none'}`}>
-          <div className="text-[#94A3B8] text-sm font-semibold flex items-center gap-2 mb-4">
+        <div className={`surface rounded-2xl p-5 transition-all duration-700 delay-150 ${done ? 'opacity-100' : 'opacity-40 pointer-events-none'}`}>
+          <div className="text-[#CBD5E1] text-sm font-semibold flex items-center gap-2 mb-4">
             <PieChart size={13} className="text-[#38BDF8]" />
             Competitor Threat Matrix
           </div>
@@ -461,7 +461,7 @@ function InteractiveDemo() {
               { name: 'Ironclad', threat: 'Low',    pct: 38, col: '#6EE7B7' },
             ].map((c) => (
               <div key={c.name} className="flex items-center gap-3">
-                <span className="text-[#94A3B8] text-xs w-20">{c.name}</span>
+                <span className="text-[#CBD5E1] text-xs w-20 font-medium">{c.name}</span>
                 <div className="flex-1 bg-[#0B1018] rounded-full h-1">
                   <div
                     className="h-1 rounded-full bar-fill"
@@ -477,8 +477,8 @@ function InteractiveDemo() {
         </div>
 
         {/* Investor signals */}
-        <div className={`surface rounded-2xl p-5 transition-all duration-700 delay-300 ${done ? 'opacity-100' : 'opacity-20 pointer-events-none'}`}>
-          <div className="text-[#94A3B8] text-sm font-semibold flex items-center gap-2 mb-3">
+        <div className={`surface rounded-2xl p-5 transition-all duration-700 delay-300 ${done ? 'opacity-100' : 'opacity-40 pointer-events-none'}`}>
+          <div className="text-[#CBD5E1] text-sm font-semibold flex items-center gap-2 mb-3">
             <Layers size={13} className="text-[#38BDF8]" />
             Investor Signal Points
           </div>
@@ -493,7 +493,7 @@ function InteractiveDemo() {
                 <div className="mt-0.5 w-3.5 h-3.5 rounded-full border border-[#0EA5E9]/25 bg-[#0EA5E9]/5 flex items-center justify-center flex-shrink-0">
                   <div className="w-1 h-1 rounded-full bg-[#38BDF8]" />
                 </div>
-                <p className="text-[#94A3B8] text-xs leading-relaxed">{pt}</p>
+                <p className="text-[#CBD5E1] text-xs leading-relaxed">{pt}</p>
               </div>
             ))}
           </div>
@@ -569,7 +569,7 @@ function StatsRow() {
         {stats.map((s, i) => (
           <div key={i} className="bg-[#080C11] px-6 py-7 text-center">
             <div className="gradient-text text-2xl md:text-3xl font-bold tracking-tight mb-1.5">{s.val}</div>
-            <div className="text-[#64748B] text-xs font-medium">{s.label}</div>
+            <div className="text-[#94A3B8] text-xs font-medium">{s.label}</div>
           </div>
         ))}
       </div>
@@ -625,10 +625,10 @@ function TestimonialCard({ t, delay = 0 }: { t: typeof TESTIMONIALS[0]; delay?: 
           </div>
           <div>
             <p className="text-[#CBD5E1] text-sm font-medium leading-none mb-0.5">{t.name}</p>
-            <p className="text-[#64748B] text-xs">{t.role}</p>
+            <p className="text-[#94A3B8] text-xs">{t.role}</p>
           </div>
         </div>
-        <span className="text-[#64748B] text-[10px] font-medium border border-[#243347] rounded-md px-2 py-0.5">{t.cohort}</span>
+        <span className="text-[#94A3B8] text-[10px] font-medium border border-[#2D3F56] rounded-md px-2 py-0.5">{t.cohort}</span>
       </div>
     </div>
   );
@@ -662,7 +662,7 @@ function WaitlistSection() {
             <Check size={18} className="text-emerald-400" strokeWidth={2.5} />
           </div>
           <p className="text-[#E2E8F0] font-semibold mb-1">You're on the list.</p>
-          <p className="text-[#475569] text-sm">We'll send you an invite when your spot opens.</p>
+          <p className="text-[#94A3B8] text-sm">We'll send you an invite when your spot opens.</p>
         </div>
       ) : (
         <form onSubmit={submit} className="flex flex-col sm:flex-row gap-2.5 justify-center">
@@ -672,7 +672,7 @@ function WaitlistSection() {
             onChange={(e) => setEmail(e.target.value)}
             required
             placeholder="Work email address"
-            className="flex-1 max-w-sm bg-[#0D1219] border border-[#1A2535] rounded-xl px-4 py-3 text-[#CBD5E1] text-sm focus:outline-none focus:border-[#0EA5E9]/40 transition-colors placeholder-[#1E293B]"
+            className="flex-1 max-w-sm bg-[#0D1219] border border-[#1A2535] rounded-xl px-4 py-3 text-[#CBD5E1] text-sm focus:outline-none focus:border-[#0EA5E9]/40 transition-colors placeholder-[#3D5470]"
           />
           <button type="submit" className="btn-primary gap-2 px-5 py-3 whitespace-nowrap">
             Get Early Access
@@ -696,7 +696,7 @@ function TrustBar() {
         {orgs.map((o) => (
           <span
             key={o}
-            className="text-[#64748B] text-sm font-semibold tracking-wide hover:text-[#94A3B8] transition-colors"
+            className="text-[#94A3B8] text-sm font-semibold tracking-wide hover:text-[#CBD5E1] transition-colors"
           >
             {o}
           </span>
@@ -741,7 +741,7 @@ function Footer() {
                   key={title}
                   href={href}
                   title={title}
-                  className="w-8 h-8 rounded-lg surface-raised border border-[#1A2535] flex items-center justify-center text-[#334155] hover:text-[#94A3B8] hover:border-[#243347] transition-all"
+                  className="w-8 h-8 rounded-lg surface-raised border border-[#243347] flex items-center justify-center text-[#64748B] hover:text-[#CBD5E1] hover:border-[#38BDF8]/30 transition-all"
                 >
                   <Icon size={13} />
                 </a>
@@ -848,8 +848,8 @@ export default function App() {
                   </div>
                 ))}
               </div>
-              <p className="text-[#64748B] text-xs">
-                <span className="text-[#94A3B8] font-medium">2,400+ founders</span> on the waitlist
+              <p className="text-[#94A3B8] text-xs">
+                <span className="text-[#E2E8F0] font-medium">2,400+ founders</span> on the waitlist
               </p>
             </div>
           </div>
