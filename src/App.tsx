@@ -39,7 +39,7 @@ function Navbar() {
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${
         scrolled
-          ? 'bg-[#080C11]/80 backdrop-blur-2xl border-b border-white/[0.04]'
+          ? 'bg-[#0A0F1A]/80 backdrop-blur-2xl border-b border-white/[0.04]'
           : 'bg-transparent'
       }`}
     >
@@ -92,7 +92,7 @@ function Navbar() {
 
       {/* Mobile menu */}
       {mobile && (
-        <div className="md:hidden bg-[#080C11]/95 backdrop-blur-2xl border-b border-white/[0.04] px-6 pb-5 pt-2 space-y-1">
+        <div className="md:hidden bg-[#0A0F1A]/95 backdrop-blur-2xl border-b border-white/[0.04] px-6 pb-5 pt-2 space-y-1">
           {links.map((l) => (
             <a
               key={l}
@@ -139,7 +139,7 @@ function DashboardMockup() {
           <div className="w-2.5 h-2.5 rounded-full bg-[#FEBC2E]" />
           <div className="w-2.5 h-2.5 rounded-full bg-[#28C840]" />
           <div className="flex-1 mx-3">
-            <div className="bg-[#0B1018] rounded-[5px] px-3 py-1 flex items-center gap-2 max-w-48">
+            <div className="bg-[#1E2D3F] rounded-[5px] px-3 py-1 flex items-center gap-2 max-w-48">
               <Search size={9} className="text-[#475569]" />
               <span className="text-[#64748B] text-[11px] font-mono">app.launchpilot.ai</span>
             </div>
@@ -203,8 +203,8 @@ function DashboardMockup() {
                       i === 4
                         ? 'linear-gradient(to top, #0EA5E9, #38BDF8)'
                         : i === 5 || i === 6
-                        ? 'rgba(56,189,248,0.18)'
-                        : 'rgba(56,189,248,0.08)',
+                        ? 'rgba(56,189,248,0.35)'
+                        : 'rgba(56,189,248,0.18)',
                   }}
                 />
               ))}
@@ -226,7 +226,7 @@ function DashboardMockup() {
               ].map((c) => (
                 <div key={c.name} className="flex items-center gap-2.5">
                   <span className="text-[#94A3B8] text-[10px] w-20 truncate leading-none">{c.name}</span>
-                  <div className="flex-1 bg-[#0B1018] rounded-full h-1">
+                  <div className="flex-1 bg-[#1E2D3F] rounded-full h-1">
                     <div
                       className="h-1 rounded-full bar-fill"
                       style={{ width: `${c.score}%`, background: c.color }}
@@ -256,7 +256,7 @@ function DashboardMockup() {
                 { label: 'Growth Loops',            done: false },
               ].map((r) => (
                 <div key={r.label} className="flex items-center gap-2">
-                  <div className={`w-3.5 h-3.5 rounded-full flex items-center justify-center flex-shrink-0 ${r.done ? 'bg-emerald-500/15 border border-emerald-500/30' : 'bg-[#0B1018] border border-[#1A2535]'}`}>
+                  <div className={`w-3.5 h-3.5 rounded-full flex items-center justify-center flex-shrink-0 ${r.done ? 'bg-emerald-500/20 border border-emerald-500/40' : 'bg-[#1E2D3F] border border-[#2D4060]'}`}>
                     {r.done && <Check size={8} className="text-emerald-400" strokeWidth={3} />}
                   </div>
                   <span className={`text-[10px] leading-none ${r.done ? 'text-[#64748B] line-through' : 'text-[#94A3B8]'}`}>{r.label}</span>
@@ -304,7 +304,7 @@ function FeatureCard({
       ref={ref}
       className="reveal card-hover surface rounded-2xl p-6 group"
     >
-      <div className="w-9 h-9 rounded-xl surface-raised border border-[#1A2535] flex items-center justify-center mb-5 transition-all duration-200 group-hover:border-[#0EA5E9]/30 group-hover:bg-[#0EA5E9]/5">
+      <div className="w-9 h-9 rounded-xl surface-raised border border-[#263347] flex items-center justify-center mb-5 transition-all duration-200 group-hover:border-[#0EA5E9]/30 group-hover:bg-[#0EA5E9]/5">
         <Icon size={17} className="text-[#38BDF8]" strokeWidth={1.75} />
       </div>
       <div className="label mb-2">{eyebrow}</div>
@@ -361,7 +361,7 @@ function InteractiveDemo() {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             rows={3}
-            className="w-full bg-[#0B1018] border border-[#1A2535] rounded-xl px-3.5 py-2.5 text-[#CBD5E1] text-sm font-medium resize-none focus:outline-none focus:border-[#0EA5E9]/40 transition-colors placeholder-[#3D5470]"
+            className="w-full bg-[#1E2D3F] border border-[#263347] rounded-xl px-3.5 py-2.5 text-[#CBD5E1] text-sm font-medium resize-none focus:outline-none focus:border-[#0EA5E9]/40 transition-colors placeholder-[#3D5470]"
             placeholder="Describe your startup idea…"
           />
           <button
@@ -393,9 +393,9 @@ function InteractiveDemo() {
               return (
                 <div key={s} className="flex items-center gap-3">
                   <div className={`w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 transition-all duration-300 ${
-                    isDone    ? 'bg-emerald-500/10 border border-emerald-500/25'
-                    : isActive ? 'bg-[#0EA5E9]/10 border border-[#0EA5E9]/30'
-                    : 'bg-transparent border border-[#1A2535]'
+                    isDone    ? 'bg-emerald-500/15 border border-emerald-500/40'
+                    : isActive ? 'bg-[#0EA5E9]/15 border border-[#0EA5E9]/50'
+                    : 'bg-[#1A2535]/60 border border-[#2D4060]'
                   }`}>
                     {isDone   ? <Check size={10} className="text-emerald-400" strokeWidth={3} />
                     : isActive ? <span className="w-1.5 h-1.5 rounded-full bg-[#38BDF8] block animate-pulse" />
@@ -462,10 +462,10 @@ function InteractiveDemo() {
             ].map((c) => (
               <div key={c.name} className="flex items-center gap-3">
                 <span className="text-[#CBD5E1] text-xs w-20 font-medium">{c.name}</span>
-                <div className="flex-1 bg-[#0B1018] rounded-full h-1">
+                <div className="flex-1 bg-[#1E2D3F] rounded-full h-1">
                   <div
                     className="h-1 rounded-full bar-fill"
-                    style={{ width: done ? `${c.pct}%` : '0%', background: c.col }}
+                    style={{ width: done ? `${c.pct}%` : `${c.pct * 0.3}%`, background: c.col, opacity: done ? 1 : 0.35 }}
                   />
                 </div>
                 <span className="text-[10px] font-medium w-12 text-right" style={{ color: c.col }}>
@@ -490,8 +490,8 @@ function InteractiveDemo() {
               'High switching costs create durable retention moat',
             ].map((pt, i) => (
               <div key={i} className="flex items-start gap-2.5">
-                <div className="mt-0.5 w-3.5 h-3.5 rounded-full border border-[#0EA5E9]/25 bg-[#0EA5E9]/5 flex items-center justify-center flex-shrink-0">
-                  <div className="w-1 h-1 rounded-full bg-[#38BDF8]" />
+                <div className="mt-0.5 w-3.5 h-3.5 rounded-full border border-[#38BDF8]/50 bg-[#38BDF8]/10 flex items-center justify-center flex-shrink-0">
+                  <div className="w-1.5 h-1.5 rounded-full bg-[#38BDF8]" />
                 </div>
                 <p className="text-[#CBD5E1] text-xs leading-relaxed">{pt}</p>
               </div>
@@ -540,7 +540,7 @@ function GrowthChannels() {
               <span className="text-xs font-bold tabular-nums" style={{ color: ch.col }}>{ch.score}</span>
             </div>
             <p className="text-[#94A3B8] text-xs leading-relaxed">{ch.desc}</p>
-            <div className="mt-3 bg-[#0B1018] rounded-full h-0.5">
+            <div className="mt-3 bg-[#1E2D3F] rounded-full h-0.5">
               <div
                 className="h-0.5 rounded-full"
                 style={{ width: `${ch.score}%`, background: ch.col, opacity: 0.6 }}
@@ -565,9 +565,9 @@ function StatsRow() {
   ];
   return (
     <div ref={ref} className="reveal">
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-[#141E2C] rounded-2xl overflow-hidden border border-[#141E2C]">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-[#263347] rounded-2xl overflow-hidden border border-[#263347]">
         {stats.map((s, i) => (
-          <div key={i} className="bg-[#080C11] px-6 py-7 text-center">
+          <div key={i} className="bg-[#111827] px-6 py-7 text-center">
             <div className="gradient-text text-2xl md:text-3xl font-bold tracking-tight mb-1.5">{s.val}</div>
             <div className="text-[#94A3B8] text-xs font-medium">{s.label}</div>
           </div>
@@ -672,7 +672,7 @@ function WaitlistSection() {
             onChange={(e) => setEmail(e.target.value)}
             required
             placeholder="Work email address"
-            className="flex-1 max-w-sm bg-[#0D1219] border border-[#1A2535] rounded-xl px-4 py-3 text-[#CBD5E1] text-sm focus:outline-none focus:border-[#0EA5E9]/40 transition-colors placeholder-[#3D5470]"
+            className="flex-1 max-w-sm bg-[#0D1525] border border-[#263347] rounded-xl px-4 py-3 text-[#CBD5E1] text-sm focus:outline-none focus:border-[#0EA5E9]/40 transition-colors placeholder-[#3D5470]"
           />
           <button type="submit" className="btn-primary gap-2 px-5 py-3 whitespace-nowrap">
             Get Early Access
@@ -799,7 +799,7 @@ export default function App() {
   useReveal(heroRef);
 
   return (
-    <div className="min-h-screen bg-[#080C11] dot-grid">
+    <div className="min-h-screen bg-[#0A0F1A] dot-grid">
       <Navbar />
 
       {/* ── HERO ── */}
@@ -841,7 +841,7 @@ export default function App() {
                 {['#0EA5E9', '#34D399', '#F59E0B', '#F472B6'].map((c, i) => (
                   <div
                     key={i}
-                    className="w-7 h-7 rounded-full border-2 border-[#080C11] flex items-center justify-center text-white text-[9px] font-bold"
+                    className="w-7 h-7 rounded-full border-2 border-[#0A0F1A] flex items-center justify-center text-white text-[9px] font-bold"
                     style={{ background: c }}
                   >
                     {['A','S','J','M'][i]}

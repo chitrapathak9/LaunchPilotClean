@@ -13,7 +13,7 @@ html {
 }
 
 body {
-  background-color: #080C11;
+  background-color: #0A0F1A;
   color: #CBD5E1;
   font-family: 'Inter', system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -23,33 +23,33 @@ body {
 ::-webkit-scrollbar {
   width: 5px;
 }
-::-webkit-scrollbar-track { background: #080C11; }
+::-webkit-scrollbar-track { background: #0A0F1A; }
 ::-webkit-scrollbar-thumb { background: #1A2535; border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: #243347; }
 
 /* ── Glass surfaces ── */
 .glass {
-  background: rgba(15, 21, 32, 0.7);
+  background: rgba(17, 24, 39, 0.75);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
 }
 
 .glass-card {
-  background: rgba(13, 19, 29, 0.8);
+  background: rgba(15, 21, 36, 0.85);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.09);
 }
 
 .surface {
-  background: #0F1623;
-  border: 1px solid #1E2D42;
+  background: #111827;
+  border: 1px solid #1F2D3D;
 }
 
 .surface-raised {
-  background: #141F2E;
-  border: 1px solid #243347;
+  background: #172033;
+  border: 1px solid #263347;
 }
 
 /* ── Typography ── */
@@ -168,7 +168,7 @@ body {
 /* ── Dividers / lines ── */
 .divider {
   height: 1px;
-  background: linear-gradient(90deg, transparent, #1A2535 20%, #1A2535 80%, transparent);
+  background: linear-gradient(90deg, transparent, #2D4060 20%, #2D4060 80%, transparent);
 }
 
 /* ── Glow ── */
@@ -177,7 +177,7 @@ body {
 
 /* ── Background patterns ── */
 .dot-grid {
-  background-image: radial-gradient(rgba(56,189,248,0.06) 1px, transparent 1px);
+  background-image: radial-gradient(rgba(56,189,248,0.09) 1px, transparent 1px);
   background-size: 28px 28px;
 }
 
