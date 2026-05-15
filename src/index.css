@@ -1,0 +1,269 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #080C11;
+  color: #CBD5E1;
+  font-family: 'Inter', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-track { background: #080C11; }
+::-webkit-scrollbar-thumb { background: #1A2535; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #243347; }
+
+/* ── Glass surfaces ── */
+.glass {
+  background: rgba(15, 21, 32, 0.7);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255,255,255,0.05);
+}
+
+.glass-card {
+  background: rgba(13, 19, 29, 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.06);
+}
+
+.surface {
+  background: #0D1219;
+  border: 1px solid #141E2C;
+}
+
+.surface-raised {
+  background: #111827;
+  border: 1px solid #1A2535;
+}
+
+/* ── Typography ── */
+.heading-display {
+  font-size: clamp(2.5rem, 5vw, 3.75rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  color: #F1F5F9;
+}
+
+.heading-xl {
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.025em;
+  color: #F1F5F9;
+}
+
+.heading-lg {
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  color: #E2E8F0;
+}
+
+.body-lg {
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  color: #64748B;
+}
+
+.body-base {
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: #64748B;
+}
+
+.label {
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #475569;
+}
+
+/* ── Gradient text ── */
+.gradient-text {
+  background: linear-gradient(130deg, #38BDF8 0%, #67E8F9 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-text-subtle {
+  background: linear-gradient(130deg, #93C5FD 0%, #67E8F9 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Buttons ── */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  background: #0EA5E9;
+  color: #fff;
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  border-radius: 8px;
+  padding: 0.625rem 1.25rem;
+  transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-primary:hover {
+  background: #38BDF8;
+  box-shadow: 0 0 0 1px rgba(56,189,248,0.3), 0 8px 24px rgba(14,165,233,0.25);
+  transform: translateY(-1px);
+}
+
+.btn-primary:active { transform: translateY(0); }
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  background: transparent;
+  color: #94A3B8;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border-radius: 8px;
+  padding: 0.625rem 1.25rem;
+  border: 1px solid #1A2535;
+  transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+.btn-ghost:hover {
+  color: #E2E8F0;
+  border-color: #243347;
+  background: rgba(255,255,255,0.03);
+}
+
+/* ── Cards ── */
+.card-hover {
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+.card-hover:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 16px 48px rgba(0,0,0,0.4), 0 0 0 1px rgba(56,189,248,0.08);
+  border-color: rgba(56,189,248,0.15) !important;
+}
+
+/* ── Dividers / lines ── */
+.divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #1A2535 20%, #1A2535 80%, transparent);
+}
+
+/* ── Glow ── */
+.glow-blue { box-shadow: 0 0 40px rgba(14,165,233,0.12); }
+.glow-sm   { box-shadow: 0 0 20px rgba(14,165,233,0.08); }
+
+/* ── Background patterns ── */
+.dot-grid {
+  background-image: radial-gradient(rgba(56,189,248,0.06) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+.line-grid {
+  background-image:
+    linear-gradient(rgba(26,37,53,0.5) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(26,37,53,0.5) 1px, transparent 1px);
+  background-size: 44px 44px;
+}
+
+/* ── Scroll animations ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.65s cubic-bezier(0.16,1,0.3,1), transform 0.65s cubic-bezier(0.16,1,0.3,1);
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+.reveal-delay-1 { transition-delay: 80ms; }
+.reveal-delay-2 { transition-delay: 160ms; }
+.reveal-delay-3 { transition-delay: 240ms; }
+.reveal-delay-4 { transition-delay: 320ms; }
+.reveal-delay-5 { transition-delay: 400ms; }
+
+/* ── Float animation ── */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+.animate-float { animation: float 7s ease-in-out infinite; }
+
+/* ── Cursor blink ── */
+@keyframes blink {
+  0%,50% { opacity: 1; }
+  51%,100% { opacity: 0; }
+}
+.cursor::after {
+  content: '|';
+  animation: blink 1s step-end infinite;
+  color: #38BDF8;
+  margin-left: 1px;
+}
+
+/* ── Shimmer skeleton ── */
+@keyframes shimmer {
+  0%   { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+.skeleton {
+  background: linear-gradient(90deg, #111827 0%, #1A2535 50%, #111827 100%);
+  background-size: 800px 100%;
+  animation: shimmer 1.8s linear infinite;
+}
+
+/* ── Progress bar ── */
+.bar-fill {
+  transition: width 1.4s cubic-bezier(0.16,1,0.3,1);
+}
+
+/* ── Spin ── */
+@keyframes spin { to { transform: rotate(360deg); } }
+.spin { animation: spin 0.7s linear infinite; }
+
+/* ── Pill badge ── */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  border-radius: 999px;
+  padding: 4px 10px;
+  border: 1px solid rgba(56,189,248,0.18);
+  background: rgba(14,165,233,0.08);
+  color: #7DD3FC;
+}
+
+.badge-green {
+  border-color: rgba(16,185,129,0.2);
+  background: rgba(16,185,129,0.08);
+  color: #6EE7B7;
+}
+
+.badge-amber {
+  border-color: rgba(245,158,11,0.2);
+  background: rgba(245,158,11,0.08);
+  color: #FCD34D;
+}
