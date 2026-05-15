@@ -60,7 +60,7 @@ function Navbar() {
             <a
               key={l}
               href={`#${l.toLowerCase()}`}
-              className="px-3.5 py-1.5 text-sm text-[#64748B] hover:text-[#CBD5E1] font-medium rounded-md hover:bg-white/[0.03] transition-all duration-150"
+              className="px-3.5 py-1.5 text-sm text-[#94A3B8] hover:text-[#E2E8F0] font-medium rounded-md hover:bg-white/[0.03] transition-all duration-150"
             >
               {l}
             </a>
@@ -71,7 +71,7 @@ function Navbar() {
         <div className="hidden md:flex items-center gap-3">
           <a
             href="#waitlist"
-            className="text-sm text-[#64748B] hover:text-[#CBD5E1] font-medium transition-colors px-2 py-1"
+            className="text-sm text-[#94A3B8] hover:text-[#E2E8F0] font-medium transition-colors px-2 py-1"
           >
             Sign in
           </a>
@@ -98,7 +98,7 @@ function Navbar() {
               key={l}
               href={`#${l.toLowerCase()}`}
               onClick={() => setMobile(false)}
-              className="block px-3 py-2.5 text-sm text-[#64748B] hover:text-[#CBD5E1] font-medium rounded-md hover:bg-white/[0.03] transition-all"
+              className="block px-3 py-2.5 text-sm text-[#94A3B8] hover:text-[#E2E8F0] font-medium rounded-md hover:bg-white/[0.03] transition-all"
             >
               {l}
             </a>
@@ -176,7 +176,7 @@ function DashboardMockup() {
               { label: 'Competition',  value: '62', delta: 'Medium', up: false },
             ].map((k) => (
               <div key={k.label} className="surface-raised rounded-xl p-3">
-                <div className="text-[#334155] text-[10px] font-medium mb-1.5">{k.label}</div>
+                <div className="text-[#64748B] text-[10px] font-medium mb-1.5">{k.label}</div>
                 <div className="text-[#F1F5F9] text-xl font-semibold leading-none">{k.value}</div>
                 <div className={`mt-1.5 flex items-center gap-0.5 text-[10px] font-medium ${k.up ? 'text-emerald-400' : 'text-amber-400'}`}>
                   {k.up ? <ChevronUp size={10} /> : <span className="text-[10px]">—</span>}
@@ -210,7 +210,7 @@ function DashboardMockup() {
               ))}
             </div>
             <div className="flex justify-between mt-1.5">
-              <span className="text-[#1E293B] text-[9px]">2019</span>
+              <span className="text-[#475569] text-[9px]">2019</span>
               <span className="text-[#38BDF8] text-[9px] font-medium">2025 proj.</span>
             </div>
           </div>
@@ -225,7 +225,7 @@ function DashboardMockup() {
                 { name: 'LaunchPilot',  score: 94, color: '#38BDF8' },
               ].map((c) => (
                 <div key={c.name} className="flex items-center gap-2.5">
-                  <span className="text-[#475569] text-[10px] w-20 truncate leading-none">{c.name}</span>
+                  <span className="text-[#94A3B8] text-[10px] w-20 truncate leading-none">{c.name}</span>
                   <div className="flex-1 bg-[#0B1018] rounded-full h-1">
                     <div
                       className="h-1 rounded-full bar-fill"
@@ -259,7 +259,7 @@ function DashboardMockup() {
                   <div className={`w-3.5 h-3.5 rounded-full flex items-center justify-center flex-shrink-0 ${r.done ? 'bg-emerald-500/15 border border-emerald-500/30' : 'bg-[#0B1018] border border-[#1A2535]'}`}>
                     {r.done && <Check size={8} className="text-emerald-400" strokeWidth={3} />}
                   </div>
-                  <span className={`text-[10px] leading-none ${r.done ? 'text-[#334155] line-through' : 'text-[#64748B]'}`}>{r.label}</span>
+                  <span className={`text-[10px] leading-none ${r.done ? 'text-[#64748B] line-through' : 'text-[#94A3B8]'}`}>{r.label}</span>
                 </div>
               ))}
             </div>
@@ -270,13 +270,13 @@ function DashboardMockup() {
       {/* Floating chip — top right */}
       <div className="absolute -top-3 right-4 glass-card rounded-lg px-3 py-1.5 border border-white/[0.06] flex items-center gap-2 glow-sm">
         <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 block" style={{ boxShadow: '0 0 6px #10B981' }} />
-        <span className="text-[#64748B] text-[10px] font-medium">Analyzing market fit</span>
+        <span className="text-[#94A3B8] text-[10px] font-medium">Analyzing market fit</span>
       </div>
 
       {/* Floating chip — bottom left */}
       <div className="absolute -bottom-3 left-4 glass-card rounded-lg px-3 py-1.5 border border-white/[0.06] flex items-center gap-2">
         <Star size={10} className="text-amber-400 fill-amber-400" />
-        <span className="text-[#64748B] text-[10px] font-medium">94 viability score</span>
+        <span className="text-[#94A3B8] text-[10px] font-medium">94 viability score</span>
       </div>
     </div>
   );
@@ -399,12 +399,12 @@ function InteractiveDemo() {
                   }`}>
                     {isDone   ? <Check size={10} className="text-emerald-400" strokeWidth={3} />
                     : isActive ? <span className="w-1.5 h-1.5 rounded-full bg-[#38BDF8] block animate-pulse" />
-                    : <span className="text-[#1E293B] text-[9px] font-medium">{i + 1}</span>}
+                    : <span className="text-[#64748B] text-[9px] font-medium">{i + 1}</span>}
                   </div>
                   <span className={`text-sm transition-colors duration-200 ${
-                    isDone   ? 'text-[#334155]'
-                    : isActive ? 'text-[#CBD5E1] font-medium'
-                    : 'text-[#1E293B]'
+                    isDone   ? 'text-[#64748B]'
+                    : isActive ? 'text-[#E2E8F0] font-medium'
+                    : 'text-[#94A3B8]'
                   }`}>
                     {s}
                     {isActive && <span className="cursor" />}
@@ -441,7 +441,7 @@ function InteractiveDemo() {
               { short: 'CAGR', long: 'Growth Rate',       val: '32%'   },
             ].map((m) => (
               <div key={m.short} className="surface-raised rounded-xl px-3 py-2.5">
-                <div className="text-[#334155] text-[10px] font-medium">{m.long}</div>
+                <div className="text-[#64748B] text-[10px] font-medium">{m.long}</div>
                 <div className="gradient-text-subtle text-lg font-bold leading-tight mt-0.5">{m.val}</div>
               </div>
             ))}
@@ -461,7 +461,7 @@ function InteractiveDemo() {
               { name: 'Ironclad', threat: 'Low',    pct: 38, col: '#6EE7B7' },
             ].map((c) => (
               <div key={c.name} className="flex items-center gap-3">
-                <span className="text-[#475569] text-xs w-20">{c.name}</span>
+                <span className="text-[#94A3B8] text-xs w-20">{c.name}</span>
                 <div className="flex-1 bg-[#0B1018] rounded-full h-1">
                   <div
                     className="h-1 rounded-full bar-fill"
@@ -493,7 +493,7 @@ function InteractiveDemo() {
                 <div className="mt-0.5 w-3.5 h-3.5 rounded-full border border-[#0EA5E9]/25 bg-[#0EA5E9]/5 flex items-center justify-center flex-shrink-0">
                   <div className="w-1 h-1 rounded-full bg-[#38BDF8]" />
                 </div>
-                <p className="text-[#475569] text-xs leading-relaxed">{pt}</p>
+                <p className="text-[#94A3B8] text-xs leading-relaxed">{pt}</p>
               </div>
             ))}
           </div>
@@ -539,7 +539,7 @@ function GrowthChannels() {
               </div>
               <span className="text-xs font-bold tabular-nums" style={{ color: ch.col }}>{ch.score}</span>
             </div>
-            <p className="text-[#475569] text-xs leading-relaxed">{ch.desc}</p>
+            <p className="text-[#94A3B8] text-xs leading-relaxed">{ch.desc}</p>
             <div className="mt-3 bg-[#0B1018] rounded-full h-0.5">
               <div
                 className="h-0.5 rounded-full"
@@ -569,7 +569,7 @@ function StatsRow() {
         {stats.map((s, i) => (
           <div key={i} className="bg-[#080C11] px-6 py-7 text-center">
             <div className="gradient-text text-2xl md:text-3xl font-bold tracking-tight mb-1.5">{s.val}</div>
-            <div className="text-[#475569] text-xs font-medium">{s.label}</div>
+            <div className="text-[#64748B] text-xs font-medium">{s.label}</div>
           </div>
         ))}
       </div>
@@ -612,7 +612,7 @@ function TestimonialCard({ t, delay = 0 }: { t: typeof TESTIMONIALS[0]; delay?: 
           <Star key={i} size={11} className="text-amber-400 fill-amber-400" />
         ))}
       </div>
-      <p className="text-[#64748B] text-sm leading-relaxed mb-5">
+      <p className="text-[#94A3B8] text-sm leading-relaxed mb-5">
         &ldquo;{t.quote}&rdquo;
       </p>
       <div className="flex items-center justify-between">
@@ -625,10 +625,10 @@ function TestimonialCard({ t, delay = 0 }: { t: typeof TESTIMONIALS[0]; delay?: 
           </div>
           <div>
             <p className="text-[#CBD5E1] text-sm font-medium leading-none mb-0.5">{t.name}</p>
-            <p className="text-[#334155] text-xs">{t.role}</p>
+            <p className="text-[#64748B] text-xs">{t.role}</p>
           </div>
         </div>
-        <span className="text-[#1E293B] text-[10px] font-medium border border-[#1A2535] rounded-md px-2 py-0.5">{t.cohort}</span>
+        <span className="text-[#64748B] text-[10px] font-medium border border-[#243347] rounded-md px-2 py-0.5">{t.cohort}</span>
       </div>
     </div>
   );
@@ -680,7 +680,7 @@ function WaitlistSection() {
           </button>
         </form>
       )}
-      <p className="text-[#1E293B] text-xs mt-4">No credit card required. Free during beta.</p>
+      <p className="text-[#64748B] text-xs mt-4">No credit card required. Free during beta.</p>
     </div>
   );
 }
@@ -696,7 +696,7 @@ function TrustBar() {
         {orgs.map((o) => (
           <span
             key={o}
-            className="text-[#1E293B] text-sm font-semibold tracking-wide hover:text-[#334155] transition-colors"
+            className="text-[#64748B] text-sm font-semibold tracking-wide hover:text-[#94A3B8] transition-colors"
           >
             {o}
           </span>
@@ -727,7 +727,7 @@ function Footer() {
               </div>
               <span className="text-[#E2E8F0] font-semibold text-[15px] tracking-[-0.02em]">LaunchPilot</span>
             </div>
-            <p className="text-[#334155] text-sm leading-relaxed max-w-xs">
+            <p className="text-[#64748B] text-sm leading-relaxed max-w-xs">
               Your AI cofounder for validating ideas, generating roadmaps, and launching startups faster.
             </p>
             <div className="flex items-center gap-3 pt-1">
@@ -758,7 +758,7 @@ function Footer() {
                   <li key={l}>
                     <a
                       href="#"
-                      className="text-[#334155] text-sm hover:text-[#64748B] transition-colors"
+                      className="text-[#64748B] text-sm hover:text-[#94A3B8] transition-colors"
                     >
                       {l}
                     </a>
@@ -771,8 +771,8 @@ function Footer() {
 
         <div className="divider mb-6" />
         <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="text-[#1E293B] text-xs">© 2026 LaunchPilot, Inc. All rights reserved.</p>
-          <div className="flex items-center gap-1.5 text-[#1E293B] text-xs">
+          <p className="text-[#64748B] text-xs">© 2026 LaunchPilot, Inc. All rights reserved.</p>
+          <div className="flex items-center gap-1.5 text-[#64748B] text-xs">
             <Shield size={11} />
             <span>SOC 2 Type II · GDPR · CCPA compliant</span>
           </div>
@@ -848,8 +848,8 @@ export default function App() {
                   </div>
                 ))}
               </div>
-              <p className="text-[#334155] text-xs">
-                <span className="text-[#64748B] font-medium">2,400+ founders</span> on the waitlist
+              <p className="text-[#64748B] text-xs">
+                <span className="text-[#94A3B8] font-medium">2,400+ founders</span> on the waitlist
               </p>
             </div>
           </div>
@@ -959,7 +959,7 @@ export default function App() {
           >
             <div>
               <p className="text-[#CBD5E1] font-semibold text-sm">Ready to run your own analysis?</p>
-              <p className="text-[#334155] text-xs mt-0.5">Full access during beta. No credit card.</p>
+              <p className="text-[#64748B] text-xs mt-0.5">Full access during beta. No credit card.</p>
             </div>
             <a href="#waitlist" className="btn-primary gap-2 whitespace-nowrap">
               Get Early Access
