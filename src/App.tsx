@@ -4,8 +4,9 @@ import {
   TrendingUp, Users, Target, Lightbulb, Check, Star, Globe,
   Twitter, Linkedin, Mail, Shield, Menu, X, Search,
   Activity, PieChart, Layers, ChevronUp, ChevronDown,
-  ExternalLink, Play, Sparkles, MoveRight,
+  ExternalLink, Play, Sparkles, MoveRight, User,
 } from 'lucide-react';
+import { supabase } from './lib/supabase';
 
 // ─── Scroll reveal hook ───────────────────────────────────────────────────────
 function useReveal(ref: React.RefObject<HTMLElement | null>, delay = 0) {
@@ -636,51 +637,208 @@ function TestimonialCard({ t, delay = 0 }: { t: typeof TESTIMONIALS[0]; delay?: 
 
 // ─── CTA / Waitlist ───────────────────────────────────────────────────────────
 function WaitlistSection() {
-  const [email, setEmail]   = useState('');
-  const [sent,  setSent]    = useState(false);
+  const [name,  setName]  = useState('');
+  const [email, setEmail] = useState('');
+  const [idea,  setIdea]  = useState('');
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'duplicate' | 'error'>('idle');
   const ref = useRef<HTMLDivElement>(null);
   useReveal(ref);
 
-  const submit = (e: React.FormEvent) => { e.preventDefault(); if (email) setSent(true); };
+  const submit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setStatus('loading');
+    const { error } = await supabase
+      .from('waitlist')
+      .insert({ name: name.trim(), email: email.trim().toLowerCase(), startup_idea: idea.trim() });
+    if (!error) {
+      setStatus('success');
+    } else if (error.code === '23505') {
+      setStatus('duplicate');
+    } else {
+      setStatus('error');
+    }
+  };
+
+  const perks = [
+    'Free during beta — no credit card',
+    'Priority access to all AI features',
+    'Direct line to the founding team',
+  ];
 
   return (
-    <div ref={ref} id="waitlist" className="reveal text-center max-w-xl mx-auto">
-      <div className="badge mb-6 mx-auto">
-        <span className="w-1.5 h-1.5 rounded-full bg-[#38BDF8] inline-block animate-pulse" />
-        Early Access — Limited Spots
-      </div>
-      <h2 className="heading-xl mb-4">
-        Build Smarter.<br />
-        <span className="gradient-text">Launch Faster.</span>
-      </h2>
-      <p className="body-lg mb-8 max-w-sm mx-auto">
-        Join early founders using AI to validate ideas and ship their first version faster.
-      </p>
-      {sent ? (
-        <div className="surface border border-emerald-500/15 rounded-2xl px-6 py-8">
-          <div className="w-10 h-10 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center mx-auto mb-3">
-            <Check size={18} className="text-emerald-400" strokeWidth={2.5} />
-          </div>
-          <p className="text-[#E2E8F0] font-semibold mb-1">You're on the list.</p>
-          <p className="text-[#94A3B8] text-sm">We'll send you an invite when your spot opens.</p>
+    <div ref={ref} id="waitlist" className="reveal max-w-5xl mx-auto">
+      {/* Section header */}
+      <div className="text-center mb-12">
+        <div className="badge mb-5 mx-auto">
+          <span className="w-1.5 h-1.5 rounded-full bg-[#38BDF8] inline-block animate-pulse" />
+          Early Access — Limited Spots
         </div>
-      ) : (
-        <form onSubmit={submit} className="flex flex-col sm:flex-row gap-2.5 justify-center">
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            placeholder="Work email address"
-            className="flex-1 max-w-sm bg-[#0D1525] border border-[#263347] rounded-xl px-4 py-3 text-[#CBD5E1] text-sm focus:outline-none focus:border-[#0EA5E9]/40 transition-colors placeholder-[#3D5470]"
-          />
-          <button type="submit" className="btn-primary gap-2 px-5 py-3 whitespace-nowrap">
-            Get Early Access
-            <MoveRight size={14} strokeWidth={2.5} />
-          </button>
-        </form>
-      )}
-      <p className="text-[#64748B] text-xs mt-4">No credit card required. Free during beta.</p>
+        <h2 className="heading-xl mb-4">
+          Ready to build smarter?<br />
+          <span className="gradient-text">Join the waitlist.</span>
+        </h2>
+        <p className="body-lg max-w-md mx-auto">
+          Tell us about your idea. We'll reach out when your spot opens.
+        </p>
+      </div>
+
+      <div className="grid lg:grid-cols-5 gap-6 items-start">
+        {/* ── Left: perks + social proof ── */}
+        <div className="lg:col-span-2 space-y-5">
+          {/* Stats */}
+          <div className="surface rounded-2xl p-6 space-y-4">
+            <p className="text-[#E2E8F0] font-semibold text-sm">Why join early?</p>
+            <ul className="space-y-3">
+              {perks.map((p) => (
+                <li key={p} className="flex items-start gap-3">
+                  <div className="mt-0.5 w-4 h-4 rounded-full bg-emerald-500/15 border border-emerald-500/35 flex items-center justify-center flex-shrink-0">
+                    <Check size={9} className="text-emerald-400" strokeWidth={3} />
+                  </div>
+                  <span className="text-[#CBD5E1] text-sm leading-snug">{p}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Counter */}
+          <div className="surface rounded-2xl p-6">
+            <div className="flex items-center gap-4">
+              <div className="flex -space-x-2 flex-shrink-0">
+                {['#0EA5E9', '#34D399', '#F59E0B', '#F472B6'].map((c, i) => (
+                  <div
+                    key={i}
+                    className="w-8 h-8 rounded-full border-2 border-[#111827] flex items-center justify-center text-white text-[10px] font-bold"
+                    style={{ background: c }}
+                  >
+                    {['A', 'S', 'J', 'M'][i]}
+                  </div>
+                ))}
+              </div>
+              <div>
+                <p className="text-[#E2E8F0] font-semibold text-sm leading-none mb-0.5">2,400+ founders</p>
+                <p className="text-[#64748B] text-xs">already on the waitlist</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Backed by */}
+          <div className="surface rounded-2xl p-6">
+            <p className="text-[#64748B] text-[10px] font-semibold uppercase tracking-widest mb-4">Founders backed by</p>
+            <div className="flex flex-wrap gap-x-4 gap-y-2">
+              {['Y Combinator', 'Techstars', 'a16z', 'First Round'].map((o) => (
+                <span key={o} className="text-[#94A3B8] text-xs font-semibold">{o}</span>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* ── Right: form ── */}
+        <div className="lg:col-span-3">
+          <div className="surface rounded-2xl p-8">
+            {status === 'success' ? (
+              <div className="text-center py-6">
+                <div className="w-14 h-14 rounded-full bg-emerald-500/10 border border-emerald-500/25 flex items-center justify-center mx-auto mb-5">
+                  <Check size={24} className="text-emerald-400" strokeWidth={2} />
+                </div>
+                <h3 className="text-[#E2E8F0] text-xl font-semibold mb-2">You're on the list!</h3>
+                <p className="text-[#94A3B8] text-sm leading-relaxed max-w-xs mx-auto">
+                  We'll reach out personally when your spot opens. Keep building.
+                </p>
+                <div className="mt-6 flex items-center justify-center gap-2 badge border border-emerald-500/25 bg-emerald-500/8 rounded-xl py-2 px-4">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 block" />
+                  <span className="text-emerald-400 text-xs font-medium">Submission received</span>
+                </div>
+              </div>
+            ) : (
+              <form onSubmit={submit} className="space-y-4">
+                <div>
+                  <label className="block text-[#94A3B8] text-xs font-semibold uppercase tracking-wider mb-2">
+                    Full Name
+                  </label>
+                  <div className="relative">
+                    <User size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#3D5470] pointer-events-none" />
+                    <input
+                      type="text"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                      required
+                      placeholder="Alex Chen"
+                      className="waitlist-input pl-9"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-[#94A3B8] text-xs font-semibold uppercase tracking-wider mb-2">
+                    Email Address
+                  </label>
+                  <div className="relative">
+                    <Mail size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#3D5470] pointer-events-none" />
+                    <input
+                      type="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      required
+                      placeholder="alex@startup.com"
+                      className="waitlist-input pl-9"
+                    />
+                  </div>
+                  {status === 'duplicate' && (
+                    <p className="text-amber-400 text-xs mt-1.5 flex items-center gap-1.5">
+                      <span className="w-1 h-1 rounded-full bg-amber-400 flex-shrink-0" />
+                      This email is already on the waitlist.
+                    </p>
+                  )}
+                </div>
+
+                <div>
+                  <label className="block text-[#94A3B8] text-xs font-semibold uppercase tracking-wider mb-2">
+                    Your Startup Idea
+                  </label>
+                  <textarea
+                    value={idea}
+                    onChange={(e) => setIdea(e.target.value)}
+                    required
+                    rows={3}
+                    placeholder="Briefly describe what you're building and who it's for…"
+                    className="waitlist-input resize-none"
+                  />
+                </div>
+
+                {status === 'error' && (
+                  <p className="text-red-400 text-xs flex items-center gap-1.5">
+                    <span className="w-1 h-1 rounded-full bg-red-400 flex-shrink-0" />
+                    Something went wrong. Please try again.
+                  </p>
+                )}
+
+                <button
+                  type="submit"
+                  disabled={status === 'loading'}
+                  className="btn-primary w-full justify-center gap-2 py-3.5 text-sm disabled:opacity-60 disabled:cursor-not-allowed mt-2"
+                >
+                  {status === 'loading' ? (
+                    <>
+                      <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full spin" />
+                      Submitting…
+                    </>
+                  ) : (
+                    <>
+                      <Sparkles size={15} strokeWidth={2} />
+                      Join Waitlist
+                      <MoveRight size={14} strokeWidth={2.5} />
+                    </>
+                  )}
+                </button>
+
+                <p className="text-[#475569] text-xs text-center pt-1">
+                  No credit card required · Free during beta · Cancel anytime
+                </p>
+              </form>
+            )}
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
