@@ -91,7 +91,7 @@ Deno.serve(async (req: Request) => {
       const errBody = await geminiRes.text();
       console.error("Gemini API error:", errBody);
       return new Response(
-        JSON.stringify({ error: "AI analysis failed. Please try again." }),
+        JSON.stringify({ error: `Gemini error (${geminiRes.status}): ${errBody}` }),
         { status: 502, headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }
