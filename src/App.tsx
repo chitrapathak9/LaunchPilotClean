@@ -577,22 +577,32 @@ function InteractiveDemo() {
 
     abortRef.current = new AbortController();
     try {
-      const supabaseUrl = import.meta.env.VITE_SUPABASE_URL as string;
-      const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY as string;
-      const res = await fetch(`${supabaseUrl}/functions/v1/analyze-idea`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${supabaseKey}`,
-          'Apikey': supabaseKey,
-        },
-        body: JSON.stringify({ idea: input }),
-        signal: abortRef.current.signal,
-      });
+      const supabaseUrl = import.meta.env.VITE_SUPABASE_URL as string | undefined;
+      const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined;
+
+      if (!supabaseUrl || !supabaseKey) {
+        throw new Error('Configuration missing. Please add VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY environment variables in your Vercel project settings, then redeploy.');
+      }
+
+      let res: Response;
+      try {
+        res = await fetch(`${supabaseUrl}/functions/v1/analyze-idea`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${supabaseKey}`,
+            'Apikey': supabaseKey,
+          },
+          body: JSON.stringify({ idea: input }),
+          signal: abortRef.current.signal,
+        });
+      } catch {
+        throw new Error('Could not reach the analysis server. Check your internet connection and ensure Vercel env vars are set, then redeploy.');
+      }
 
       const data = await res.json();
       if (!res.ok || data.error) {
-        throw new Error(data.error ?? 'Analysis failed');
+        throw new Error(data.error ?? `Server error (${res.status}). Please try again.`);
       }
 
       clearInterval(timer.current!);
