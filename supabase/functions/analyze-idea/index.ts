@@ -6,7 +6,7 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "Content-Type, Authorization, X-Client-Info, Apikey",
 };
 
-const GEMINI_API_KEY = Deno.env.get("GEMINI_API_KEY") || "AIzaSyBxNlldomF1y-SBsj329q-zreEfuhQSwDk";
+const GEMINI_API_KEY = Deno.env.get("GEMINI_API_KEY");
 
 const PROMPT_TEMPLATE = (idea: string) => `
 You are an expert startup analyst. Analyze the following startup idea and return a structured JSON response.
@@ -73,7 +73,7 @@ Deno.serve(async (req: Request) => {
     }
 
     const geminiRes = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`,
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite:generateContent?key=${GEMINI_API_KEY}`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
