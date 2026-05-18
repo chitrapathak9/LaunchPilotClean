@@ -7,6 +7,8 @@ import {
   ExternalLink, Play, Sparkles, MoveRight, User,
 } from 'lucide-react';
 import { supabase } from './lib/supabase';
+import { analyzeIdea, GeminiError } from './lib/gemini';
+import type { AnalysisResult } from './lib/gemini';
 
 // ─── Scroll reveal hook ───────────────────────────────────────────────────────
 function useReveal(ref: React.RefObject<HTMLElement | null>, delay = 0) {
@@ -315,28 +317,6 @@ function FeatureCard({
   );
 }
 
-// ─── Types ────────────────────────────────────────────────────────────────────
-interface AnalysisResult {
-  marketOpportunity: {
-    summary: string;
-    tam: string; sam: string; som: string; cagr: string;
-    keyTrends: string[];
-  };
-  targetAudience: {
-    primary: string; secondary: string;
-    painPoints: string[]; demographics: string;
-  };
-  competitorAnalysis: { name: string; threat: string; pct: number; weakness: string }[];
-  risks: { title: string; level: string; mitigation: string }[];
-  mvpFeatures: { feature: string; priority: string; effort: string }[];
-  launchStrategy: {
-    phase1: { name: string; actions: string[] };
-    phase2: { name: string; actions: string[] };
-    phase3: { name: string; actions: string[] };
-    channels: { channel: string; score: number; rationale: string }[];
-  };
-}
-
 // ─── Interactive Demo ─────────────────────────────────────────────────────────
 const DEMO_STEPS = [
   'Parsing startup concept',
@@ -570,51 +550,24 @@ function InteractiveDemo() {
     let s = 0;
     timer.current = setInterval(() => {
       s += 1;
-      if (s < DEMO_STEPS.length - 1) {
-        setStep(s);
-      }
+      if (s < DEMO_STEPS.length - 1) setStep(s);
     }, 800);
 
     abortRef.current = new AbortController();
     try {
-      const supabaseUrl = import.meta.env.VITE_SUPABASE_URL as string | undefined;
-      const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined;
-
-      if (!supabaseUrl || !supabaseKey) {
-        throw new Error('Configuration missing. Please add VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY environment variables in your Vercel project settings, then redeploy.');
-      }
-
-      let res: Response;
-      try {
-        res = await fetch(`${supabaseUrl}/functions/v1/analyze-idea`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${supabaseKey}`,
-            'Apikey': supabaseKey,
-          },
-          body: JSON.stringify({ idea: input }),
-          signal: abortRef.current.signal,
-        });
-      } catch {
-        throw new Error('Could not reach the analysis server. Check your internet connection and ensure Vercel env vars are set, then redeploy.');
-      }
-
-      const data = await res.json();
-      if (!res.ok || data.error) {
-        throw new Error(data.error ?? `Server error (${res.status}). Please try again.`);
-      }
-
+      const analysis = await analyzeIdea(input, abortRef.current.signal);
       clearInterval(timer.current!);
       setStep(DEMO_STEPS.length);
       setDone(true);
-      setResult(data.analysis);
+      setResult(analysis);
     } catch (err: unknown) {
       clearInterval(timer.current!);
       setStep(-1);
       setDone(false);
-      if (err instanceof Error && err.name !== 'AbortError') {
-        setError(err.message || 'Something went wrong. Please try again.');
+      if (err instanceof GeminiError || err instanceof Error) {
+        if (err.name !== 'AbortError') {
+          setError(err.message || 'Something went wrong. Please try again.');
+        }
       }
     }
   }, [step, done, input]);
