@@ -41,53 +41,26 @@ export class AnalysisError extends Error {
 // Keep GeminiError as an alias so App.tsx imports don't break
 export const GeminiError = AnalysisError;
 
-// In-flight request deduplication: key = idea text
-const inFlight = new Map<string, Promise<AnalysisResult>>();
-
 export async function analyzeIdea(
   idea: string,
   signal?: AbortSignal
 ): Promise<AnalysisResult> {
-  const key = idea.trim().toLowerCase();
-
-  const existing = inFlight.get(key);
-  if (existing) {
-    console.debug("[analyze] Deduplicating in-flight request for:", key.slice(0, 60));
-    return existing;
-  }
-
-  const promise = _fetchAnalysis(idea, signal).finally(() => {
-    inFlight.delete(key);
-  });
-
-  inFlight.set(key, promise);
-  return promise;
+  return _fetchAnalysis(idea, signal);
 }
 
 async function _fetchAnalysis(
   idea: string,
-  externalSignal?: AbortSignal
+  signal?: AbortSignal
 ): Promise<AnalysisResult> {
   if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
     throw new AnalysisError(
-      "Missing VITE_SUPABASE_URL or VITE_SUPABASE_ANON_KEY. Set these in your environment and redeploy.",
+      "Missing VITE_SUPABASE_URL or VITE_SUPABASE_ANON_KEY.",
       undefined,
       false
     );
   }
 
-  // 30-second client-side timeout
-  const timeoutController = new AbortController();
-  const timeoutId = setTimeout(() => timeoutController.abort(), 30_000);
-
-  const signal = externalSignal
-    ? anySignal([externalSignal, timeoutController.signal])
-    : timeoutController.signal;
-
-  console.debug("[analyze] Starting analysis for:", idea.slice(0, 60));
-
   const endpoint = `${SUPABASE_URL}/functions/v1/analyze-idea`;
-  console.debug("[analyze] Fetching:", endpoint);
 
   let res: Response;
   try {
@@ -102,19 +75,15 @@ async function _fetchAnalysis(
       signal,
     });
   } catch (err: unknown) {
-    clearTimeout(timeoutId);
     const e = err as Error;
-    console.error("[analyze] fetch threw:", e.name, e.message);
     if (e.name === "AbortError") {
-      throw new AnalysisError("Request timed out. Please try again.", 408, true);
+      throw new AnalysisError("Request cancelled.", 408, false);
     }
     throw new AnalysisError(
-      `Network error: ${e.message || "Could not reach the analysis server."}`,
+      "Could not reach the analysis server. Please try again.",
       undefined,
       true
     );
-  } finally {
-    clearTimeout(timeoutId);
   }
 
   let data: { analysis?: AnalysisResult; error?: string };
@@ -130,7 +99,6 @@ async function _fetchAnalysis(
 
   if (!res.ok || data.error) {
     const msg = data.error ?? `Server error (${res.status}). Please try again.`;
-    console.error("[analyze] API error:", msg);
     throw new AnalysisError(msg, res.status, res.status === 429 || res.status >= 500);
   }
 
@@ -138,18 +106,5 @@ async function _fetchAnalysis(
     throw new AnalysisError("Received empty analysis from server.", res.status, true);
   }
 
-  console.debug("[analyze] Analysis received successfully.");
   return data.analysis;
-}
-
-function anySignal(signals: AbortSignal[]): AbortSignal {
-  const controller = new AbortController();
-  for (const s of signals) {
-    if (s.aborted) {
-      controller.abort();
-      break;
-    }
-    s.addEventListener("abort", () => controller.abort(), { once: true });
-  }
-  return controller.signal;
 }
