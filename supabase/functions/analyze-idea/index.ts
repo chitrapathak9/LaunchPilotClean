@@ -6,7 +6,7 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "Content-Type, Authorization, X-Client-Info, Apikey",
 };
 
-const GEMINI_API_KEY = Deno.env.get("GEMINI_API_KEY") ?? "";
+const GEMINI_API_KEY = Deno.env.get("GEMINI_API_KEY") ?? "AIzaSyBxNlldomF1y-SBsj329q-zreEfuhQSwDk";
 
 const PROMPT_TEMPLATE = (idea: string) => `
 You are an expert startup analyst. Analyze the following startup idea and return a structured JSON response.
