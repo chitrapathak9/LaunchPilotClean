@@ -6,14 +6,7 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "Content-Type, Authorization, X-Client-Info, Apikey",
 };
 
-const GEMINI_API_KEY = Deno.env.get("GEMINI_API_KEY");
-
-// Models to try in order — fall back if one is quota-exhausted
-const GEMINI_MODELS = [
-  "gemini-1.5-flash",
-  "gemini-1.5-flash-8b",
-  "gemini-1.0-pro",
-];
+const OPENAI_API_KEY = Deno.env.get("OPENAI_API_KEY");
 
 const PROMPT_TEMPLATE = (idea: string) => `
 You are an expert startup analyst. Analyze the following startup idea and return a structured JSON response.
@@ -65,78 +58,79 @@ Return ONLY valid JSON (no markdown, no code blocks, no extra text) with this ex
 }
 `;
 
-async function callGemini(model: string, idea: string, signal: AbortSignal): Promise<string> {
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${GEMINI_API_KEY}`;
-  console.log(`[gemini] Trying model: ${model}`);
-
-  const res = await fetch(url, {
+async function callOpenAI(idea: string, signal: AbortSignal): Promise<string> {
+  const res = await fetch("https://api.openai.com/v1/chat/completions", {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${OPENAI_API_KEY}`,
+    },
     body: JSON.stringify({
-      contents: [{ parts: [{ text: PROMPT_TEMPLATE(idea) }] }],
-      generationConfig: { temperature: 0.7, maxOutputTokens: 2048 },
+      model: "gpt-4o-mini",
+      messages: [
+        {
+          role: "system",
+          content: "You are an expert startup analyst. Return only valid JSON, no markdown or code blocks.",
+        },
+        {
+          role: "user",
+          content: PROMPT_TEMPLATE(idea),
+        },
+      ],
+      temperature: 0.7,
+      max_tokens: 2048,
+      response_format: { type: "json_object" },
     }),
     signal,
   });
 
   if (!res.ok) {
     const body = await res.text();
-    console.error(`[gemini] ${model} responded ${res.status}:`, body);
+    console.error(`[openai] ${res.status}:`, body);
     const err = new Error(`${res.status}::${body}`) as Error & { status: number };
     err.status = res.status;
     throw err;
   }
 
   const data = await res.json();
-  return data?.candidates?.[0]?.content?.parts?.[0]?.text ?? "";
+  return data?.choices?.[0]?.message?.content ?? "";
 }
 
-async function callGeminiWithRetry(idea: string, signal: AbortSignal): Promise<string> {
+async function callWithRetry(idea: string, signal: AbortSignal): Promise<string> {
   const MAX_RETRIES = 3;
 
-  for (const model of GEMINI_MODELS) {
-    let lastError: (Error & { status?: number }) | null = null;
+  for (let attempt = 0; attempt < MAX_RETRIES; attempt++) {
+    try {
+      const text = await callOpenAI(idea, signal);
+      console.log(`[openai] Success on attempt ${attempt + 1}`);
+      return text;
+    } catch (err: unknown) {
+      const e = err as Error & { status?: number };
 
-    for (let attempt = 0; attempt < MAX_RETRIES; attempt++) {
-      try {
-        const text = await callGemini(model, idea, signal);
-        console.log(`[gemini] Success with ${model} on attempt ${attempt + 1}`);
-        return text;
-      } catch (err: unknown) {
-        const e = err as Error & { status?: number };
-        lastError = e;
+      if (signal.aborted) throw e;
 
-        if (signal.aborted) throw e;
+      const status = e.status ?? 0;
 
-        const status = e.status ?? 0;
-
-        // 429 = rate limited — exponential backoff then retry
-        if (status === 429) {
-          const delay = Math.min(1000 * Math.pow(2, attempt), 8000);
-          console.warn(`[gemini] 429 on ${model} attempt ${attempt + 1}, retrying in ${delay}ms`);
-          await new Promise((r) => setTimeout(r, delay));
-          continue;
-        }
-
-        // Other 4xx — no point retrying this model
-        if (status >= 400 && status < 500) {
-          console.warn(`[gemini] Non-retryable ${status} on ${model}, skipping model`);
-          break;
-        }
-
-        // 5xx or network — short backoff then retry
-        const delay = Math.min(500 * Math.pow(2, attempt), 4000);
-        console.warn(`[gemini] Error on ${model} attempt ${attempt + 1}, retrying in ${delay}ms`);
+      if (status === 429) {
+        const delay = Math.min(1000 * Math.pow(2, attempt), 8000);
+        console.warn(`[openai] 429 rate limit, retrying in ${delay}ms`);
         await new Promise((r) => setTimeout(r, delay));
+        continue;
       }
-    }
 
-    console.warn(`[gemini] ${model} exhausted after ${MAX_RETRIES} attempts, last error: ${lastError?.message}`);
+      // Non-retryable client error
+      if (status >= 400 && status < 500) {
+        throw new Error(`OpenAI request failed (${status}). Please try again.`);
+      }
+
+      // 5xx — short backoff
+      const delay = Math.min(500 * Math.pow(2, attempt), 4000);
+      console.warn(`[openai] Server error on attempt ${attempt + 1}, retrying in ${delay}ms`);
+      await new Promise((r) => setTimeout(r, delay));
+    }
   }
 
-  throw new Error(
-    "All Gemini models are currently unavailable due to quota limits. Please wait a moment and try again."
-  );
+  throw new Error("OpenAI is currently unavailable. Please try again in a moment.");
 }
 
 Deno.serve(async (req: Request) => {
@@ -145,10 +139,10 @@ Deno.serve(async (req: Request) => {
   }
 
   try {
-    if (!GEMINI_API_KEY) {
-      console.error("[edge] GEMINI_API_KEY secret is not set");
+    if (!OPENAI_API_KEY) {
+      console.error("[edge] OPENAI_API_KEY secret is not set");
       return new Response(
-        JSON.stringify({ error: "Server configuration error: GEMINI_API_KEY is not configured." }),
+        JSON.stringify({ error: "Server configuration error: OPENAI_API_KEY is not configured." }),
         { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }
@@ -161,26 +155,19 @@ Deno.serve(async (req: Request) => {
       );
     }
 
-    // 25-second timeout for the full Gemini call chain
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 25_000);
 
     let rawText: string;
     try {
-      rawText = await callGeminiWithRetry(idea.trim(), controller.signal);
+      rawText = await callWithRetry(idea.trim(), controller.signal);
     } finally {
       clearTimeout(timeout);
     }
 
-    // Strip markdown fences if present
-    const cleaned = rawText
-      .replace(/^```(?:json)?\s*/i, "")
-      .replace(/\s*```$/i, "")
-      .trim();
-
     let analysis;
     try {
-      analysis = JSON.parse(cleaned);
+      analysis = JSON.parse(rawText);
     } catch {
       console.error("[edge] JSON parse failed. Raw:", rawText);
       return new Response(
