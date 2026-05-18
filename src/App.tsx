@@ -315,6 +315,28 @@ function FeatureCard({
   );
 }
 
+// ─── Types ────────────────────────────────────────────────────────────────────
+interface AnalysisResult {
+  marketOpportunity: {
+    summary: string;
+    tam: string; sam: string; som: string; cagr: string;
+    keyTrends: string[];
+  };
+  targetAudience: {
+    primary: string; secondary: string;
+    painPoints: string[]; demographics: string;
+  };
+  competitorAnalysis: { name: string; threat: string; pct: number; weakness: string }[];
+  risks: { title: string; level: string; mitigation: string }[];
+  mvpFeatures: { feature: string; priority: string; effort: string }[];
+  launchStrategy: {
+    phase1: { name: string; actions: string[] };
+    phase2: { name: string; actions: string[] };
+    phase3: { name: string; actions: string[] };
+    channels: { channel: string; score: number; rationale: string }[];
+  };
+}
+
 // ─── Interactive Demo ─────────────────────────────────────────────────────────
 const DEMO_STEPS = [
   'Parsing startup concept',
@@ -324,30 +346,273 @@ const DEMO_STEPS = [
   'Synthesizing launch strategy',
 ];
 
-function InteractiveDemo() {
-  const [input, setInput] = useState('AI-powered legal document automation for SMBs');
-  const [step, setStep]   = useState(-1);
-  const [done, setDone]   = useState(false);
-  const timer = useRef<ReturnType<typeof setInterval> | null>(null);
+const THREAT_COLOR: Record<string, string> = {
+  High: '#F87171', Medium: '#FCD34D', Low: '#6EE7B7',
+};
+const RISK_COLOR: Record<string, string> = {
+  High: '#F87171', Medium: '#FCD34D', Low: '#6EE7B7',
+};
+const PRIORITY_COLOR: Record<string, string> = {
+  'Must Have': '#38BDF8', 'Should Have': '#34D399', 'Nice to Have': '#94A3B8',
+};
 
-  const run = useCallback(() => {
+function BulletPoint({ text }: { text: string }) {
+  return (
+    <div className="flex items-start gap-2.5">
+      <div className="mt-0.5 w-3.5 h-3.5 rounded-full border border-[#38BDF8]/50 bg-[#38BDF8]/10 flex items-center justify-center flex-shrink-0">
+        <div className="w-1.5 h-1.5 rounded-full bg-[#38BDF8]" />
+      </div>
+      <p className="text-[#CBD5E1] text-xs leading-relaxed">{text}</p>
+    </div>
+  );
+}
+
+function ResultTabs({ result }: { result: AnalysisResult }) {
+  const [tab, setTab] = useState(0);
+
+  const tabs = [
+    { label: 'Market', icon: Activity },
+    { label: 'Audience', icon: Users },
+    { label: 'Competitors', icon: PieChart },
+    { label: 'Risks', icon: Shield },
+    { label: 'MVP', icon: Zap },
+    { label: 'Launch', icon: Rocket },
+  ];
+
+  return (
+    <div className="surface rounded-2xl overflow-hidden">
+      {/* Tab bar */}
+      <div className="flex overflow-x-auto border-b border-[#1F2D3D] bg-[#0D1525]">
+        {tabs.map((t, i) => {
+          const Icon = t.icon;
+          return (
+            <button
+              key={t.label}
+              onClick={() => setTab(i)}
+              className={`flex items-center gap-1.5 px-3 py-3 text-xs font-medium whitespace-nowrap transition-all duration-200 border-b-2 flex-shrink-0 ${
+                tab === i
+                  ? 'border-[#0EA5E9] text-[#38BDF8]'
+                  : 'border-transparent text-[#64748B] hover:text-[#94A3B8]'
+              }`}
+            >
+              <Icon size={11} strokeWidth={2} />
+              {t.label}
+            </button>
+          );
+        })}
+      </div>
+
+      {/* Tab content */}
+      <div className="p-5">
+        {/* Market Opportunity */}
+        {tab === 0 && (
+          <div className="space-y-4">
+            <p className="text-[#94A3B8] text-xs leading-relaxed">{result.marketOpportunity.summary}</p>
+            <div className="grid grid-cols-2 gap-2.5">
+              {[
+                { label: 'Total Addressable', val: result.marketOpportunity.tam },
+                { label: 'Serviceable',        val: result.marketOpportunity.sam },
+                { label: 'Obtainable',          val: result.marketOpportunity.som },
+                { label: 'Growth Rate',         val: result.marketOpportunity.cagr },
+              ].map((m) => (
+                <div key={m.label} className="surface-raised rounded-xl px-3 py-2.5">
+                  <div className="text-[#94A3B8] text-[10px] font-medium uppercase tracking-wide">{m.label}</div>
+                  <div className="text-[#38BDF8] text-base font-bold leading-tight mt-0.5">{m.val}</div>
+                </div>
+              ))}
+            </div>
+            <div>
+              <div className="text-[#64748B] text-[10px] font-semibold uppercase tracking-widest mb-2">Key Trends</div>
+              <div className="space-y-1.5">
+                {result.marketOpportunity.keyTrends.map((t, i) => <BulletPoint key={i} text={t} />)}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Target Audience */}
+        {tab === 1 && (
+          <div className="space-y-4">
+            <div className="surface-raised rounded-xl p-3.5">
+              <div className="text-[#64748B] text-[10px] font-semibold uppercase tracking-widest mb-1.5">Primary Segment</div>
+              <p className="text-[#CBD5E1] text-xs leading-relaxed">{result.targetAudience.primary}</p>
+            </div>
+            <div className="surface-raised rounded-xl p-3.5">
+              <div className="text-[#64748B] text-[10px] font-semibold uppercase tracking-widest mb-1.5">Secondary Segment</div>
+              <p className="text-[#CBD5E1] text-xs leading-relaxed">{result.targetAudience.secondary}</p>
+            </div>
+            <div className="surface-raised rounded-xl p-3.5">
+              <div className="text-[#64748B] text-[10px] font-semibold uppercase tracking-widest mb-1.5">Demographics</div>
+              <p className="text-[#94A3B8] text-xs leading-relaxed">{result.targetAudience.demographics}</p>
+            </div>
+            <div>
+              <div className="text-[#64748B] text-[10px] font-semibold uppercase tracking-widest mb-2">Pain Points</div>
+              <div className="space-y-1.5">
+                {result.targetAudience.painPoints.map((p, i) => <BulletPoint key={i} text={p} />)}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Competitors */}
+        {tab === 2 && (
+          <div className="space-y-3">
+            {result.competitorAnalysis.map((c) => {
+              const col = THREAT_COLOR[c.threat] ?? '#94A3B8';
+              return (
+                <div key={c.name} className="surface-raised rounded-xl p-3.5">
+                  <div className="flex items-center gap-3 mb-2">
+                    <span className="text-[#CBD5E1] text-sm font-semibold flex-1">{c.name}</span>
+                    <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full border" style={{ color: col, borderColor: `${col}40`, background: `${col}12` }}>
+                      {c.threat}
+                    </span>
+                  </div>
+                  <div className="flex-1 bg-[#1E2D3F] rounded-full h-1.5 mb-2">
+                    <div className="h-1.5 rounded-full bar-fill" style={{ width: `${c.pct}%`, background: col }} />
+                  </div>
+                  <p className="text-[#64748B] text-[11px] leading-relaxed">Weakness: {c.weakness}</p>
+                </div>
+              );
+            })}
+          </div>
+        )}
+
+        {/* Risks */}
+        {tab === 3 && (
+          <div className="space-y-3">
+            {result.risks.map((r, i) => {
+              const col = RISK_COLOR[r.level] ?? '#94A3B8';
+              return (
+                <div key={i} className="surface-raised rounded-xl p-3.5">
+                  <div className="flex items-center gap-2 mb-1.5">
+                    <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full border" style={{ color: col, borderColor: `${col}40`, background: `${col}12` }}>
+                      {r.level}
+                    </span>
+                    <span className="text-[#CBD5E1] text-xs font-semibold">{r.title}</span>
+                  </div>
+                  <p className="text-[#64748B] text-[11px] leading-relaxed">Mitigation: {r.mitigation}</p>
+                </div>
+              );
+            })}
+          </div>
+        )}
+
+        {/* MVP Features */}
+        {tab === 4 && (
+          <div className="space-y-2">
+            {result.mvpFeatures.map((f, i) => {
+              const col = PRIORITY_COLOR[f.priority] ?? '#94A3B8';
+              return (
+                <div key={i} className="flex items-center gap-3 surface-raised rounded-xl px-3.5 py-2.5">
+                  <div className="flex-1">
+                    <span className="text-[#CBD5E1] text-xs font-medium">{f.feature}</span>
+                  </div>
+                  <span className="text-[10px] font-medium whitespace-nowrap" style={{ color: col }}>{f.priority}</span>
+                  <span className="text-[10px] text-[#64748B] whitespace-nowrap">{f.effort}</span>
+                </div>
+              );
+            })}
+          </div>
+        )}
+
+        {/* Launch Strategy */}
+        {tab === 5 && (
+          <div className="space-y-4">
+            {[result.launchStrategy.phase1, result.launchStrategy.phase2, result.launchStrategy.phase3].map((phase, i) => (
+              <div key={i} className="surface-raised rounded-xl p-3.5">
+                <div className="text-[#38BDF8] text-[10px] font-semibold uppercase tracking-widest mb-2">{phase.name}</div>
+                <div className="space-y-1.5">
+                  {phase.actions.map((a, j) => <BulletPoint key={j} text={a} />)}
+                </div>
+              </div>
+            ))}
+            <div>
+              <div className="text-[#64748B] text-[10px] font-semibold uppercase tracking-widest mb-2">Top Channels</div>
+              <div className="space-y-2">
+                {result.launchStrategy.channels.map((ch, i) => (
+                  <div key={i} className="surface-raised rounded-xl p-3">
+                    <div className="flex items-center gap-3 mb-1.5">
+                      <span className="text-[#CBD5E1] text-xs font-medium flex-1">{ch.channel}</span>
+                      <span className="text-[#38BDF8] text-xs font-bold">{ch.score}</span>
+                    </div>
+                    <div className="bg-[#1E2D3F] rounded-full h-1 mb-1.5">
+                      <div className="h-1 rounded-full bar-fill bg-[#0EA5E9]" style={{ width: `${ch.score}%` }} />
+                    </div>
+                    <p className="text-[#64748B] text-[11px] leading-relaxed">{ch.rationale}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function InteractiveDemo() {
+  const [input, setInput]     = useState('AI-powered legal document automation for SMBs');
+  const [step, setStep]       = useState(-1);
+  const [done, setDone]       = useState(false);
+  const [result, setResult]   = useState<AnalysisResult | null>(null);
+  const [error, setError]     = useState('');
+  const timer = useRef<ReturnType<typeof setInterval> | null>(null);
+  const abortRef = useRef<AbortController | null>(null);
+
+  const run = useCallback(async () => {
     if (step >= 0 && !done) return;
     setDone(false);
+    setResult(null);
+    setError('');
     setStep(0);
+
+    // Animate pipeline steps while fetch happens
     let s = 0;
     timer.current = setInterval(() => {
       s += 1;
-      if (s >= DEMO_STEPS.length) {
-        clearInterval(timer.current!);
-        setStep(DEMO_STEPS.length);
-        setDone(true);
-      } else {
+      if (s < DEMO_STEPS.length - 1) {
         setStep(s);
       }
-    }, 720);
-  }, [step, done]);
+    }, 800);
 
-  useEffect(() => () => { if (timer.current) clearInterval(timer.current); }, []);
+    abortRef.current = new AbortController();
+    try {
+      const supabaseUrl = import.meta.env.VITE_SUPABASE_URL as string;
+      const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY as string;
+      const res = await fetch(`${supabaseUrl}/functions/v1/analyze-idea`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${supabaseKey}`,
+          'Apikey': supabaseKey,
+        },
+        body: JSON.stringify({ idea: input }),
+        signal: abortRef.current.signal,
+      });
+
+      const data = await res.json();
+      if (!res.ok || data.error) {
+        throw new Error(data.error ?? 'Analysis failed');
+      }
+
+      clearInterval(timer.current!);
+      setStep(DEMO_STEPS.length);
+      setDone(true);
+      setResult(data.analysis);
+    } catch (err: unknown) {
+      clearInterval(timer.current!);
+      setStep(-1);
+      setDone(false);
+      if (err instanceof Error && err.name !== 'AbortError') {
+        setError(err.message || 'Something went wrong. Please try again.');
+      }
+    }
+  }, [step, done, input]);
+
+  useEffect(() => () => {
+    if (timer.current) clearInterval(timer.current);
+    abortRef.current?.abort();
+  }, []);
 
   const running = step >= 0 && !done;
 
@@ -360,7 +625,7 @@ function InteractiveDemo() {
           <div className="label mb-3">Startup Concept</div>
           <textarea
             value={input}
-            onChange={(e) => setInput(e.target.value)}
+            onChange={(e) => { setInput(e.target.value); setDone(false); setStep(-1); setResult(null); setError(''); }}
             rows={3}
             className="w-full bg-[#1E2D3F] border border-[#263347] rounded-xl px-3.5 py-2.5 text-[#CBD5E1] text-sm font-medium resize-none focus:outline-none focus:border-[#0EA5E9]/40 transition-colors placeholder-[#3D5470]"
             placeholder="Describe your startup idea…"
@@ -378,10 +643,16 @@ function InteractiveDemo() {
             ) : (
               <>
                 <Sparkles size={14} strokeWidth={2} />
-                Run AI Analysis
+                {done ? 'Re-analyze Idea' : 'Run AI Analysis'}
               </>
             )}
           </button>
+          {error && (
+            <p className="mt-2.5 text-red-400 text-xs flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-red-400 flex-shrink-0" />
+              {error}
+            </p>
+          )}
         </div>
 
         {/* Pipeline */}
@@ -389,8 +660,8 @@ function InteractiveDemo() {
           <div className="label mb-4">Analysis Pipeline</div>
           <div className="space-y-2.5">
             {DEMO_STEPS.map((s, i) => {
-              const isDone    = done || i < step;
-              const isActive  = !done && i === step;
+              const isDone   = done || i < step;
+              const isActive = !done && i === step;
               return (
                 <div key={s} className="flex items-center gap-3">
                   <div className={`w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 transition-all duration-300 ${
@@ -415,7 +686,7 @@ function InteractiveDemo() {
             })}
           </div>
           {done && (
-            <div className="mt-4 flex items-center gap-2 badge-green border border-emerald-500/20 bg-emerald-500/5 rounded-xl px-3 py-2">
+            <div className="mt-4 flex items-center gap-2 border border-emerald-500/20 bg-emerald-500/5 rounded-xl px-3 py-2">
               <Check size={12} className="text-emerald-400" strokeWidth={2.5} />
               <span className="text-emerald-400 text-xs font-medium">Analysis complete — results ready</span>
             </div>
@@ -425,80 +696,56 @@ function InteractiveDemo() {
 
       {/* ── Right panel ── */}
       <div className="space-y-4">
-        {/* Market metrics */}
-        <div className={`surface rounded-2xl p-5 transition-all duration-700 ${done ? 'opacity-100' : 'opacity-40 pointer-events-none'}`}>
-          <div className="flex items-center justify-between mb-4">
-            <span className="text-[#CBD5E1] text-sm font-semibold flex items-center gap-2">
-              <Activity size={13} className="text-[#38BDF8]" />
-              Market Analysis
-            </span>
-            {done && <span className="badge-green text-[10px] flex items-center gap-1"><Check size={9} />Complete</span>}
-          </div>
-          <div className="grid grid-cols-2 gap-2.5">
-            {[
-              { short: 'TAM', long: 'Total Addressable', val: '$18.4B' },
-              { short: 'SAM', long: 'Serviceable',       val: '$2.1B'  },
-              { short: 'SOM', long: 'Obtainable',         val: '$340M'  },
-              { short: 'CAGR', long: 'Growth Rate',       val: '32%'   },
-            ].map((m) => (
-              <div key={m.short} className="surface-raised rounded-xl px-3 py-2.5">
-                <div className="text-[#94A3B8] text-[10px] font-medium uppercase tracking-wide">{m.long}</div>
-                <div className="text-[#38BDF8] text-lg font-bold leading-tight mt-0.5">{m.val}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Competitors */}
-        <div className={`surface rounded-2xl p-5 transition-all duration-700 delay-150 ${done ? 'opacity-100' : 'opacity-40 pointer-events-none'}`}>
-          <div className="text-[#CBD5E1] text-sm font-semibold flex items-center gap-2 mb-4">
-            <PieChart size={13} className="text-[#38BDF8]" />
-            Competitor Threat Matrix
-          </div>
-          <div className="space-y-2.5">
-            {[
-              { name: 'DocuSign',  threat: 'High',   pct: 84, col: '#F87171' },
-              { name: 'PandaDoc', threat: 'Medium', pct: 61, col: '#FCD34D' },
-              { name: 'Ironclad', threat: 'Low',    pct: 38, col: '#6EE7B7' },
-            ].map((c) => (
-              <div key={c.name} className="flex items-center gap-3">
-                <span className="text-[#CBD5E1] text-xs w-20 font-medium">{c.name}</span>
-                <div className="flex-1 bg-[#1E2D3F] rounded-full h-1">
-                  <div
-                    className="h-1 rounded-full bar-fill"
-                    style={{ width: done ? `${c.pct}%` : `${c.pct * 0.3}%`, background: c.col, opacity: done ? 1 : 0.35 }}
-                  />
-                </div>
-                <span className="text-[10px] font-medium w-12 text-right" style={{ color: c.col }}>
-                  {c.threat}
+        {result ? (
+          <ResultTabs result={result} />
+        ) : (
+          <>
+            {/* Placeholder cards shown before first run */}
+            <div className={`surface rounded-2xl p-5 transition-all duration-700 ${running ? 'opacity-60' : 'opacity-30 pointer-events-none'}`}>
+              <div className="flex items-center justify-between mb-4">
+                <span className="text-[#CBD5E1] text-sm font-semibold flex items-center gap-2">
+                  <Activity size={13} className="text-[#38BDF8]" />
+                  Market Analysis
                 </span>
               </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Investor signals */}
-        <div className={`surface rounded-2xl p-5 transition-all duration-700 delay-300 ${done ? 'opacity-100' : 'opacity-40 pointer-events-none'}`}>
-          <div className="text-[#CBD5E1] text-sm font-semibold flex items-center gap-2 mb-3">
-            <Layers size={13} className="text-[#38BDF8]" />
-            Investor Signal Points
-          </div>
-          <div className="space-y-2">
-            {[
-              '$18B legal automation market growing at 32% CAGR',
-              'SMBs spend ~40 hrs/month on legal docs — clear pain point',
-              'AI reduces contract turnaround from days to minutes',
-              'High switching costs create durable retention moat',
-            ].map((pt, i) => (
-              <div key={i} className="flex items-start gap-2.5">
-                <div className="mt-0.5 w-3.5 h-3.5 rounded-full border border-[#38BDF8]/50 bg-[#38BDF8]/10 flex items-center justify-center flex-shrink-0">
-                  <div className="w-1.5 h-1.5 rounded-full bg-[#38BDF8]" />
-                </div>
-                <p className="text-[#CBD5E1] text-xs leading-relaxed">{pt}</p>
+              <div className="grid grid-cols-2 gap-2.5">
+                {['Total Addressable', 'Serviceable', 'Obtainable', 'Growth Rate'].map((l) => (
+                  <div key={l} className="surface-raised rounded-xl px-3 py-2.5">
+                    <div className="text-[#94A3B8] text-[10px] font-medium uppercase tracking-wide">{l}</div>
+                    <div className="h-5 w-16 bg-[#1E2D3F] rounded mt-1.5 animate-pulse" />
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
-        </div>
+            </div>
+            <div className={`surface rounded-2xl p-5 transition-all duration-700 delay-150 ${running ? 'opacity-60' : 'opacity-30 pointer-events-none'}`}>
+              <div className="text-[#CBD5E1] text-sm font-semibold flex items-center gap-2 mb-4">
+                <PieChart size={13} className="text-[#38BDF8]" />
+                Competitor Threat Matrix
+              </div>
+              <div className="space-y-3">
+                {['Competitor A', 'Competitor B', 'Competitor C'].map((n) => (
+                  <div key={n} className="flex items-center gap-3">
+                    <span className="text-[#94A3B8] text-xs w-24">{n}</span>
+                    <div className="flex-1 bg-[#1E2D3F] rounded-full h-1.5">
+                      <div className="h-1.5 w-0 rounded-full bg-[#38BDF8]/30" />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className={`surface rounded-2xl p-5 transition-all duration-700 delay-300 ${running ? 'opacity-60' : 'opacity-30 pointer-events-none'}`}>
+              <div className="text-[#CBD5E1] text-sm font-semibold flex items-center gap-2 mb-3">
+                <Layers size={13} className="text-[#38BDF8]" />
+                AI Insights
+              </div>
+              <div className="space-y-2.5">
+                {[80, 65, 50, 40].map((w, i) => (
+                  <div key={i} className="h-3 rounded bg-[#1E2D3F] animate-pulse" style={{ width: `${w}%`, animationDelay: `${i * 150}ms` }} />
+                ))}
+              </div>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );
