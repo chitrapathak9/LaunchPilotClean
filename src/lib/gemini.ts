@@ -84,7 +84,7 @@ async function _fetchAnalysis(
       throw new AnalysisError("Request cancelled.", 408, false);
     }
     throw new AnalysisError(
-      "Could not reach the analysis server. Please try again.",
+      `Network error (${e.name}: ${e.message}). Check browser console for details.`,
       undefined,
       true
     );
