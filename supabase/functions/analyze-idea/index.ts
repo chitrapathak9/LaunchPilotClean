@@ -138,6 +138,14 @@ Deno.serve(async (req: Request) => {
     return new Response(null, { status: 200, headers: corsHeaders });
   }
 
+  // Health check
+  if (req.method === "GET") {
+    return new Response(
+      JSON.stringify({ status: "ok", key_set: !!OPENAI_API_KEY }),
+      { headers: { ...corsHeaders, "Content-Type": "application/json" } }
+    );
+  }
+
   try {
     if (!OPENAI_API_KEY) {
       console.error("[edge] OPENAI_API_KEY secret is not set");

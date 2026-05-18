@@ -86,9 +86,12 @@ async function _fetchAnalysis(
 
   console.debug("[analyze] Starting analysis for:", idea.slice(0, 60));
 
+  const endpoint = `${SUPABASE_URL}/functions/v1/analyze-idea`;
+  console.debug("[analyze] Fetching:", endpoint);
+
   let res: Response;
   try {
-    res = await fetch(`${SUPABASE_URL}/functions/v1/analyze-idea`, {
+    res = await fetch(endpoint, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -101,11 +104,12 @@ async function _fetchAnalysis(
   } catch (err: unknown) {
     clearTimeout(timeoutId);
     const e = err as Error;
+    console.error("[analyze] fetch threw:", e.name, e.message);
     if (e.name === "AbortError") {
       throw new AnalysisError("Request timed out. Please try again.", 408, true);
     }
     throw new AnalysisError(
-      "Could not reach the analysis server. Check your internet connection.",
+      `Network error: ${e.message || "Could not reach the analysis server."}`,
       undefined,
       true
     );
