@@ -27,16 +27,19 @@ export interface AnalysisResult {
   };
 }
 
-export class GeminiError extends Error {
+export class AnalysisError extends Error {
   constructor(
     message: string,
     public readonly status?: number,
     public readonly retryable = false
   ) {
     super(message);
-    this.name = "GeminiError";
+    this.name = "AnalysisError";
   }
 }
+
+// Keep GeminiError as an alias so App.tsx imports don't break
+export const GeminiError = AnalysisError;
 
 // In-flight request deduplication: key = idea text
 const inFlight = new Map<string, Promise<AnalysisResult>>();
@@ -47,10 +50,9 @@ export async function analyzeIdea(
 ): Promise<AnalysisResult> {
   const key = idea.trim().toLowerCase();
 
-  // Return existing in-flight request for the same idea
   const existing = inFlight.get(key);
   if (existing) {
-    console.debug("[gemini] Deduplicating in-flight request for:", key.slice(0, 60));
+    console.debug("[analyze] Deduplicating in-flight request for:", key.slice(0, 60));
     return existing;
   }
 
@@ -67,7 +69,7 @@ async function _fetchAnalysis(
   externalSignal?: AbortSignal
 ): Promise<AnalysisResult> {
   if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
-    throw new GeminiError(
+    throw new AnalysisError(
       "Missing VITE_SUPABASE_URL or VITE_SUPABASE_ANON_KEY. Set these in your environment and redeploy.",
       undefined,
       false
@@ -78,12 +80,11 @@ async function _fetchAnalysis(
   const timeoutController = new AbortController();
   const timeoutId = setTimeout(() => timeoutController.abort(), 30_000);
 
-  // Combine external abort signal with our timeout signal
   const signal = externalSignal
     ? anySignal([externalSignal, timeoutController.signal])
     : timeoutController.signal;
 
-  console.debug("[gemini] Starting analysis request for:", idea.slice(0, 60));
+  console.debug("[analyze] Starting analysis for:", idea.slice(0, 60));
 
   let res: Response;
   try {
@@ -101,9 +102,9 @@ async function _fetchAnalysis(
     clearTimeout(timeoutId);
     const e = err as Error;
     if (e.name === "AbortError") {
-      throw new GeminiError("Request timed out. Please try again.", 408, true);
+      throw new AnalysisError("Request timed out. Please try again.", 408, true);
     }
-    throw new GeminiError(
+    throw new AnalysisError(
       "Could not reach the analysis server. Check your internet connection.",
       undefined,
       true
@@ -116,24 +117,27 @@ async function _fetchAnalysis(
   try {
     data = await res.json();
   } catch {
-    throw new GeminiError(`Server returned invalid response (${res.status}).`, res.status, res.status >= 500);
+    throw new AnalysisError(
+      `Server returned invalid response (${res.status}).`,
+      res.status,
+      res.status >= 500
+    );
   }
 
   if (!res.ok || data.error) {
     const msg = data.error ?? `Server error (${res.status}). Please try again.`;
-    console.error("[gemini] API error:", msg);
-    throw new GeminiError(msg, res.status, res.status === 429 || res.status >= 500);
+    console.error("[analyze] API error:", msg);
+    throw new AnalysisError(msg, res.status, res.status === 429 || res.status >= 500);
   }
 
   if (!data.analysis) {
-    throw new GeminiError("Received empty analysis from server.", res.status, true);
+    throw new AnalysisError("Received empty analysis from server.", res.status, true);
   }
 
-  console.debug("[gemini] Analysis received successfully.");
+  console.debug("[analyze] Analysis received successfully.");
   return data.analysis;
 }
 
-// Combine multiple AbortSignals — aborts when any one fires
 function anySignal(signals: AbortSignal[]): AbortSignal {
   const controller = new AbortController();
   for (const s of signals) {
