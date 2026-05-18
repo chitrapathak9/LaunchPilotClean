@@ -1,11 +1,19 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
-import Anthropic from "npm:@anthropic-ai/sdk@0.52.0";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Methods": "POST, OPTIONS",
   "Access-Control-Allow-Headers": "Content-Type, Authorization, X-Client-Info, Apikey",
 };
+
+const GEMINI_API_KEY = Deno.env.get("GEMINI_API_KEY");
+
+// Models to try in order — fall back if one is quota-exhausted
+const GEMINI_MODELS = [
+  "gemini-1.5-flash",
+  "gemini-1.5-flash-8b",
+  "gemini-1.0-pro",
+];
 
 const PROMPT_TEMPLATE = (idea: string) => `
 You are an expert startup analyst. Analyze the following startup idea and return a structured JSON response.
@@ -57,17 +65,90 @@ Return ONLY valid JSON (no markdown, no code blocks, no extra text) with this ex
 }
 `;
 
+async function callGemini(model: string, idea: string, signal: AbortSignal): Promise<string> {
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${GEMINI_API_KEY}`;
+  console.log(`[gemini] Trying model: ${model}`);
+
+  const res = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      contents: [{ parts: [{ text: PROMPT_TEMPLATE(idea) }] }],
+      generationConfig: { temperature: 0.7, maxOutputTokens: 2048 },
+    }),
+    signal,
+  });
+
+  if (!res.ok) {
+    const body = await res.text();
+    console.error(`[gemini] ${model} responded ${res.status}:`, body);
+    const err = new Error(`${res.status}::${body}`) as Error & { status: number };
+    err.status = res.status;
+    throw err;
+  }
+
+  const data = await res.json();
+  return data?.candidates?.[0]?.content?.parts?.[0]?.text ?? "";
+}
+
+async function callGeminiWithRetry(idea: string, signal: AbortSignal): Promise<string> {
+  const MAX_RETRIES = 3;
+
+  for (const model of GEMINI_MODELS) {
+    let lastError: (Error & { status?: number }) | null = null;
+
+    for (let attempt = 0; attempt < MAX_RETRIES; attempt++) {
+      try {
+        const text = await callGemini(model, idea, signal);
+        console.log(`[gemini] Success with ${model} on attempt ${attempt + 1}`);
+        return text;
+      } catch (err: unknown) {
+        const e = err as Error & { status?: number };
+        lastError = e;
+
+        if (signal.aborted) throw e;
+
+        const status = e.status ?? 0;
+
+        // 429 = rate limited — exponential backoff then retry
+        if (status === 429) {
+          const delay = Math.min(1000 * Math.pow(2, attempt), 8000);
+          console.warn(`[gemini] 429 on ${model} attempt ${attempt + 1}, retrying in ${delay}ms`);
+          await new Promise((r) => setTimeout(r, delay));
+          continue;
+        }
+
+        // Other 4xx — no point retrying this model
+        if (status >= 400 && status < 500) {
+          console.warn(`[gemini] Non-retryable ${status} on ${model}, skipping model`);
+          break;
+        }
+
+        // 5xx or network — short backoff then retry
+        const delay = Math.min(500 * Math.pow(2, attempt), 4000);
+        console.warn(`[gemini] Error on ${model} attempt ${attempt + 1}, retrying in ${delay}ms`);
+        await new Promise((r) => setTimeout(r, delay));
+      }
+    }
+
+    console.warn(`[gemini] ${model} exhausted after ${MAX_RETRIES} attempts, last error: ${lastError?.message}`);
+  }
+
+  throw new Error(
+    "All Gemini models are currently unavailable due to quota limits. Please wait a moment and try again."
+  );
+}
+
 Deno.serve(async (req: Request) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { status: 200, headers: corsHeaders });
   }
 
   try {
-    const apiKey = Deno.env.get("ANTHROPIC_API_KEY");
-    if (!apiKey) {
-      console.error("[edge] ANTHROPIC_API_KEY secret is not set");
+    if (!GEMINI_API_KEY) {
+      console.error("[edge] GEMINI_API_KEY secret is not set");
       return new Response(
-        JSON.stringify({ error: "Server configuration error: ANTHROPIC_API_KEY is not configured." }),
+        JSON.stringify({ error: "Server configuration error: GEMINI_API_KEY is not configured." }),
         { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }
@@ -80,39 +161,15 @@ Deno.serve(async (req: Request) => {
       );
     }
 
-    console.log(`[edge] Analyzing idea: "${idea.trim().slice(0, 80)}..."`);
+    // 25-second timeout for the full Gemini call chain
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 25_000);
 
-    const client = new Anthropic({ apiKey });
-
-    const message = await client.messages.create({
-      model: "claude-opus-4-7",
-      max_tokens: 4096,
-      thinking: { type: "adaptive" },
-      messages: [
-        {
-          role: "user",
-          content: PROMPT_TEMPLATE(idea.trim()),
-        },
-      ],
-    });
-
-    console.log(`[edge] Claude responded. stop_reason=${message.stop_reason}`);
-
-    // Extract text from response content
-    let rawText = "";
-    for (const block of message.content) {
-      if (block.type === "text") {
-        rawText = block.text;
-        break;
-      }
-    }
-
-    if (!rawText) {
-      console.error("[edge] No text block in Claude response. Content:", JSON.stringify(message.content));
-      return new Response(
-        JSON.stringify({ error: "AI returned an empty response. Please try again." }),
-        { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-      );
+    let rawText: string;
+    try {
+      rawText = await callGeminiWithRetry(idea.trim(), controller.signal);
+    } finally {
+      clearTimeout(timeout);
     }
 
     // Strip markdown fences if present
@@ -137,21 +194,13 @@ Deno.serve(async (req: Request) => {
       { headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
   } catch (err: unknown) {
-    const e = err as Error & { status?: number; headers?: Record<string, string> };
-    console.error("[edge] Unhandled error:", e.message ?? e);
+    const e = err as Error;
+    console.error("[edge] Unhandled error:", e);
 
-    // Pass through rate limit / auth errors with context
-    if (e.status === 429) {
+    if (e.name === "AbortError") {
       return new Response(
-        JSON.stringify({ error: "AI service is currently busy. Please try again in a moment." }),
-        { status: 429, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-      );
-    }
-
-    if (e.status === 401) {
-      return new Response(
-        JSON.stringify({ error: "Invalid API key. Please check your ANTHROPIC_API_KEY secret." }),
-        { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+        JSON.stringify({ error: "Request timed out. Please try again." }),
+        { status: 504, headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }
 
