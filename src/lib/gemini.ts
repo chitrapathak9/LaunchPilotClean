@@ -64,7 +64,7 @@ async function _fetchAnalysis(
     );
   }
 
-  const endpoint = `${SUPABASE_URL}/functions/v1/analyze-idea`;
+  const endpoint = `${SUPABASE_URL.replace(/\/+$/, "")}/functions/v1/analyze-idea`;
 
   let res: Response;
   try {
