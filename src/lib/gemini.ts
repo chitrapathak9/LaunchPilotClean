@@ -1,9 +1,5 @@
-const SUPABASE_URL =
-  (import.meta.env.VITE_SUPABASE_URL as string | undefined) ||
-  "https://mfshjeyeqqiexluiujnd.supabase.co";
-const SUPABASE_ANON_KEY =
-  (import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined) ||
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1mc2hqZXllcXFpZXhsdWl1am5kIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg4NDU3OTIsImV4cCI6MjA5NDQyMTc5Mn0.sTuW7uzF4Xfvz7xndm1V23Pzo2rZ2d4V8m0LTGkJswE";
+const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL as string | undefined;
+const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined;
 
 export interface AnalysisResult {
   marketOpportunity: {
@@ -49,22 +45,17 @@ export async function analyzeIdea(
   idea: string,
   signal?: AbortSignal
 ): Promise<AnalysisResult> {
-  return _fetchAnalysis(idea, signal);
-}
-
-async function _fetchAnalysis(
-  idea: string,
-  signal?: AbortSignal
-): Promise<AnalysisResult> {
   if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
     throw new AnalysisError(
-      "Missing VITE_SUPABASE_URL or VITE_SUPABASE_ANON_KEY.",
+      "App is not configured: VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY must be set as environment variables in your hosting provider (e.g. Vercel). They are currently missing from the production build.",
       undefined,
       false
     );
   }
 
   const endpoint = `${SUPABASE_URL.replace(/\/+$/, "")}/functions/v1/analyze-idea`;
+
+  console.log("[client] POST", endpoint);
 
   let res: Response;
   try {
@@ -83,8 +74,9 @@ async function _fetchAnalysis(
     if (e.name === "AbortError") {
       throw new AnalysisError("Request cancelled.", 408, false);
     }
+    console.error("[client] fetch failed:", e.name, e.message);
     throw new AnalysisError(
-      `Network error (${e.name}: ${e.message}). Check browser console for details.`,
+      `Network error — could not reach the analysis service. Check that VITE_SUPABASE_URL is set correctly in your hosting environment. (${e.name}: ${e.message})`,
       undefined,
       true
     );
@@ -95,7 +87,7 @@ async function _fetchAnalysis(
     data = await res.json();
   } catch {
     throw new AnalysisError(
-      `Server returned invalid response (${res.status}).`,
+      `Server returned an unreadable response (HTTP ${res.status}).`,
       res.status,
       res.status >= 500
     );
