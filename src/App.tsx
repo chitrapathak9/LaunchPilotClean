@@ -851,20 +851,28 @@ function WaitlistSection() {
   const [email, setEmail] = useState('');
   const [idea,  setIdea]  = useState('');
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'duplicate' | 'error'>('idle');
+  const [errorMsg, setErrorMsg] = useState('');
   const ref = useRef<HTMLDivElement>(null);
   useReveal(ref);
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     setStatus('loading');
-    const { error } = await supabase
-      .from('waitlist')
-      .insert({ name: name.trim(), email: email.trim().toLowerCase(), startup_idea: idea.trim() });
-    if (!error) {
-      setStatus('success');
-    } else if (error.code === '23505') {
-      setStatus('duplicate');
-    } else {
+    setErrorMsg('');
+    try {
+      const { error } = await supabase
+        .from('waitlist')
+        .insert({ name: name.trim(), email: email.trim().toLowerCase(), startup_idea: idea.trim() });
+      if (!error) {
+        setStatus('success');
+      } else if (error.code === '23505') {
+        setStatus('duplicate');
+      } else {
+        setErrorMsg(error.message || 'Something went wrong. Please try again.');
+        setStatus('error');
+      }
+    } catch (err) {
+      setErrorMsg(err instanceof Error ? err.message : 'Network error. Please check your connection.');
       setStatus('error');
     }
   };
@@ -1018,7 +1026,7 @@ function WaitlistSection() {
                 {status === 'error' && (
                   <p className="text-red-400 text-xs flex items-center gap-1.5">
                     <span className="w-1 h-1 rounded-full bg-red-400 flex-shrink-0" />
-                    Something went wrong. Please try again.
+                    {errorMsg || 'Something went wrong. Please try again.'}
                   </p>
                 )}
 
