@@ -860,25 +860,18 @@ function WaitlistSection() {
     setStatus('loading');
     setErrorMsg('');
     try {
-      const res = await fetch(
-        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/join-waitlist`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
-          },
-          body: JSON.stringify({ name: name.trim(), email: email.trim().toLowerCase(), startup_idea: idea.trim() }),
+      const { error } = await supabase
+        .from('waitlist')
+        .insert({ name: name.trim(), email: email.trim().toLowerCase(), startup_idea: idea.trim() });
+      if (error) {
+        if (error.code === '23505') {
+          setStatus('duplicate');
+        } else {
+          setErrorMsg(error.message || 'Something went wrong. Please try again.');
+          setStatus('error');
         }
-      );
-      const data = await res.json();
-      if (res.status === 409 || data.duplicate) {
-        setStatus('duplicate');
-      } else if (res.ok && data.success) {
-        setStatus('success');
       } else {
-        setErrorMsg(data.error || 'Something went wrong. Please try again.');
-        setStatus('error');
+        setStatus('success');
       }
     } catch (err) {
       setErrorMsg(err instanceof Error ? err.message : 'Network error. Please check your connection.');
