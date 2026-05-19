@@ -1,31 +1,17 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 
-const ALLOWED_ORIGINS = [
-  "https://launchaipilot.com",
-  "https://www.launchaipilot.com",
-];
+const CORS_HEADERS = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+  "Access-Control-Allow-Headers": "Content-Type, Authorization, X-Client-Info, Apikey",
+};
 
 const OPENAI_API_KEY = Deno.env.get("OPENAI_API_KEY");
 
-function getCorsHeaders(req: Request): Record<string, string> {
-  const origin = req.headers.get("Origin") ?? "";
-  const allowedOrigin = ALLOWED_ORIGINS.includes(origin) ? origin : ALLOWED_ORIGINS[0];
-  return {
-    "Access-Control-Allow-Origin": allowedOrigin,
-    "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-    "Access-Control-Allow-Headers": "Content-Type, Authorization, X-Client-Info, Apikey",
-    "Access-Control-Max-Age": "86400",
-    "Vary": "Origin",
-  };
-}
-
-function json(req: Request, body: unknown, status = 200): Response {
+function json(body: unknown, status = 200): Response {
   return new Response(JSON.stringify(body), {
     status,
-    headers: {
-      ...getCorsHeaders(req),
-      "Content-Type": "application/json",
-    },
+    headers: { ...CORS_HEADERS, "Content-Type": "application/json" },
   });
 }
 
@@ -80,7 +66,7 @@ Return ONLY valid JSON (no markdown, no code blocks, no extra text) with this ex
 `;
 
 async function callOpenAI(idea: string, signal: AbortSignal): Promise<string> {
-  console.log("[openai] Sending request for idea:", idea.slice(0, 60));
+  console.log("[openai] Request start, idea length:", idea.length);
 
   const res = await fetch("https://api.openai.com/v1/chat/completions", {
     method: "POST",
@@ -95,10 +81,7 @@ async function callOpenAI(idea: string, signal: AbortSignal): Promise<string> {
           role: "system",
           content: "You are an expert startup analyst. Return only valid JSON, no markdown or code blocks.",
         },
-        {
-          role: "user",
-          content: PROMPT_TEMPLATE(idea),
-        },
+        { role: "user", content: PROMPT_TEMPLATE(idea) },
       ],
       temperature: 0.7,
       max_tokens: 2048,
@@ -107,113 +90,98 @@ async function callOpenAI(idea: string, signal: AbortSignal): Promise<string> {
     signal,
   });
 
-  const body = await res.text();
+  const bodyText = await res.text();
 
   if (!res.ok) {
-    console.error(`[openai] HTTP ${res.status}:`, body.slice(0, 300));
-    const err = new Error(`${res.status}::${body}`) as Error & { status: number };
+    console.error(`[openai] HTTP ${res.status}:`, bodyText.slice(0, 400));
+    const err = new Error(`openai_${res.status}::${bodyText}`) as Error & { status: number };
     err.status = res.status;
     throw err;
   }
 
-  let data: { choices?: { message?: { content?: string } }[] };
+  let parsed: { choices?: { message?: { content?: string } }[] };
   try {
-    data = JSON.parse(body);
+    parsed = JSON.parse(bodyText);
   } catch {
-    console.error("[openai] Failed to parse response body:", body.slice(0, 300));
-    throw new Error("OpenAI returned non-JSON response.");
+    console.error("[openai] Non-JSON response:", bodyText.slice(0, 400));
+    throw new Error("OpenAI returned a non-JSON response.");
   }
 
-  const content = data?.choices?.[0]?.message?.content ?? "";
-  console.log("[openai] Response content length:", content.length);
+  const content = parsed?.choices?.[0]?.message?.content ?? "";
+  console.log("[openai] Content length:", content.length);
   return content;
 }
 
 async function callWithRetry(idea: string, signal: AbortSignal): Promise<string> {
-  const MAX_RETRIES = 3;
-
-  for (let attempt = 0; attempt < MAX_RETRIES; attempt++) {
+  for (let attempt = 0; attempt < 3; attempt++) {
     try {
-      const text = await callOpenAI(idea, signal);
-      console.log(`[openai] Success on attempt ${attempt + 1}`);
-      return text;
+      return await callOpenAI(idea, signal);
     } catch (err: unknown) {
       const e = err as Error & { status?: number };
-
-      if (signal.aborted) {
-        console.warn("[openai] Request aborted, stopping retries.");
-        throw e;
-      }
+      if (signal.aborted) throw e;
 
       const status = e.status ?? 0;
-      console.warn(`[openai] Attempt ${attempt + 1} failed with status ${status}: ${e.message}`);
+      console.warn(`[openai] Attempt ${attempt + 1} failed — status ${status}: ${e.message}`);
 
-      if (status === 429) {
-        const delay = Math.min(1000 * Math.pow(2, attempt), 8000);
-        console.warn(`[openai] Rate limited — retrying in ${delay}ms`);
-        await new Promise((r) => setTimeout(r, delay));
-        continue;
-      }
-
-      if (status === 402 || (status === 429 && e.message.includes("quota"))) {
+      if (status === 402 || e.message?.includes("quota")) {
         throw new Error("OpenAI quota exceeded. Please check your billing.");
       }
-
-      if (status >= 400 && status < 500) {
+      if (status >= 400 && status < 500 && status !== 429) {
         throw new Error(`OpenAI request failed (${status}). Please try again.`);
       }
 
-      const delay = Math.min(500 * Math.pow(2, attempt), 4000);
-      console.warn(`[openai] Server error — retrying in ${delay}ms`);
+      const delay = status === 429
+        ? Math.min(1000 * Math.pow(2, attempt), 8000)
+        : Math.min(500 * Math.pow(2, attempt), 4000);
+
+      console.warn(`[openai] Retrying in ${delay}ms`);
       await new Promise((r) => setTimeout(r, delay));
     }
   }
-
   throw new Error("OpenAI is currently unavailable. Please try again in a moment.");
 }
 
 Deno.serve(async (req: Request) => {
-  const { method, url } = req;
-  const origin = req.headers.get("Origin") ?? "unknown";
-  console.log(`[edge] ${method} ${url} — Origin: ${origin}`);
+  const origin = req.headers.get("Origin") ?? "no-origin";
+  console.log(`[edge] ${req.method} — Origin: ${origin}`);
 
-  if (method === "OPTIONS") {
+  // Must be first — no other logic before this
+  if (req.method === "OPTIONS") {
     console.log("[edge] Preflight OK");
-    return new Response(null, { status: 200, headers: getCorsHeaders(req) });
+    return new Response(null, { status: 200, headers: CORS_HEADERS });
   }
 
-  if (method === "GET") {
-    return json(req, { status: "ok", key_set: !!OPENAI_API_KEY });
+  if (req.method === "GET") {
+    return json({ status: "ok", key_set: !!OPENAI_API_KEY });
   }
 
-  if (method !== "POST") {
-    return json(req, { error: "Method not allowed." }, 405);
+  if (req.method !== "POST") {
+    return json({ error: "Method not allowed." }, 405);
   }
 
   try {
     if (!OPENAI_API_KEY) {
-      console.error("[edge] OPENAI_API_KEY is not set");
-      return json(req, { error: "Server configuration error: AI service is not configured." }, 500);
+      console.error("[edge] OPENAI_API_KEY not configured");
+      return json({ error: "Server configuration error: AI service is not configured." }, 500);
     }
 
     let body: { idea?: unknown };
     try {
       body = await req.json();
     } catch {
-      console.error("[edge] Failed to parse request body");
-      return json(req, { error: "Invalid JSON in request body." }, 400);
+      return json({ error: "Invalid JSON in request body." }, 400);
     }
 
     const { idea } = body;
     if (!idea || typeof idea !== "string" || idea.trim().length < 5) {
-      return json(req, { error: "Please provide a valid startup idea (at least 5 characters)." }, 400);
+      return json({ error: "Please provide a valid startup idea (at least 5 characters)." }, 400);
     }
 
-    console.log("[edge] Analyzing idea:", idea.trim().slice(0, 80));
+    console.log("[edge] Analyzing:", idea.trim().slice(0, 80));
 
     const controller = new AbortController();
     const timeout = setTimeout(() => {
-      console.warn("[edge] Request timed out after 25s");
+      console.warn("[edge] Timeout after 25s");
       controller.abort();
     }, 25_000);
 
@@ -228,25 +196,23 @@ Deno.serve(async (req: Request) => {
     try {
       analysis = JSON.parse(rawText);
     } catch {
-      console.error("[edge] JSON parse failed. Raw output:", rawText.slice(0, 500));
-      return json(req, { error: "Failed to parse AI response. Please try again." }, 500);
+      console.error("[edge] JSON parse failed. Raw:", rawText.slice(0, 500));
+      return json({ error: "Failed to parse AI response. Please try again." }, 500);
     }
 
-    console.log("[edge] Analysis complete, returning response.");
-    return json(req, { analysis });
+    console.log("[edge] Success — returning analysis");
+    return json({ analysis });
 
   } catch (err: unknown) {
     const e = err as Error;
-    console.error("[edge] Unhandled error:", e.name, e.message);
+    console.error("[edge] Unhandled:", e.name, e.message);
 
     if (e.name === "AbortError") {
-      return json(req, { error: "Request timed out. Please try again." }, 504);
+      return json({ error: "Request timed out. Please try again." }, 504);
     }
-
     if (e.message?.toLowerCase().includes("quota")) {
-      return json(req, { error: "AI service quota exceeded. Please try again later." }, 429);
+      return json({ error: "AI service quota exceeded. Please try again later." }, 429);
     }
-
-    return json(req, { error: e.message || "An unexpected error occurred. Please try again." }, 500);
+    return json({ error: e.message || "An unexpected error occurred. Please try again." }, 500);
   }
 });
