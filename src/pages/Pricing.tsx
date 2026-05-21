@@ -64,8 +64,7 @@ function TrustBadgeStrip() {
   );
 }
 
-function PricingCards() {
-  const [selectedPlan, setSelectedPlan] = useState<'starter' | 'builder' | 'fullstack'>('builder');
+function PricingCards({ selectedPlan, setSelectedPlan }: { selectedPlan: string, setSelectedPlan: (plan: 'starter' | 'builder' | 'fullstack') => void }) {
 
   const getCardClasses = (id: string) => {
     const base = "rounded-3xl p-8 flex flex-col h-full mt-4 md:mt-8 transition-all duration-300 cursor-pointer border-2 relative ";
@@ -105,7 +104,7 @@ function PricingCards() {
             <li className="flex items-start gap-3"><X className="text-[#CBD5E1] shrink-0" size={20} /> <span className="text-[#94A3B8] line-through">No support</span></li>
           </ul>
           
-          <Link to="/checkout?plan=starter" className={getButtonClasses('starter') + " block text-center"}>
+          <Link to="/checkout?plan=starter&price=9" className={getButtonClasses('starter') + " block text-center"}>
             Get Starter — $9
           </Link>
           <div className="text-center text-[11px] text-[#94A3B8] mt-4">
@@ -136,7 +135,7 @@ function PricingCards() {
             <li className="flex items-start gap-3"><X className="text-[#CBD5E1] shrink-0" size={20} /> <span className="text-[#94A3B8] line-through">No 1-on-1 call</span></li>
           </ul>
           
-          <Link to="/checkout?plan=builder" className={getButtonClasses('builder') + " block text-center"}>
+          <Link to="/checkout?plan=builder&price=29" className={getButtonClasses('builder') + " block text-center"}>
             Get Builder — $29
           </Link>
           <div className="text-center text-[11px] text-[#64748B] mt-4">
@@ -163,7 +162,7 @@ function PricingCards() {
             <li className="flex items-start gap-3"><CheckCircle2 className="text-[#8B5CF6] shrink-0" size={20} /> <span className="text-[#334155]">30-min onboarding call with founder</span></li>
           </ul>
           
-          <Link to="/checkout?plan=full-arsenal" className={getButtonClasses('fullstack') + " block text-center"}>
+          <Link to="/checkout?plan=fullstack&price=59" className={getButtonClasses('fullstack') + " block text-center"}>
             Get Full Stack — $59
           </Link>
           <div className="text-center text-[11px] text-[#94A3B8] mt-4">
@@ -349,16 +348,20 @@ function ComparisonTable() {
   );
 }
 
-function CTASection() {
+function CTASection({ selectedPlan }: { selectedPlan: string }) {
+  const price = selectedPlan === 'starter' ? 9 : selectedPlan === 'builder' ? 29 : 59;
   return (
     <section className="py-24 px-6 bg-[#FAF9F6] text-center border-t border-[#E2E8F0]">
       <div className="max-w-2xl mx-auto">
         <h2 className="text-4xl font-bold text-[#0F172A] mb-4">Start building today</h2>
         <p className="text-xl text-[#64748B] mb-10">First 10 customers get a free bonus skill. No code needed to get started.</p>
         
-        <button className="bg-[#8B5CF6] text-white font-bold px-10 py-5 rounded-full hover:bg-[#7C3AED] transition-colors shadow-xl shadow-[#8B5CF6]/30 inline-flex justify-center items-center gap-3 text-lg mb-8">
-          Get Builder for $29 <ArrowRight size={20} />
-        </button>
+        <Link 
+          to={`/checkout?plan=${selectedPlan}&price=${price}`}
+          className="inline-flex items-center gap-3 bg-[#8B5CF6] text-white font-bold px-12 py-5 rounded-full hover:bg-[#7C3AED] transition-all shadow-xl shadow-[#8B5CF6]/20 text-lg mb-8"
+        >
+          Get {selectedPlan.charAt(0).toUpperCase() + selectedPlan.slice(1).replace('stack', ' Stack')} for ${price} <ArrowRight size={20} />
+        </Link>
         
         <div className="flex justify-center items-center gap-2 text-sm text-[#64748B] font-medium">
           7-day refund <span className="text-[#CBD5E1]">•</span> Instant access <span className="text-[#CBD5E1]">•</span> No subscription
@@ -372,18 +375,19 @@ function CTASection() {
 }
 
 export function Pricing() {
+  const [selectedPlan, setSelectedPlan] = useState<'starter' | 'builder' | 'fullstack'>('builder');
   return (
     <div className="min-h-screen font-sans text-[#0F172A] selection:bg-[#8B5CF6]/20 bg-[#FAF9F6]">
       <Navbar />
       <main>
         <PageHero />
         <TrustBadgeStrip />
-        <PricingCards />
+        <PricingCards selectedPlan={selectedPlan} setSelectedPlan={setSelectedPlan} />
         <WhatIsInsideCard />
         <SkillPickerGrid />
         <FAQAccordion />
         <ComparisonTable />
-        <CTASection />
+        <CTASection selectedPlan={selectedPlan} />
       </main>
       <Footer />
     </div>

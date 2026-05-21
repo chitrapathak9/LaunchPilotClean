@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { 
   BrainCircuit, 
@@ -233,6 +233,7 @@ export function Testimonials() {
 }
 
 export function PricingPreview() {
+  const [selectedPlan, setSelectedPlan] = useState<'starter' | 'builder' | 'full-arsenal'>('builder');
   return (
     <section className="py-24 px-6 bg-[#FAF9F6]">
       <div className="max-w-7xl mx-auto">
@@ -243,19 +244,33 @@ export function PricingPreview() {
         
         <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
           {/* Single */}
-          <div className="bg-white rounded-3xl p-8 border border-[#E2E8F0] shadow-sm flex flex-col">
+          <div 
+            onClick={() => setSelectedPlan('starter')}
+            className={`rounded-3xl p-8 transition-all duration-300 cursor-pointer flex flex-col relative ${
+              selectedPlan === 'starter' 
+                ? 'bg-gradient-to-b from-[#8B5CF6]/[0.08] to-white border-2 border-[#8B5CF6] shadow-xl shadow-[#8B5CF6]/10 transform md:-translate-y-4 z-10' 
+                : 'bg-white border-2 border-[#E2E8F0] shadow-sm hover:border-[#8B5CF6]/50'
+            }`}
+          >
             <h3 className="text-2xl font-bold mb-2">Single Skill</h3>
             <div className="text-4xl font-bold mb-6">$29<span className="text-lg text-[#64748B] font-normal"> one-time</span></div>
             <ul className="space-y-4 mb-8 flex-1">
               <li className="flex items-start gap-3"><CheckCircle2 className="text-[#8B5CF6] shrink-0" size={20} /> <span className="text-[#334155]">Any 1 Premium Skill</span></li>
               <li className="flex items-start gap-3"><CheckCircle2 className="text-[#8B5CF6] shrink-0" size={20} /> <span className="text-[#334155]">Lifetime updates</span></li>
             </ul>
-            <button className="w-full py-3 rounded-full border-2 border-[#E2E8F0] text-[#0F172A] font-bold hover:bg-[#F8FAFC] transition-colors">Choose Single</button>
+            <Link to="/checkout?plan=starter&price=29" className={`block text-center w-full py-3 rounded-full font-bold transition-colors ${selectedPlan === 'starter' ? 'bg-[#8B5CF6] text-white hover:bg-[#7C3AED] shadow-lg shadow-[#8B5CF6]/30 border-2 border-[#8B5CF6]' : 'border-2 border-[#E2E8F0] text-[#0F172A] hover:bg-[#F8FAFC]'}`}>Choose Single</Link>
           </div>
 
           {/* Builder */}
-          <div className="bg-gradient-to-b from-[#8B5CF6]/[0.08] to-white rounded-3xl p-8 border-2 border-[#8B5CF6] shadow-xl shadow-[#8B5CF6]/10 flex flex-col relative transform md:-translate-y-4">
-            <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-[#8B5CF6] text-white px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wider">
+          <div 
+            onClick={() => setSelectedPlan('builder')}
+            className={`rounded-3xl p-8 transition-all duration-300 cursor-pointer flex flex-col relative ${
+              selectedPlan === 'builder' 
+                ? 'bg-gradient-to-b from-[#8B5CF6]/[0.08] to-white border-2 border-[#8B5CF6] shadow-xl shadow-[#8B5CF6]/10 transform md:-translate-y-4 z-10' 
+                : 'bg-white border-2 border-[#E2E8F0] shadow-sm hover:border-[#8B5CF6]/50'
+            }`}
+          >
+            <div className={`absolute -top-4 left-1/2 -translate-x-1/2 bg-[#8B5CF6] text-white px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wider transition-opacity ${selectedPlan === 'builder' ? 'opacity-100' : 'opacity-0'}`}>
               Most Popular
             </div>
             <h3 className="text-2xl font-bold mb-2 text-[#0F172A]">Builder Bundle</h3>
@@ -265,11 +280,18 @@ export function PricingPreview() {
               <li className="flex items-start gap-3"><CheckCircle2 className="text-[#8B5CF6] shrink-0" size={20} /> <span className="text-[#334155] font-medium">MVP Roadmap Generator</span></li>
               <li className="flex items-start gap-3"><CheckCircle2 className="text-[#8B5CF6] shrink-0" size={20} /> <span className="text-[#334155] font-medium">Priority Support</span></li>
             </ul>
-            <button className="w-full py-3 rounded-full bg-[#8B5CF6] text-white font-bold hover:bg-[#7C3AED] transition-colors shadow-lg shadow-[#8B5CF6]/30">Get the Bundle</button>
+            <Link to="/checkout?plan=builder&price=149" className={`block text-center w-full py-3 rounded-full font-bold transition-colors ${selectedPlan === 'builder' ? 'bg-[#8B5CF6] text-white hover:bg-[#7C3AED] shadow-lg shadow-[#8B5CF6]/30 border-2 border-[#8B5CF6]' : 'border-2 border-[#E2E8F0] text-[#0F172A] hover:bg-[#F8FAFC]'}`}>Get the Bundle</Link>
           </div>
 
           {/* Arsenal */}
-          <div className="bg-white rounded-3xl p-8 border border-[#E2E8F0] shadow-sm flex flex-col">
+          <div 
+            onClick={() => setSelectedPlan('full-arsenal')}
+            className={`rounded-3xl p-8 transition-all duration-300 cursor-pointer flex flex-col relative ${
+              selectedPlan === 'full-arsenal' 
+                ? 'bg-gradient-to-b from-[#8B5CF6]/[0.08] to-white border-2 border-[#8B5CF6] shadow-xl shadow-[#8B5CF6]/10 transform md:-translate-y-4 z-10' 
+                : 'bg-white border-2 border-[#E2E8F0] shadow-sm hover:border-[#8B5CF6]/50'
+            }`}
+          >
             <h3 className="text-2xl font-bold mb-2">Full Arsenal</h3>
             <div className="text-4xl font-bold mb-6">$299<span className="text-lg text-[#64748B] font-normal"> one-time</span></div>
             <ul className="space-y-4 mb-8 flex-1">
@@ -277,7 +299,7 @@ export function PricingPreview() {
               <li className="flex items-start gap-3"><CheckCircle2 className="text-[#8B5CF6] shrink-0" size={20} /> <span className="text-[#334155]">All Future Skills</span></li>
               <li className="flex items-start gap-3"><CheckCircle2 className="text-[#8B5CF6] shrink-0" size={20} /> <span className="text-[#334155]">Private Slack Community</span></li>
             </ul>
-            <button className="w-full py-3 rounded-full border-2 border-[#E2E8F0] text-[#0F172A] font-bold hover:bg-[#F8FAFC] transition-colors">Unlock Everything</button>
+            <Link to="/checkout?plan=full-arsenal&price=299" className={`block text-center w-full py-3 rounded-full font-bold transition-colors ${selectedPlan === 'full-arsenal' ? 'bg-[#8B5CF6] text-white hover:bg-[#7C3AED] shadow-lg shadow-[#8B5CF6]/30 border-2 border-[#8B5CF6]' : 'border-2 border-[#E2E8F0] text-[#0F172A] hover:bg-[#F8FAFC]'}`}>Unlock Everything</Link>
           </div>
         </div>
 

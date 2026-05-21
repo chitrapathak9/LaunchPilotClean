@@ -5,15 +5,24 @@ import { Loader2, Lock, ShieldCheck, CheckCircle2 } from 'lucide-react';
 import { LogoIcon } from '../App';
 
 const PLAN_DETAILS: Record<string, { name: string, price: number }> = {
-  starter: { name: 'Starter', price: 9 },
-  builder: { name: 'Builder Bundle', price: 29 },
-  'full-arsenal': { name: 'Full Arsenal', price: 59 },
+  'starter': { name: 'Single Skill', price: 29 },
+  'builder': { name: 'Builder Bundle', price: 149 },
+  'full-arsenal': { name: 'Full Arsenal', price: 299 },
+  'starter-bundle': { name: 'Starter Bundle', price: 19 },
+  'builder-bundle': { name: 'Builder Bundle', price: 29 },
+  'fullstack': { name: 'Full Stack', price: 59 },
 };
 
 export function StripeCheckoutMock() {
   const [searchParams] = useSearchParams();
   const plan = searchParams.get('plan') || 'builder';
-  const planInfo = PLAN_DETAILS[plan] || PLAN_DETAILS.builder;
+  const priceParam = searchParams.get('price');
+  
+  const basePlanInfo = PLAN_DETAILS[plan] || PLAN_DETAILS.builder;
+  const planInfo = {
+    ...basePlanInfo,
+    price: priceParam ? parseInt(priceParam, 10) : basePlanInfo.price
+  };
 
   const navigate = useNavigate();
   const { login, updatePlan, isAuthenticated } = useAuth();
