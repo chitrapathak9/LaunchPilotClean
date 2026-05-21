@@ -220,7 +220,6 @@ function BundleCards({ selectedBundle, setSelectedBundle }: { selectedBundle: st
                     </li>
                   ))}
                 </ul>
-
                 {/* CTA */}
                 <Link
                   to={`/checkout?plan=${b.id}&price=${b.price}`}
