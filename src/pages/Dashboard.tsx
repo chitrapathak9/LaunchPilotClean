@@ -172,7 +172,6 @@ function QuickActions() {
           <Link key={a.title} to={a.path}
             className="bg-white border border-slate-200 shadow-sm rounded-xl p-5 hover:border-[#8B5CF6]/50 hover:-translate-y-0.5 transition-all group">
             <div className="w-10 h-10 rounded-lg bg-[#8B5CF6]/10 border border-[#8B5CF6]/20 flex items-center justify-center mb-3 group-hover:bg-[#8B5CF6]/15 transition-all">
-              {/* @ts-expect-error type discrepancy */}
               <a.icon size={18} className="text-[#8B5CF6]" />
             </div>
             <h3 className="text-slate-900 font-bold text-sm mb-1">{a.title}</h3>
