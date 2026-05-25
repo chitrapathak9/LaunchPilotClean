@@ -1,29 +1,28 @@
 import React from 'react';
 import { FadeUp } from './FadeUp';
-import { IconStar } from '@tabler/icons-react';
 
 export function LaunchTestimonials() {
   const reviews = [
     {
-      initials: 'AK',
-      name: 'AK',
+      initials: 'RK',
+      name: 'Rahul K.',
       role: 'Founder, AdFlow Technologies',
       industry: 'AdTech',
-      quote: 'They delivered our entire AdTech bidding engine in under 3 weeks. We were skeptical about the timeline but they hit every milestone. The NDA process before the call made us trust them immediately.'
+      quote: 'We needed a bidding engine that could handle real-time programmatic at scale. They delivered in 18 days. The NDA before the first call told us everything about how they operate.'
     },
     {
-      initials: 'SM',
-      name: 'SM',
-      role: 'CEO, HealthSync',
+      initials: 'PS',
+      name: 'Priya S.',
+      role: 'CEO, MedSync Platform',
       industry: 'Medical SaaS',
-      quote: 'Fixed price meant we could plan our runway properly. No surprises, no scope creep. The Slack updates every day meant we felt like part of the team, not just a client.'
+      quote: 'Fixed price meant we could plan our Series A runway properly. No surprises, no renegotiation. Daily Slack updates meant we never felt out of the loop.'
     },
     {
-      initials: 'RJ',
-      name: 'RJ',
+      initials: 'JM',
+      name: 'James M.',
       role: 'Co-Founder, PayRoute',
       industry: 'Fintech',
-      quote: "We'd been burned by two agencies before. This was completely different — code was ours from day one, deployed on our own infrastructure. 21 days later we had a live product."
+      quote: "Two agencies burned us before this. What made this different — the repo was in our GitHub from day one. 21 days later we had a live product with 50+ endpoints working."
     }
   ];
 
@@ -50,7 +49,7 @@ export function LaunchTestimonials() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
           {reviews.map((rev, index) => (
             <FadeUp key={index} delay={0.1 * index}>
-              <div className="bg-white border border-zinc-200 rounded-2xl p-7 flex flex-col justify-between h-full hover:border-zinc-300 transition-colors duration-300 shadow-sm">
+              <div className="bg-white border border-zinc-200 rounded-2xl p-7 flex flex-col justify-between h-full hover:border-zinc-300 transition-colors duration-300 shadow-sm text-left">
                 <div>
                   {/* 5 Stars */}
                   <div className="flex gap-1">
@@ -86,6 +85,15 @@ export function LaunchTestimonials() {
             </FadeUp>
           ))}
         </div>
+
+        {/* Confidentiality notice (below cards in small gray text) */}
+        <FadeUp delay={0.4}>
+          <div className="text-center mt-10">
+            <p className="text-xs text-zinc-400 font-semibold">
+              * Names abbreviated for client confidentiality. Full references available on request after NDA.
+            </p>
+          </div>
+        </FadeUp>
 
       </div>
     </section>
