@@ -229,6 +229,8 @@ function BundleCards({ selectedBundle, setSelectedBundle }: { selectedBundle: st
                     ? 'bg-[#8B5CF6] text-white hover:bg-[#7C3AED] shadow-lg shadow-[#8B5CF6]/30'
                     : 'border-2 border-slate-200 text-slate-900 hover:bg-slate-50 hover:border-[#8B5CF6]/50'
                     }`}
+
+
                 >
                   Get {b.name} — ${b.price}
                   <ArrowRight size={16} />
