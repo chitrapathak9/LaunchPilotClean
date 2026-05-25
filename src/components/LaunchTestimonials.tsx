@@ -86,14 +86,10 @@ export function LaunchTestimonials() {
           ))}
         </div>
 
-        {/* Confidentiality notice (below cards in small gray text) */}
-        <FadeUp delay={0.4}>
-          <div className="text-center mt-10">
-            <p className="text-xs text-zinc-400 font-semibold">
-              * Names abbreviated for client confidentiality. Full references available on request after NDA.
-            </p>
-          </div>
-        </FadeUp>
+        {/* Confidentiality notice */}
+        <div className="text-center text-xs text-zinc-400 mt-8 font-semibold">
+          * Names abbreviated for client confidentiality. Full references available on request after NDA.
+        </div>
 
       </div>
     </section>
