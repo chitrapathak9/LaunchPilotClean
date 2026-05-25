@@ -221,6 +221,7 @@ function BundleCards({ selectedBundle, setSelectedBundle }: { selectedBundle: st
                   ))}
                 </ul>
                 {/* CTA */}
+                
                 <Link
                   to={`/checkout?plan=${b.id}&price=${b.price}`}
                   className={`w-full py-4 rounded-full font-bold text-center transition-all flex items-center justify-center gap-2 ${isFeatured
