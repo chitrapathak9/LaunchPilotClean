@@ -29,6 +29,7 @@ import { DashboardSettings } from './pages/DashboardSettings';
 import { DashboardBilling } from './pages/DashboardBilling';
 import { DashboardSupport } from './pages/DashboardSupport';
 import { StripeCheckoutMock } from './pages/StripeCheckoutMock';
+import { CheckoutSuccess } from './pages/CheckoutSuccess';
 
 import { AuthProvider } from './contexts/AuthContext';
 import { ProtectedRoute } from './components/ProtectedRoute';
@@ -75,6 +76,7 @@ createRoot(document.getElementById('root')!).render(
         <Route path="/bundles" element={<Bundles />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/checkout" element={<StripeCheckoutMock />} />
+        <Route path="/checkout-success" element={<CheckoutSuccess />} />
         
         {/* Protected Dashboard Routes */}
         <Route element={<ProtectedRoute />}>

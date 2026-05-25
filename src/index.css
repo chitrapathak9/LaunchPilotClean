@@ -374,3 +374,23 @@ h6,
   background: rgba(245, 158, 11, 0.08);
   color: #FCD34D;
 }
+
+/* ── Custom Logo Marquee Scroll ── */
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 20s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}

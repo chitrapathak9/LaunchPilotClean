@@ -4,8 +4,10 @@ export default {
   theme: {
     extend: {
       colors: {
+        cream: '#FAF9F6',
         bg: {
           primary: '#FAF9F6',
+
           secondary: '#FFFFFF',
           tertiary: '#F8FAFC',
           card: '#FFFFFF',

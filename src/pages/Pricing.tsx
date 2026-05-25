@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Navbar, Footer } from '../App';
+import { useAuth } from '../contexts/AuthContext';
 import { 
   CheckCircle2, 
   X,
@@ -17,7 +18,8 @@ import {
   BarChart,
   Rocket,
   Map,
-  Library
+  Library,
+  Loader2
 } from 'lucide-react';
 
 function PageHero() {

@@ -1,7 +1,7 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 
 const CORS_HEADERS = {
-  "Access-Control-Allow-Origin": "https://launchaipilot.com",
+  "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
   "Access-Control-Allow-Headers": "Content-Type, Authorization, X-Client-Info, Apikey",
 };
@@ -20,7 +20,7 @@ You are an expert startup analyst. Analyze the following startup idea and return
 
 Startup Idea: "${idea}"
 
-Return ONLY valid JSON (no markdown, no code blocks, no extra text) with this exact structure:
+Return ONLY valid JSON (no markdown, no code blocks, no extra text). Keep summaries and text entries extremely concise (1-2 sentences maximum) and direct to optimize processing speed:
 {
   "marketOpportunity": {
     "summary": "2-3 sentence overview of the market opportunity",
@@ -181,9 +181,9 @@ Deno.serve(async (req: Request) => {
 
     const controller = new AbortController();
     const timeout = setTimeout(() => {
-      console.warn("[edge] Timeout after 25s");
+      console.warn("[edge] Timeout after 40s");
       controller.abort();
-    }, 25_000);
+    }, 40_000);
 
     let rawText: string;
     try {

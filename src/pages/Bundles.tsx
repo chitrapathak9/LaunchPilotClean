@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
 import { Navbar, Footer } from '../App';
 import {
   CheckCircle2, X, ChevronDown, ArrowRight,
   Layers, Terminal, Star, Users, BarChart,
   Rocket, Map as MapIcon, Library, Zap, Package,
-  Flame, Gift, Shield, Clock, MessageSquare
+  Flame, Gift, Shield, Clock, MessageSquare, Loader2
 } from 'lucide-react';
 
 /* ── Bundle Data ── */
@@ -222,15 +223,12 @@ function BundleCards({ selectedBundle, setSelectedBundle }: { selectedBundle: st
                 </ul>
                 {/* CTA */}
 
-                // check value
                 <Link
                   to={`/checkout?plan=${b.id}&price=${b.price}`}
                   className={`w-full py-4 rounded-full font-bold text-center transition-all flex items-center justify-center gap-2 ${isFeatured
                     ? 'bg-[#8B5CF6] text-white hover:bg-[#7C3AED] shadow-lg shadow-[#8B5CF6]/30'
                     : 'border-2 border-slate-200 text-slate-900 hover:bg-slate-50 hover:border-[#8B5CF6]/50'
                     }`}
-
-
                 >
                   Get {b.name} — ${b.price}
                   <ArrowRight size={16} />

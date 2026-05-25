@@ -1,192 +1,279 @@
 import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { LogoIcon } from '../App';
 import {
-  Home, Wrench, FolderOpen, BarChart3, Settings, CreditCard,
-  HelpCircle, LogOut, Bell, ChevronDown, User,
+  LayoutDashboard,
+  FileText,
+  Sparkles,
+  TrendingUp,
+  CreditCard,
+  Calendar,
+  Settings,
+  LogOut,
+  Bell,
+  ChevronDown,
+  User,
+  Menu,
+  X
 } from 'lucide-react';
-
 import { useAuth } from '../contexts/AuthContext';
 
-export const MOCK_STATS_LAYOUT = { updatesWaiting: 1 };
-
-function getGreeting() {
-  const h = new Date().getHours();
-  if (h < 12) return 'Good morning';
-  if (h < 17) return 'Good afternoon';
-  return 'Good evening';
-}
-
-/* ── Sidebar ── */
-const NAV_MAIN = [
-  { icon: Home, label: 'Dashboard', path: '/dashboard' },
-  { icon: Wrench, label: 'My Skills', path: '/dashboard/skills' },
-  { icon: FolderOpen, label: 'My Projects', path: '/dashboard/projects' },
-  { icon: BarChart3, label: 'Activity', path: '/dashboard/activity' },
-];
-const NAV_ACCOUNT = [
-  { icon: Settings, label: 'Settings', path: '/dashboard/settings' },
-  { icon: CreditCard, label: 'Billing', path: '/dashboard/billing' },
-  { icon: HelpCircle, label: 'Support', path: '/dashboard/support' },
-];
-
-function Sidebar() {
-  const location = useLocation();
-  const isActive = (path: string) => location.pathname === path;
+export function DashboardLayout({ children }: { children: React.ReactNode }) {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
   const { user, logout } = useAuth();
+  const activeTab = searchParams.get('tab') || 'dashboard';
 
-  return (
-    <aside className="hidden md:flex fixed top-0 left-0 bottom-0 w-[240px] bg-white border-r border-[#E2E8F0] flex-col z-40">
-      {/* Logo */}
-      <div className="px-5 h-16 flex items-center gap-2.5 border-b border-[#E2E8F0]">
-        <Link to="/" className="flex items-center gap-2.5">
-          <LogoIcon className="w-7 h-7" />
-          <span className="text-[#0F172A] font-bold text-[15px]">Launch<span className="text-[#8B5CF6]">Pilot</span></span>
-        </Link>
-      </div>
-
-      {/* Nav */}
-      <nav className="flex-1 overflow-y-auto py-4 px-3">
-        <div className="text-[10px] font-bold text-[#94A3B8] uppercase tracking-widest px-3 mb-2">Main</div>
-        {NAV_MAIN.map(n => (
-          <Link
-            key={n.path} to={n.path}
-            className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium mb-0.5 transition-all ${isActive(n.path)
-              ? 'bg-[#8B5CF6]/[0.08] text-[#8B5CF6] border-l-[3px] border-[#8B5CF6] -ml-px'
-              : 'text-[#64748B] hover:text-[#0F172A] hover:bg-[#F1F5F9]'
-              }`}
-          >
-            <n.icon size={18} /> {n.label}
-          </Link>
-        ))}
-
-        <div className="text-[10px] font-bold text-[#94A3B8] uppercase tracking-widest px-3 mt-6 mb-2">Account</div>
-        {NAV_ACCOUNT.map(n => (
-          <Link
-            key={n.path} to={n.path}
-            className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium mb-0.5 transition-all ${isActive(n.path)
-              ? 'bg-[#8B5CF6]/[0.08] text-[#8B5CF6] border-l-[3px] border-[#8B5CF6] -ml-px'
-              : 'text-[#64748B] hover:text-[#0F172A] hover:bg-[#F1F5F9]'
-              }`}
-          >
-            <n.icon size={18} /> {n.label}
-          </Link>
-        ))}
-      </nav>
-
-      {/* User */}
-      <div className="px-4 py-4 border-t border-[#E2E8F0] bg-[#F8FAFC]">
-        <div className="flex items-center gap-3 bg-[#F8FAFC] rounded-xl p-3 border border-[#E2E8F0]">
-          <div className="w-8 h-8 rounded-full bg-[#8B5CF6]/10 flex items-center justify-center font-bold text-[#8B5CF6]">
-            {user?.name.charAt(0) || 'U'}
-          </div>
-          <div className="flex-1 overflow-hidden">
-            <p className="text-sm font-bold text-[#0F172A] truncate">{user?.name || 'User'}</p>
-            <p className="text-[10px] font-semibold text-[#8B5CF6] uppercase tracking-wider">{user?.plan || 'Free'}</p>
-          </div>
-          <button onClick={logout} className="text-[#64748B] hover:text-[#EF4444] transition-colors" title="Log out">
-            <LogOut size={16} />
-          </button>
-        </div>
-      </div>
-    </aside>
-  );
-}
-
-/* ── Mobile Bottom Tab Bar ── */
-function BottomTabBar() {
-  const location = useLocation();
-  const tabs = [
-    { icon: Home, label: 'Home', path: '/dashboard' },
-    { icon: Wrench, label: 'Skills', path: '/dashboard/skills' },
-    { icon: FolderOpen, label: 'Proj.', path: '/dashboard/projects' },
-    { icon: Settings, label: 'Sett.', path: '/dashboard/settings' },
-    { icon: User, label: 'Acct.', path: '/dashboard/billing' },
+  const menuItems = [
+    { icon: LayoutDashboard, label: 'Dashboard', tab: 'dashboard' },
+    { icon: FileText, label: 'My Reports', tab: 'reports' },
+    { icon: Sparkles, label: 'New Validation', tab: 'new-validation' },
+    { icon: TrendingUp, label: 'Usage & Credits', tab: 'usage' },
+    { icon: CreditCard, label: 'Billing', tab: 'billing' },
+    { icon: Calendar, label: 'Book Strategy Call', tab: 'strategy-call' },
+    { icon: Settings, label: 'Settings', tab: 'settings' },
   ];
-  return (
-    <div className="md:hidden fixed bottom-0 inset-x-0 bg-white border-t border-[#E2E8F0] shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)] z-50 flex pb-safe">
-      {tabs.map(t => {
-        const active = location.pathname === t.path;
-        return (
-          <Link key={t.path} to={t.path} className="flex-1 flex flex-col items-center gap-1 py-2.5">
-            <t.icon size={20} className={active ? 'text-[#8B5CF6]' : 'text-[#94A3B8]'} />
-            <span className={`text-[10px] font-semibold ${active ? 'text-[#8B5CF6]' : 'text-[#64748B]'}`}>{t.label}</span>
-          </Link>
-        );
-      })}
-    </div>
-  );
-}
 
-/* ── Top Bar ── */
-function TopBar() {
-  const [dropdownOpen, setDropdownOpen] = useState(false);
-  const { user, logout } = useAuth();
-  
   return (
-    <header className="h-16 bg-white border-b border-[#E2E8F0] flex items-center justify-between px-6 sticky top-0 z-30 shadow-sm">
-      <div className="text-[#0F172A] text-lg font-semibold">
-        {getGreeting()}, {user?.name} <span className="inline-block ml-1">👋</span>
-      </div>
-      <div className="flex items-center gap-3">
-        {/* Notification bell */}
-        <button className="relative w-9 h-9 rounded-lg bg-[#F8FAFC] border border-[#E2E8F0] flex items-center justify-center text-[#64748B] hover:text-[#0F172A] hover:border-[#CBD5E1] transition-all">
-          <Bell size={16} />
-          {MOCK_STATS_LAYOUT.updatesWaiting > 0 && (
-            <span className="absolute -top-1 -right-1 w-4 h-4 bg-[#EF4444] rounded-full text-[9px] font-bold text-white flex items-center justify-center shadow-md">
-              {MOCK_STATS_LAYOUT.updatesWaiting}
-            </span>
-          )}
-        </button>
-        {/* Avatar dropdown */}
-        <div className="relative">
-          <button onClick={() => setDropdownOpen(!dropdownOpen)} className="flex items-center gap-2 px-2 py-1 rounded-lg hover:bg-[#F8FAFC] transition-all">
-            <div className="hidden sm:block text-left">
-              <p className="text-sm font-bold text-[#0F172A] leading-tight">{user?.name || 'User'}</p>
-              <p className="text-[10px] font-semibold text-[#8B5CF6] uppercase tracking-wider">{user?.plan || 'Free'}</p>
+    <div className="min-h-screen bg-[#FAF9F6] text-slate-600 font-sans selection:bg-[#8B5CF6]/20 antialiased flex flex-col md:flex-row">
+      
+      {/* SIDEBAR NAVIGATION (Desktop - Creamy White Theme) */}
+      <aside className="hidden md:flex flex-col w-[260px] bg-white border-r border-slate-200/60 shrink-0 sticky top-0 h-screen z-40 shadow-sm">
+        
+        {/* Header Logo */}
+        <div className="h-16 px-6 flex items-center border-b border-slate-100">
+          <Link to="/" className="flex items-center gap-2.5">
+            <LogoIcon className="w-6 h-6 text-[#8B5CF6]" />
+            <span className="text-slate-900 font-bold text-sm tracking-tight">Launch<span className="text-[#8B5CF6]">Pilot</span></span>
+          </Link>
+        </div>
+
+        {/* Navigation Menus */}
+        <nav className="flex-1 overflow-y-auto py-6 px-4 space-y-1.5 text-left">
+          <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest px-3 mb-3 select-none">
+            Founder AI Workspace
+          </div>
+          {menuItems.map((item) => {
+            const Icon = item.icon;
+            const active = activeTab === item.tab;
+            return (
+              <button
+                key={item.tab}
+                onClick={() => setSearchParams({ tab: item.tab })}
+                className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold tracking-wide transition-all duration-200 ${
+                  active
+                    ? 'bg-[#8B5CF6]/5 text-[#8B5CF6] border border-[#8B5CF6]/15 shadow-sm'
+                    : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50 border border-transparent'
+                }`}
+              >
+                <Icon size={16} className={active ? 'text-[#8B5CF6]' : 'text-slate-400'} />
+                <span>{item.label}</span>
+              </button>
+            );
+          })}
+        </nav>
+
+        {/* User profile footer */}
+        <div className="p-4 border-t border-slate-100">
+          <div className="flex items-center gap-3 bg-slate-50 rounded-2xl p-3 border border-slate-200/50">
+            <div className="w-8 h-8 rounded-full bg-[#8B5CF6]/10 flex items-center justify-center font-bold text-[#8B5CF6] border border-[#8B5CF6]/20 text-xs shrink-0 select-none">
+              {user?.name.charAt(0).toUpperCase() || 'U'}
             </div>
-            <div className="w-8 h-8 rounded-full bg-[#8B5CF6]/10 flex items-center justify-center font-bold text-[#8B5CF6]">
-              {user?.name.charAt(0) || 'U'}
+            <div className="flex-1 min-w-0 text-left">
+              <p className="text-xs font-bold text-slate-800 truncate leading-tight">{user?.name || 'User'}</p>
+              <p className="text-[9px] font-bold text-[#8B5CF6] uppercase tracking-wider mt-0.5">{user?.plan === 'full-arsenal' ? 'Full Pro' : 'Builder Bundle'}</p>
             </div>
-            <ChevronDown size={14} className="text-[#94A3B8]" />
+            <button 
+              onClick={logout} 
+              className="text-slate-400 hover:text-red-500 transition-colors shrink-0 p-1 rounded hover:bg-slate-100 border border-transparent hover:border-slate-200"
+              title="Log out"
+            >
+              <LogOut size={14} />
+            </button>
+          </div>
+        </div>
+
+      </aside>
+
+      {/* MOBILE HEADER BAR */}
+      <header className="md:hidden h-16 bg-white border-b border-slate-200/60 flex items-center justify-between px-6 shrink-0 sticky top-0 z-30 select-none shadow-sm">
+        <div className="flex items-center gap-3">
+          <button 
+            onClick={() => setMobileDrawerOpen(true)}
+            className="p-2 -ml-2 rounded-xl text-slate-500 hover:text-slate-900 hover:bg-slate-50 transition-all border border-transparent hover:border-slate-200"
+            aria-label="Open navigation drawer"
+          >
+            <Menu size={20} />
           </button>
-          {dropdownOpen && (
-            <>
-              <div className="fixed inset-0 z-40" onClick={() => setDropdownOpen(false)} />
-              <div className="absolute right-0 top-12 w-48 bg-white border border-[#E2E8F0] rounded-xl shadow-xl py-2 z-50">
-                {[
-                  { label: 'Profile', path: '/dashboard/settings' },
-                  { label: 'Settings', path: '/dashboard/settings' },
-                  { label: 'Billing', path: '/dashboard/billing' },
-                ].map(item => (
-                  <Link key={item.label} to={item.path} onClick={() => setDropdownOpen(false)}
-                    className="block px-4 py-2.5 text-sm text-[#64748B] font-medium hover:text-[#0F172A] hover:bg-[#F8FAFC] transition-all">
-                    {item.label}
-                  </Link>
-                ))}
-                <div className="border-t border-[#E2E8F0] my-1" />
-                <button onClick={logout} className="w-full text-left px-4 py-2.5 text-sm text-[#EF4444] font-medium hover:bg-[#FEF2F2] transition-all">
-                  Log out
+          <Link to="/" className="flex items-center gap-2">
+            <LogoIcon className="w-5 h-5 text-[#8B5CF6]" />
+            <span className="text-slate-900 font-bold text-xs tracking-tight">Launch<span className="text-[#8B5CF6]">Pilot</span></span>
+          </Link>
+        </div>
+
+        <div className="flex items-center gap-3">
+          {/* Notification bell */}
+          <button className="relative w-8 h-8 rounded-xl bg-slate-50 border border-slate-200/50 flex items-center justify-center text-slate-500 hover:text-slate-900 hover:border-slate-200 transition-all">
+            <Bell size={13} />
+            <span className="absolute top-1.5 right-1.5 w-1.5 h-1.5 bg-[#8B5CF6] rounded-full animate-ping" />
+          </button>
+          
+          <div className="w-8 h-8 rounded-full bg-[#8B5CF6]/10 flex items-center justify-center font-bold text-[#8B5CF6] border border-[#8B5CF6]/20 text-xs">
+            {user?.name.charAt(0).toUpperCase() || 'U'}
+          </div>
+        </div>
+      </header>
+
+      {/* MOBILE SLIDE-OUT DRAWER */}
+      {mobileDrawerOpen && (
+        <div className="md:hidden fixed inset-0 z-50 flex">
+          {/* Backdrop overlay */}
+          <div 
+            className="fixed inset-0 bg-black/30 backdrop-blur-sm transition-opacity duration-300"
+            onClick={() => setMobileDrawerOpen(false)}
+          />
+          
+          {/* Drawer content body */}
+          <div className="relative flex flex-col w-72 max-w-[80vw] h-full bg-white border-r border-slate-200 p-6 z-10 animate-in slide-in-from-left duration-300">
+            {/* Close trigger button */}
+            <button 
+              onClick={() => setMobileDrawerOpen(false)}
+              className="absolute top-4 right-4 p-2 bg-slate-50 border border-slate-250 rounded-xl text-slate-400 hover:text-slate-800 transition-all"
+            >
+              <X size={15} />
+            </button>
+
+            {/* Logo */}
+            <div className="mb-8 pt-2 text-left">
+              <Link to="/" className="flex items-center gap-2.5" onClick={() => setMobileDrawerOpen(false)}>
+                <LogoIcon className="w-6 h-6 text-[#8B5CF6]" />
+                <span className="text-slate-900 font-bold text-sm tracking-tight">Launch<span className="text-[#8B5CF6]">Pilot</span></span>
+              </Link>
+            </div>
+
+            {/* Navigation options list */}
+            <nav className="flex-1 space-y-1.5 overflow-y-auto">
+              <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest px-3 mb-3 select-none text-left">
+                Founder AI Workspace
+              </div>
+              {menuItems.map((item) => {
+                const Icon = item.icon;
+                const active = activeTab === item.tab;
+                return (
+                  <button
+                    key={item.tab}
+                    onClick={() => {
+                      setSearchParams({ tab: item.tab });
+                      setMobileDrawerOpen(false);
+                    }}
+                    className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold tracking-wide transition-all duration-200 text-left ${
+                      active
+                        ? 'bg-[#8B5CF6]/5 text-[#8B5CF6] border border-[#8B5CF6]/15 shadow-sm'
+                        : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50 border border-transparent'
+                    }`}
+                  >
+                    <Icon size={16} className={active ? 'text-[#8B5CF6]' : 'text-slate-400'} />
+                    <span>{item.label}</span>
+                  </button>
+                );
+              })}
+            </nav>
+
+            {/* Profile drawer footer */}
+            <div className="pt-4 border-t border-slate-100">
+              <div className="flex items-center gap-3 bg-slate-50 rounded-2xl p-3 border border-slate-200/50">
+                <div className="w-8 h-8 rounded-full bg-[#8B5CF6]/10 flex items-center justify-center font-bold text-[#8B5CF6] border border-[#8B5CF6]/20 text-xs shrink-0 select-none">
+                  {user?.name.charAt(0).toUpperCase() || 'U'}
+                </div>
+                <div className="flex-1 min-w-0 text-left">
+                  <p className="text-xs font-bold text-slate-800 truncate leading-tight">{user?.name || 'User'}</p>
+                  <p className="text-[9px] font-bold text-[#8B5CF6] uppercase tracking-wider mt-0.5">{user?.plan === 'full-arsenal' ? 'Full Pro' : 'Builder Bundle'}</p>
+                </div>
+                <button 
+                  onClick={() => {
+                    logout();
+                    setMobileDrawerOpen(false);
+                  }} 
+                  className="text-slate-400 hover:text-red-500 transition-colors shrink-0 p-1 rounded hover:bg-slate-100 border border-transparent hover:border-slate-200"
+                  title="Log out"
+                >
+                  <LogOut size={14} />
                 </button>
               </div>
-            </>
-          )}
-        </div>
-      </div>
-    </header>
-  );
-}
+            </div>
 
-export function DashboardLayout({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="min-h-screen bg-[#FAF9F6] font-sans selection:bg-[#8B5CF6]/20">
-      <Sidebar />
-      <BottomTabBar />
-      <div className="md:ml-[240px] pb-24 md:pb-8 flex flex-col min-h-screen">
-        <TopBar />
-        <main className="flex-1">
+          </div>
+        </div>
+      )}
+
+      {/* MOBILE BOTTOM NAVIGATION BAR */}
+      <div className="md:hidden fixed bottom-0 inset-x-0 bg-white border-t border-slate-200/80 z-50 flex pb-safe select-none shadow-sm">
+        {[
+          { icon: LayoutDashboard, label: 'Home', tab: 'dashboard' },
+          { icon: FileText, label: 'Reports', tab: 'reports' },
+          { icon: Sparkles, label: 'New', tab: 'new-validation' },
+          { icon: TrendingUp, label: 'Usage', tab: 'usage' },
+          { icon: Settings, label: 'Settings', tab: 'settings' },
+        ].map(t => {
+          const active = activeTab === t.tab;
+          return (
+            <button 
+              key={t.tab} 
+              onClick={() => setSearchParams({ tab: t.tab })} 
+              className="flex-1 flex flex-col items-center gap-1 py-2"
+            >
+              <t.icon size={18} className={active ? 'text-[#8B5CF6]' : 'text-slate-400'} />
+              <span className={`text-[9px] font-bold tracking-wide uppercase ${active ? 'text-slate-900' : 'text-slate-400'}`}>{t.label}</span>
+            </button>
+          );
+        })}
+      </div>
+
+      {/* MAIN SCREEN CANVAS */}
+      <div className="flex-1 flex flex-col min-h-screen overflow-x-hidden pb-20 md:pb-0 bg-[#FAF9F6]">
+        
+        {/* Desktop Top Header Bar */}
+        <header className="hidden md:flex h-16 border-b border-slate-200/60 items-center justify-between px-8 bg-white sticky top-0 z-30 select-none shadow-sm">
+          <div className="text-slate-800 text-xs font-bold uppercase tracking-wider">
+            Workspace Command Center
+          </div>
+          <div className="flex items-center gap-4">
+            
+            {/* Upgrade Badge for Non-pro users */}
+            {user?.plan !== 'full-arsenal' && (
+              <button 
+                onClick={() => setSearchParams({ tab: 'billing' })}
+                className="bg-[#8B5CF6] hover:bg-[#7c4ee4] text-white rounded-full px-4 py-1.5 text-[10px] font-bold uppercase tracking-widest shadow-lg shadow-[#8B5CF6]/10 transition-all border border-[#8B5CF6]/20"
+              >
+                Upgrade to Pro
+              </button>
+            )}
+
+            {/* Notification bell */}
+            <button className="relative w-8 h-8 rounded-xl bg-slate-50 border border-slate-200/50 flex items-center justify-center text-slate-500 hover:text-slate-900 hover:border-slate-200 transition-all">
+              <Bell size={14} />
+              <span className="absolute top-1.5 right-1.5 w-1.5 h-1.5 bg-[#8B5CF6] rounded-full animate-ping" />
+            </button>
+            
+            {/* User details */}
+            <div className="flex items-center gap-3 border-l border-slate-100 pl-4">
+              <div className="text-right">
+                <p className="text-xs font-bold text-slate-800 leading-tight">{user?.name || 'User'}</p>
+                <p className="text-[9px] font-bold text-[#8B5CF6] uppercase tracking-wider mt-0.5">{user?.plan === 'full-arsenal' ? 'Full Pro' : 'Builder Bundle'}</p>
+              </div>
+              <div className="w-8 h-8 rounded-full bg-[#8B5CF6]/10 flex items-center justify-center font-bold text-[#8B5CF6] border border-[#8B5CF6]/20 text-xs">
+                {user?.name.charAt(0).toUpperCase() || 'U'}
+              </div>
+            </div>
+
+          </div>
+        </header>
+
+        {/* Content body */}
+        <main className="flex-1 bg-[#FAF9F6] p-6 md:p-8">
           {children}
         </main>
+
       </div>
     </div>
   );
