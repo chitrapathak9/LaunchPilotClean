@@ -258,7 +258,7 @@ export function PricingPreview() {
               <li className="flex items-start gap-3"><CheckCircle2 className="text-[#8B5CF6] shrink-0" size={20} /> <span className="text-[#334155]">Any 1 Premium Skill</span></li>
               <li className="flex items-start gap-3"><CheckCircle2 className="text-[#8B5CF6] shrink-0" size={20} /> <span className="text-[#334155]">Lifetime updates</span></li>
             </ul>
-            <Link to="/checkout?plan=starter&price=29" className={`block text-center w-full py-3 rounded-full font-bold transition-colors ${selectedPlan === 'starter' ? 'bg-[#8B5CF6] text-white hover:bg-[#7C3AED] shadow-lg shadow-[#8B5CF6]/30 border-2 border-[#8B5CF6]' : 'border-2 border-[#E2E8F0] text-[#0F172A] hover:bg-[#F8FAFC]'}`}>Choose Single</Link>
+            <Link to="/book-appointment?plan=starter&price=29" className={`block text-center w-full py-3 rounded-full font-bold transition-colors ${selectedPlan === 'starter' ? 'bg-[#8B5CF6] text-white hover:bg-[#7C3AED] shadow-lg shadow-[#8B5CF6]/30 border-2 border-[#8B5CF6]' : 'border-2 border-[#E2E8F0] text-[#0F172A] hover:bg-[#F8FAFC]'}`}>Book Single Skill Session</Link>
           </div>
 
           {/* Builder */}
@@ -280,7 +280,7 @@ export function PricingPreview() {
               <li className="flex items-start gap-3"><CheckCircle2 className="text-[#8B5CF6] shrink-0" size={20} /> <span className="text-[#334155] font-medium">MVP Roadmap Generator</span></li>
               <li className="flex items-start gap-3"><CheckCircle2 className="text-[#8B5CF6] shrink-0" size={20} /> <span className="text-[#334155] font-medium">Priority Support</span></li>
             </ul>
-            <Link to="/checkout?plan=builder&price=149" className={`block text-center w-full py-3 rounded-full font-bold transition-colors ${selectedPlan === 'builder' ? 'bg-[#8B5CF6] text-white hover:bg-[#7C3AED] shadow-lg shadow-[#8B5CF6]/30 border-2 border-[#8B5CF6]' : 'border-2 border-[#E2E8F0] text-[#0F172A] hover:bg-[#F8FAFC]'}`}>Get the Bundle</Link>
+            <Link to="/book-appointment?plan=builder&price=149" className={`block text-center w-full py-3 rounded-full font-bold transition-colors ${selectedPlan === 'builder' ? 'bg-[#8B5CF6] text-white hover:bg-[#7C3AED] shadow-lg shadow-[#8B5CF6]/30 border-2 border-[#8B5CF6]' : 'border-2 border-[#E2E8F0] text-[#0F172A] hover:bg-[#F8FAFC]'}`}>Book Builder Session</Link>
           </div>
 
           {/* Arsenal */}
@@ -299,7 +299,7 @@ export function PricingPreview() {
               <li className="flex items-start gap-3"><CheckCircle2 className="text-[#8B5CF6] shrink-0" size={20} /> <span className="text-[#334155]">All Future Skills</span></li>
               <li className="flex items-start gap-3"><CheckCircle2 className="text-[#8B5CF6] shrink-0" size={20} /> <span className="text-[#334155]">Private Slack Community</span></li>
             </ul>
-            <Link to="/checkout?plan=full-arsenal&price=299" className={`block text-center w-full py-3 rounded-full font-bold transition-colors ${selectedPlan === 'full-arsenal' ? 'bg-[#8B5CF6] text-white hover:bg-[#7C3AED] shadow-lg shadow-[#8B5CF6]/30 border-2 border-[#8B5CF6]' : 'border-2 border-[#E2E8F0] text-[#0F172A] hover:bg-[#F8FAFC]'}`}>Unlock Everything</Link>
+            <Link to="/book-appointment?plan=full-arsenal&price=299" className={`block text-center w-full py-3 rounded-full font-bold transition-colors ${selectedPlan === 'full-arsenal' ? 'bg-[#8B5CF6] text-white hover:bg-[#7C3AED] shadow-lg shadow-[#8B5CF6]/30 border-2 border-[#8B5CF6]' : 'border-2 border-[#E2E8F0] text-[#0F172A] hover:bg-[#F8FAFC]'}`}>Book Full Arsenal Session</Link>
           </div>
         </div>
 

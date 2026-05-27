@@ -224,13 +224,13 @@ function BundleCards({ selectedBundle, setSelectedBundle }: { selectedBundle: st
                 {/* CTA */}
 
                 <Link
-                  to={`/checkout?plan=${b.id}&price=${b.price}`}
+                  to={`/book-appointment?plan=${b.id}&price=${b.price}`}
                   className={`w-full py-4 rounded-full font-bold text-center transition-all flex items-center justify-center gap-2 ${isFeatured
                     ? 'bg-[#8B5CF6] text-white hover:bg-[#7C3AED] shadow-lg shadow-[#8B5CF6]/30'
                     : 'border-2 border-slate-200 text-slate-900 hover:bg-slate-50 hover:border-[#8B5CF6]/50'
                     }`}
                 >
-                  Get {b.name} — ${b.price}
+                  Book {b.name} Session — ${b.price}
                   <ArrowRight size={16} />
                 </Link>
                 <div className="text-center text-[11px] text-slate-400 mt-4">
@@ -399,10 +399,10 @@ function BottomCTA({ bundle }: { bundle: any }) {
         <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Start with the {bundle.name}</h2>
         <p className="text-lg text-slate-500 mb-10">{bundle.tagline}</p>
         <Link
-          to={`/checkout?plan=${bundle.id.replace('-bundle', '')}&price=${bundle.price}`}
+          to={`/book-appointment?plan=${bundle.id.replace('-bundle', '')}&price=${bundle.price}`}
           className="bg-[#8B5CF6] text-white font-bold px-10 py-5 rounded-full hover:bg-[#7C3AED] transition-all shadow-xl shadow-[#8B5CF6]/20 inline-flex items-center gap-3 text-lg mb-6"
         >
-          Get {bundle.name} — ${bundle.price} <ArrowRight size={20} />
+          Book {bundle.name} Session — ${bundle.price} <ArrowRight size={20} />
         </Link>
         <div className="flex justify-center items-center gap-3 text-sm text-slate-500 font-medium flex-wrap">
           <span>7-day refund</span>

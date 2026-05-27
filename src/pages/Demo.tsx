@@ -14,7 +14,8 @@ import {
   IconAlertCircle,
   IconArrowUpRight,
   IconClock,
-  IconUserCheck
+  IconUserCheck,
+  IconCalendar
 } from '@tabler/icons-react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { LogoIcon } from '../components/LogoIcon';
@@ -622,16 +623,16 @@ Please perform a swift validation check. Focus on high MVP actionability. Be con
                     <div className="grid md:grid-cols-3 gap-4 w-full max-w-3xl">
                       {/* CTA 1: UNLOCK REPORT */}
                       <a 
-                        href="/checkout?plan=builder-bundle&price=49"
+                        href="/book-appointment?plan=builder-bundle&price=49"
                         className="bg-violet-600 hover:bg-violet-500 text-white rounded-2xl p-4 flex flex-col items-center justify-between text-center gap-3 transition-all shadow-lg shadow-violet-600/20 border border-violet-500/30"
                       >
                         <div className="text-left w-full">
                           <span className="text-[9px] bg-white/20 text-white px-2 py-0.5 rounded font-bold uppercase tracking-wider">RECOMMENDED</span>
-                          <h5 className="text-xs font-bold text-white mt-1.5">Unlock Full Report</h5>
+                          <h5 className="text-xs font-bold text-white mt-1.5">Book & Unlock Report</h5>
                         </div>
-                        <p className="text-[10px] text-white/80 leading-snug font-semibold">Instant access to 10 locked segments & PDF export.</p>
+                        <p className="text-[10px] text-white/80 leading-snug font-semibold">Book a session to unlock all 10 premium audit segments & PDF export.</p>
                         <span className="text-sm font-extrabold text-white mt-1 flex items-center gap-1.5">
-                          $49 One-Time <IconArrowUpRight size={14} />
+                          $49 Value Free <IconArrowUpRight size={14} />
                         </span>
                       </a>
 
@@ -812,11 +813,11 @@ Please perform a swift validation check. Focus on high MVP actionability. Be con
                   Close
                 </button>
                 <a
-                  href="/checkout?plan=builder-bundle&price=49"
+                  href="/book-appointment?plan=builder-bundle&price=49"
                   className="grow bg-violet-600 hover:bg-violet-500 text-white rounded-xl py-3 text-xs font-bold transition-all text-center shadow-md shadow-violet-600/10 border border-violet-500/20 flex items-center justify-center gap-2"
                 >
-                  <IconCreditCard size={14} />
-                  Unlock Pro Access ($49)
+                  <IconCalendar size={14} />
+                  Book Strategy Session to Unlock
                 </a>
               </div>
             </motion.div>

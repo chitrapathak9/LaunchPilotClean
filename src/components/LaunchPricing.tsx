@@ -99,14 +99,14 @@ export function LaunchPricing() {
 
               <div className="pt-8">
                 <Link 
-                  to="/checkout?plan=starter&price=4999" 
+                  to="/book-appointment?plan=starter&price=4999" 
                   className={`block w-full text-center rounded-xl py-4 text-sm font-bold transition-all tracking-wide shadow-sm ${
                     selectedPlan === 'starter'
                       ? 'bg-violet-600 text-white hover:bg-violet-500 shadow-md shadow-violet-600/10'
                       : 'border border-zinc-350 text-zinc-800 hover:bg-zinc-100 bg-white'
                   }`}
                 >
-                  Get Starter MVP — $4,999
+                  Book MVP Strategy Call — $4,999
                 </Link>
               </div>
             </div>
@@ -155,14 +155,14 @@ export function LaunchPricing() {
 
               <div className="pt-8">
                 <Link 
-                  to="/checkout?plan=builder&price=9999" 
+                  to="/book-appointment?plan=builder&price=9999" 
                   className={`block w-full text-center rounded-xl py-4 text-sm font-bold transition-all tracking-wide shadow-md ${
                     selectedPlan === 'builder'
                       ? 'bg-violet-600 text-white hover:bg-violet-500 shadow-violet-600/10'
                       : 'border border-zinc-350 text-zinc-800 hover:bg-zinc-100 bg-white'
                   }`}
                 >
-                  Get Full Product — $9,999
+                  Book Full Product Strategy Call — $9,999
                 </Link>
               </div>
             </div>
