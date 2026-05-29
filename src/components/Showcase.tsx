@@ -12,58 +12,58 @@ import {
 export function Showcase() {
   const projects = [
     {
-      type: 'AdTech',
-      name: 'AdTech Bidding Engine',
-      description: 'Real-time programmatic bidding platform, 3K req/sec',
+      type: 'Lead Automation',
+      name: 'High-Throughput Lead Pipeline',
+      description: 'Real-time automated marketing lead routing and qualification engine handling high volume.',
       metrics: [
         { label: 'Delivered', value: '18 days' },
-        { label: 'Throughput', value: '3,000 req/sec' }
+        { label: 'Throughput', value: '3,000 leads/min' }
       ],
-      stack: ['Go', 'RabbitMQ', 'Redis', 'Node.js'],
+      stack: ['Python', 'RabbitMQ', 'Redis', 'OpenAI API'],
       icon: <IconChartArrows className="text-zinc-400" size={56} />
     },
     {
-      type: 'Fintech',
-      name: 'Payment Platform',
-      description: 'Multi-actor payment system with KYC, wallets, and IVR',
+      type: 'Fintech Systems',
+      name: 'Automated Billing & Stripe Sync',
+      description: 'Multi-actor payment ledger automation with instant KYC validation, wallets, and automated IVR.',
       metrics: [
         { label: 'Delivered', value: '21 days' },
-        { label: 'API Endpoints', value: '50+' }
+        { label: 'Hours Saved', value: '120 hrs/mo' }
       ],
-      stack: ['Node.js', 'PostgreSQL', 'Twilio', 'Stripe'],
+      stack: ['Node.js', 'PostgreSQL', 'Stripe API', 'Twilio'],
       icon: <IconCreditCard className="text-zinc-450" size={56} />
     },
     {
-      type: 'Medical',
-      name: 'HealthTrack Pro',
-      description: 'Patient management and telemedicine scheduling platform',
+      type: 'Healthcare AI',
+      name: 'HIPAA-Compliant Patient Intake Bot',
+      description: 'Intelligent patient pre-qualification, appointment scheduling, and secure medical record EHR sync.',
       metrics: [
         { label: 'Delivered', value: '19 days' },
-        { label: 'Modules', value: '12' }
+        { label: 'Support Load', value: '-65% decrease' }
       ],
-      stack: ['React', 'Node.js', 'PostgreSQL', 'WebRTC'],
+      stack: ['React', 'Node.js', 'Supabase', 'EHR API'],
       icon: <IconDeviceHeartMonitor className="text-zinc-455" size={56} />
     },
     {
-      type: 'SaaS',
-      name: 'SaaS Analytics Dashboard',
-      description: 'Multi-tenant analytics platform with real-time charts',
+      type: 'Enterprise Workflows',
+      name: 'Real-time CRM & Analytics Orchestrator',
+      description: 'Multi-tenant workflow synchronization linking CRM platforms, internal databases, and reporting portals.',
       metrics: [
         { label: 'Delivered', value: '14 days' },
-        { label: 'Tenants', value: 'Multi' }
+        { label: 'Data Lag', value: '0 seconds' }
       ],
-      stack: ['Next.js', 'Supabase', 'Redis', 'Chart.js'],
+      stack: ['Next.js', 'Supabase', 'Redis', 'Zapier & Make'],
       icon: <IconLayoutDashboard className="text-zinc-455" size={56} />
     },
     {
-      type: 'Food Tech',
-      name: 'Restaurant POS System',
-      description: 'Kitchen display, order management, loyalty program',
+      type: 'Service Automation',
+      name: 'AI-Driven Customer Booking System',
+      description: 'Automated booking assistant, conversational SMS chatbot, and structured kitchen routing for hospitality.',
       metrics: [
         { label: 'Delivered', value: '21 days' },
-        { label: 'Integrations', value: '5' }
+        { label: 'Bookings Sync', value: '+40% increase' }
       ],
-      stack: ['Flutter', 'Node.js', 'MongoDB', 'Firebase'],
+      stack: ['WhatsApp API', 'Node.js', 'MongoDB', 'Firebase'],
       icon: <IconToolsKitchen2 className="text-zinc-455" size={56} />
     }
   ];
@@ -76,19 +76,19 @@ export function Showcase() {
         <div className="text-center mb-16">
           <FadeUp delay={0.1}>
             <span className="text-xs font-bold uppercase tracking-widest text-violet-600 bg-violet-50 border border-violet-200 rounded-full px-4 py-1.5 inline-block">
-              Our work
+              Case studies
             </span>
           </FadeUp>
           
           <FadeUp delay={0.2}>
             <h2 className="text-3xl md:text-4xl font-bold text-zinc-900 mt-6 tracking-tight">
-              Real products. Real timelines.
+              Bespoke systems. Production reliability.
             </h2>
           </FadeUp>
           
           <FadeUp delay={0.3}>
             <p className="text-base text-zinc-600 leading-relaxed max-w-2xl mx-auto mt-4 font-semibold">
-              Not mockups. Not demos. Shipped, live products built for real founders in 21 days or less.
+              Not mockups. Not templates. Live, high-performance automation systems and AI agents built for real businesses in 21 days or less.
             </p>
           </FadeUp>
         </div>
@@ -160,10 +160,10 @@ export function Showcase() {
                   <IconRocket size={32} />
                 </div>
                 <h3 className="text-zinc-900 font-bold text-base mb-2">
-                  "Your Project"
+                  Your Custom Automation
                 </h3>
                 <p className="text-zinc-500 text-sm leading-relaxed font-semibold max-w-xs">
-                  This spot is for the product in your head right now. Built in 21 days with 100% code ownership.
+                  This spot is for the custom AI agent or workflow pipeline in your head right now. Built in 21 days with 100% custom system ownership.
                 </p>
               </div>
 

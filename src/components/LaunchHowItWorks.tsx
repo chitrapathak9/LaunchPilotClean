@@ -11,23 +11,23 @@ export function LaunchHowItWorks() {
     {
       number: '01',
       icon: <IconPhoneCall className="text-violet-600" size={24} />,
-      title: 'Clarity call',
-      body: 'We jump on a free 30-min call. You explain your idea. We ask the right questions. NDA signed before we discuss anything. No pitching.',
+      title: 'Automation audit',
+      body: 'We jump on a free 30-minute discovery call to map your workflows. You walk us through your manual processes, and we identify major efficiency gaps. Enterprise NDA signed beforehand.',
       tag: 'Free · 30 minutes · NDA first'
     },
     {
       number: '02',
       icon: <IconFileText className="text-violet-600" size={24} />,
-      title: 'Fixed proposal',
-      body: 'Within 24 hours you get a fixed price, exact timeline, and tech spec. No vague estimates. No hourly billing. You know the cost before a single line of code is written.',
-      tag: 'Fixed price · No surprises · 24hr turnaround'
+      title: 'System architecture',
+      body: 'Within 48 hours, you receive a visual database schema, API integration map, and fixed-price proposal. No vague hourly estimates. You know exactly what we build and what it costs.',
+      tag: 'Fixed price · No surprises · 48hr turnaround'
     },
     {
       number: '03',
       icon: <IconRocket className="text-violet-600" size={24} />,
-      title: 'Build and ship',
-      body: 'Daily Slack updates. You see progress every single day. The GitHub repo is yours from day one. We ship in 21 days or the next sprint is on us.',
-      tag: 'Daily updates · You own the repo · 21-day guarantee'
+      title: 'Deploy & optimize',
+      body: 'Daily Slack updates and collaborative system reviews. All custom workflows, prompts, database triggers, and APIs are yours. We guarantee 99.9% system uptime and continuous support.',
+      tag: 'Daily updates · 100% ownership · Uptime guarantee'
     }
   ];
 
@@ -45,7 +45,7 @@ export function LaunchHowItWorks() {
           
           <FadeUp delay={0.2}>
             <h2 className="text-3xl md:text-4xl font-bold text-zinc-900 mt-6 tracking-tight">
-              From idea to live product in 3 steps
+              From manual bottleneck to automated scale in 3 steps
             </h2>
           </FadeUp>
         </div>

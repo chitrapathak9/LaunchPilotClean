@@ -638,7 +638,7 @@ Please perform a swift validation check. Focus on high MVP actionability. Be con
 
                       {/* CTA 2: BOOK STRATEGY CALL */}
                       <a 
-                        href="mailto:contact@launchaipilot.com"
+                        href="mailto:launchpilotai41@gmail.com"
                         className="bg-white hover:bg-zinc-50 text-zinc-700 rounded-2xl p-4 flex flex-col items-center justify-between text-center gap-3 border border-zinc-300 transition-all shadow-sm"
                       >
                         <div className="text-left w-full">
@@ -745,7 +745,7 @@ Please perform a swift validation check. Focus on high MVP actionability. Be con
             <div className="text-left space-y-2">
               <h4 className="text-zinc-900 font-bold uppercase tracking-wider text-[10px] mb-3">Clarity Session</h4>
               <a 
-                href="mailto:contact@launchaipilot.com"
+                href="mailto:launchpilotai41@gmail.com"
                 className="text-violet-600 hover:text-violet-500 font-bold inline-flex items-center gap-1 text-[11px]"
               >
                 Schedule Free Consultation →

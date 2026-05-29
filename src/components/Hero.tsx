@@ -11,24 +11,22 @@ export function Hero() {
         <FadeUp delay={0.1}>
           <div className="inline-flex items-center gap-2 rounded-full border border-violet-200 bg-violet-50 text-violet-600 text-xs px-4 py-1.5 font-bold uppercase tracking-widest mb-8">
             <span className="w-1.5 h-1.5 rounded-full bg-violet-500 animate-pulse inline-block"></span>
-            21-day delivery · 2 spots left this month
+            21-Day Delivery · 2 Automation Openings Left
           </div>
         </FadeUp>
 
         {/* Main Headline */}
         <FadeUp delay={0.2}>
           <h1 className="text-5xl md:text-7xl font-bold tracking-tight text-zinc-900 mb-6 leading-none">
-            Your MVP. Built in<br />
-            <span className="text-violet-600">21 Days. Guaranteed.</span>
+            AI Automation Agency:<br />
+            <span className="text-violet-600">Scale Your Operations.</span>
           </h1>
         </FadeUp>
 
         {/* Subheadline */}
         <FadeUp delay={0.3}>
           <p className="text-xl text-zinc-650 max-w-2xl mx-auto mt-6 leading-relaxed font-semibold">
-            We build SaaS, Medical, AdTech, and Fintech products. 
-            Fixed price contract. NDA signed before the first call. 
-            You own 100% of the code.
+            We design, build, and deploy production-grade AI agents, custom chatbots, and automated workflows to eliminate manual work. Scale your business with fixed-scope, high-efficiency AI systems.
           </p>
         </FadeUp>
 
@@ -39,14 +37,14 @@ export function Hero() {
               href="#contact" 
               className="bg-violet-600 text-white rounded-full px-8 py-4 font-bold hover:bg-violet-500 transition-all duration-200 text-base shadow-md shadow-violet-600/10 min-w-[240px] text-center"
             >
-              Book a free clarity call
+              Schedule a free operations audit
             </a>
             <a 
-              href="/demo" 
+              href="#roi-calculator" 
               className="border-2 border-violet-650 text-violet-600 rounded-full px-8 py-4 font-bold hover:bg-violet-50/50 bg-white transition-all duration-200 text-base min-w-[240px] text-center shadow-sm flex items-center justify-center gap-2 group"
             >
               <span className="w-2 h-2 rounded-full bg-violet-600 animate-pulse"></span>
-              Validate your Idea (Free)
+              Calculate Automation ROI
             </a>
           </div>
         </FadeUp>
@@ -57,21 +55,21 @@ export function Hero() {
             
             <div className="flex items-center gap-2 text-zinc-500 text-sm font-semibold">
               <IconCircleCheck className="text-violet-600" size={18} />
-              Fixed price — no surprise invoices
+              Fixed price — no surprise monthly invoices
             </div>
             
             <div className="hidden md:block w-px h-4 bg-zinc-200"></div>
             
             <div className="flex items-center gap-2 text-zinc-500 text-sm font-semibold">
               <IconCircleCheck className="text-violet-600" size={18} />
-              NDA signed before the first call
+              Strict corporate NDA signed first
             </div>
             
             <div className="hidden md:block w-px h-4 bg-zinc-200"></div>
             
             <div className="flex items-center gap-2 text-zinc-500 text-sm font-semibold">
               <IconCircleCheck className="text-violet-600" size={18} />
-              100% source code — yours forever
+              100% custom system ownership — yours forever
             </div>
             
           </div>

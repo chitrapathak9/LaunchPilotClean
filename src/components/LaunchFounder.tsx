@@ -83,7 +83,7 @@ export function LaunchFounder() {
                 Book a free clarity call
               </a>
               <div className="text-xs text-zinc-400 font-semibold tracking-wide">
-                contact@launchaipilot.com · Ahmedabad, India
+                launchpilotai41@gmail.com · Ahmedabad, India
               </div>
             </div>
           </FadeUp>

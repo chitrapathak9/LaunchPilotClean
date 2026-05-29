@@ -4,14 +4,14 @@ import { IconCheck, IconX } from '@tabler/icons-react';
 
 export function Comparison() {
   const comparisonData = [
-    { label: 'Cost', agency: '$30,000+', us: 'Fixed price' },
-    { label: 'Timeline', agency: '3–6 months', us: '21 days' },
-    { label: 'NDA protection', agency: 'Optional / extra cost', us: 'Before first call' },
-    { label: 'Code ownership', agency: 'Varies / licensed', us: '100% yours' },
-    { label: 'Communication', agency: 'Bi-weekly meetings', us: 'Daily Slack updates' },
-    { label: 'Scope changes', agency: 'Extra invoice', us: 'Handled upfront' },
-    { label: 'Payment terms', agency: 'Milestone deposits', us: 'Fixed, upfront clarity' },
-    { label: 'Post-launch', agency: 'Expensive retainer', us: '30 days included' },
+    { label: 'Pricing model', agency: 'Vague hourly rates ($150+/hr)', us: 'Predictable fixed price' },
+    { label: 'Timeline', agency: '4–8 months average', us: '21 days guaranteed' },
+    { label: 'AI expertise', agency: 'General web/app developers', us: 'Bespoke AI agents & workflows' },
+    { label: 'NDA protection', agency: 'Often delayed or optional', us: 'Signed before the first call' },
+    { label: 'System ownership', agency: 'Proprietary / licensed code', us: '100% yours forever' },
+    { label: 'Collaboration', agency: 'Bi-weekly status syncs', us: 'Daily Slack updates & builds' },
+    { label: 'Integration scope', agency: 'Third-party APIs cost extra', us: 'CRM, DB, & tools integrated' },
+    { label: 'Post-launch support', agency: 'Expensive retainer contracts', us: '30 days included free' },
   ];
 
   return (
@@ -28,7 +28,7 @@ export function Comparison() {
           
           <FadeUp delay={0.2}>
             <h2 className="text-3xl md:text-4xl font-bold text-zinc-900 mt-6 tracking-tight">
-              Why not just hire an agency?
+              Why Launch AI Pilot?
             </h2>
           </FadeUp>
         </div>
@@ -41,7 +41,7 @@ export function Comparison() {
             <div className="bg-white border border-zinc-200 rounded-2xl p-8 relative shadow-sm">
               <div className="flex justify-between items-center pb-6 border-b border-zinc-200 mb-6">
                 <h3 className="text-lg font-bold text-zinc-500">
-                  Traditional agency
+                  Legacy software shop
                 </h3>
                 <span className="bg-zinc-100 text-zinc-600 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
                   Slow & Vague
@@ -67,15 +67,15 @@ export function Comparison() {
             </div>
           </FadeUp>
 
-          {/* LaunchAIPilot Card (Featured Winner) */}
+          {/* Launch AI Pilot Card (Featured Winner) */}
           <FadeUp delay={0.4}>
             <div className="bg-white border-2 border-violet-600 rounded-2xl p-8 relative shadow-md">
               <div className="flex justify-between items-center pb-6 border-b border-zinc-200 mb-6">
                 <h3 className="text-lg font-bold text-zinc-900">
-                  LaunchAIPilot
+                  Launch AI Pilot
                 </h3>
                 <span className="bg-violet-100 text-violet-700 text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-widest border border-violet-200/50">
-                  Recommended
+                  AI Specialist
                 </span>
               </div>
 

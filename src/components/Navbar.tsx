@@ -17,7 +17,7 @@ export function Navbar() {
   const navLinks = [
     { name: 'Work', href: '/#work' },
     { name: 'How it works', href: '/#how-it-works' },
-    { name: 'AI Validator', href: '/demo' },
+    { name: 'ROI Calculator', href: '/#roi-calculator' },
     { name: 'Pricing', href: '/#pricing' },
     { name: 'FAQ', href: '/#faq' }
   ];
@@ -34,7 +34,7 @@ export function Navbar() {
         {/* Left: Logo */}
         <a href="/" className="flex items-center gap-2 font-bold text-xl text-zinc-900 tracking-tight">
           <LogoIcon className="w-6 h-6 shrink-0" />
-          LaunchAIPilot
+          Launch AI Pilot
         </a>
 
         {/* Center: Nav links */}
@@ -56,7 +56,7 @@ export function Navbar() {
             href="#contact" 
             className="bg-violet-600 text-white rounded-full px-5 py-2 text-sm font-semibold hover:bg-violet-500 transition-all duration-200 shadow-sm"
           >
-            Book a free call
+            Free Audit
           </a>
         </div>
 
@@ -90,7 +90,7 @@ export function Navbar() {
               onClick={() => setMobileMenuOpen(false)}
               className="block w-full text-center bg-violet-600 text-white rounded-full py-3 text-sm font-semibold hover:bg-violet-500 transition-colors"
             >
-              Book a free call
+              Free Audit
             </a>
           </div>
         </div>

@@ -8,23 +8,23 @@ export function LaunchFAQ() {
   const faqs = [
     {
       q: 'How does the 21-day timeline actually work?',
-      a: 'We start with a fixed scope document — both sides agree exactly what gets built before any code is written. That removes back-and-forth and lets us ship in a tight, focused sprint. Daily Slack updates keep you in the loop without slowing us down.'
+      a: 'We start with a detailed system architecture audit — both sides agree on exact workflows, API connectors, and agent behaviors before any integration begins. That removes back-and-forth and lets us ship in a tight, focused sprint. Daily Slack updates keep you in the loop.'
     },
     {
-      q: "What if the project isn't done in 21 days?",
-      a: "If we miss the deadline for reasons on our side, the next sprint is free. We've shipped 30+ products on time — the fixed scope process is specifically designed to prevent overruns."
+      q: "What if the automation isn't ready in 21 days?",
+      a: "If we fail to meet the delivery timeline for reasons on our side, we continue work at zero additional cost. Our fixed-scope integration process is built specifically to prevent timeline creep."
     },
     {
-      q: 'Who owns the code, design, and IP?',
-      a: "You do. 100%. The GitHub repo is created in your account on day one. We don't hold the code, license it back to you, or retain any rights. When the project is done, we walk away — you have everything."
+      q: 'Who owns the custom automation systems and API integrations?',
+      a: "You do. 100%. All custom code, database schemas, prompt templates, and integration workflows are built directly inside your own cloud infrastructure (Zapier, Make, AWS, or Supabase). We hold no licenses or proprietary locks."
     },
     {
-      q: 'What tech stack do you use?',
-      a: 'We use MERN stack (MongoDB, Express, React, Node.js), Next.js, Flutter for mobile, PostgreSQL and Supabase for structured data, and Go + Redis + RabbitMQ for high-throughput systems like AdTech. We match the stack to your product\'s actual needs.'
+      q: 'How do you ensure data security and compliance?',
+      a: "We take data protection very seriously. We sign strict corporate NDAs before the first discovery call. All automated pipelines use security-isolated database connections, OAuth protocols, and data encryption. We build compliant workflows matching HIPAA and GDPR requirements."
     },
     {
-      q: 'Can you add features after launch?',
-      a: 'Yes — we offer a post-launch sprint package. Many clients come back for Phase 2 after their MVP gets traction. Returning clients get priority scheduling.'
+      q: 'Do you charge a monthly management fee?',
+      a: "No. All our standard projects are priced on a transparent, one-time fixed contract. Once we deploy and complete the 30-day post-launch support phase, you own the systems with no recurring agency fees. We also offer optional monthly support retainers for prompt tuning."
     }
   ];
 

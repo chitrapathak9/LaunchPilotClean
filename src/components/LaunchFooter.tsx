@@ -14,10 +14,10 @@ export function LaunchFooter() {
           <div className="space-y-4">
             <a href="/" className="flex items-center gap-2 font-bold text-xl text-zinc-900 tracking-tight">
               <LogoIcon className="w-6 h-6 shrink-0" />
-              LaunchAIPilot
+              Launch AI Pilot
             </a>
             <p className="text-zinc-500 text-sm leading-relaxed font-semibold">
-              MVPs in 21 days. Built in Ahmedabad, India.
+              AI Automation Agency. Built in Ahmedabad, India.
             </p>
             <div className="flex gap-4 pt-2">
               <a 
@@ -48,7 +48,7 @@ export function LaunchFooter() {
               {[
                 { name: 'Work', href: '/#work' },
                 { name: 'How it works', href: '/#how-it-works' },
-                { name: 'AI Startup Validator', href: '/demo' },
+                { name: 'ROI Calculator', href: '/#roi-calculator' },
                 { name: 'Pricing', href: '/#pricing' },
                 { name: 'FAQ', href: '/#faq' },
                 { name: 'Contact', href: '/#contact' }
@@ -72,16 +72,16 @@ export function LaunchFooter() {
             </h4>
             <div className="space-y-3 font-semibold text-sm">
               <a 
-                href="mailto:contact@launchaipilot.com" 
+                href="mailto:launchpilotai41@gmail.com" 
                 className="text-zinc-655 hover:text-zinc-900 transition-colors block"
               >
-                contact@launchaipilot.com
+                launchpilotai41@gmail.com
               </a>
               <a 
                 href="#contact" 
                 className="text-violet-600 hover:text-violet-755 hover:underline inline-flex items-center gap-1.5 mt-2 font-bold"
               >
-                Free clarity call →
+                Free operations audit →
               </a>
             </div>
           </div>
@@ -91,7 +91,7 @@ export function LaunchFooter() {
         {/* Bottom Bar */}
         <div className="border-t border-zinc-200 pt-8 mt-10 flex flex-col md:flex-row justify-between items-center gap-4 text-zinc-500 text-xs font-semibold">
           <div>
-            © 2025 LaunchAIPilot. All rights reserved.
+            © 2025 Launch AI Pilot. All rights reserved.
           </div>
           <div>
             Built by CodeIntelli · Ahmedabad, India
