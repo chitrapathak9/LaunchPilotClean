@@ -4,7 +4,7 @@ import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import App from './App.tsx';
 import './index.css';
 
-// Import new pages
+// Public pages
 import { Features } from './pages/Features';
 import { About } from './pages/About';
 import { Contact } from './pages/Contact';
@@ -31,9 +31,23 @@ import { DashboardSupport } from './pages/DashboardSupport';
 import { StripeCheckoutMock } from './pages/StripeCheckoutMock';
 import { CheckoutSuccess } from './pages/CheckoutSuccess';
 import { BookAppointment } from './pages/BookAppointment';
+import { CaseStudiesListing } from './pages/CaseStudiesListing';
+import { CaseStudyDetail } from './pages/CaseStudyDetail';
 
+// Auth context & route protection
 import { AuthProvider } from './contexts/AuthContext';
-import { ProtectedRoute } from './components/ProtectedRoute';
+import { ProtectedRoute, AdminRoute } from './components/ProtectedRoute';
+
+// Admin pages
+import { AdminLogin } from './pages/admin/AdminLogin';
+import { AdminDashboard } from './pages/admin/AdminDashboard';
+import { UsersList } from './pages/admin/users/UsersList';
+import { BlogsList } from './pages/admin/blogs/BlogsList';
+import { BlogEditor } from './pages/admin/blogs/BlogEditor';
+import { ContactsList } from './pages/admin/contacts/ContactsList';
+import { ContactDetail } from './pages/admin/contacts/ContactDetail';
+import { CaseStudiesList } from './pages/admin/case-studies/CaseStudiesList';
+import { CaseStudyEditor } from './pages/admin/case-studies/CaseStudyEditor';
 
 // ─── ScrollToTop ───────────────────────────────────────────────────────────────
 function ScrollToTop() {
@@ -62,40 +76,56 @@ createRoot(document.getElementById('root')!).render(
       <BrowserRouter>
         <ScrollToTop />
         <Routes>
-        <Route path="/" element={<App />} />
-        <Route path="/features" element={<Features />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="/skill-finder" element={<SkillFinder />} />
-        <Route path="/skills" element={<SkillsCatalog />} />
-        <Route path="/skills/:slug" element={<SkillDetail />} />
-        <Route path="/pricing" element={<Pricing />} />
-        <Route path="/blog" element={<BlogListing />} />
-        <Route path="/blog/:slug" element={<BlogPost />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/bundles" element={<Bundles />} />
-        <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/checkout" element={<BookAppointment />} />
-        <Route path="/book-appointment" element={<BookAppointment />} />
-        
-        {/* Protected Dashboard Routes */}
-        <Route element={<ProtectedRoute />}>
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/dashboard/skills" element={<DashboardSkills />} />
-          <Route path="/dashboard/projects" element={<DashboardProjects />} />
-          <Route path="/dashboard/activity" element={<DashboardActivity />} />
-          <Route path="/dashboard/settings" element={<DashboardSettings />} />
-          <Route path="/dashboard/billing" element={<DashboardBilling />} />
-          <Route path="/dashboard/support" element={<DashboardSupport />} />
-        </Route>
+          {/* ─── Public Routes ─── */}
+          <Route path="/" element={<App />} />
+          <Route path="/features" element={<Features />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/skill-finder" element={<SkillFinder />} />
+          <Route path="/skills" element={<SkillsCatalog />} />
+          <Route path="/skills/:slug" element={<SkillDetail />} />
+          <Route path="/pricing" element={<Pricing />} />
+          <Route path="/blog" element={<BlogListing />} />
+          <Route path="/blog/:slug" element={<BlogPost />} />
+          <Route path="/case-studies" element={<CaseStudiesListing />} />
+          <Route path="/case-studies/:slug" element={<CaseStudyDetail />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/bundles" element={<Bundles />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/checkout" element={<BookAppointment />} />
+          <Route path="/book-appointment" element={<BookAppointment />} />
+          <Route path="/terms" element={<TermsOfService />} />
+          <Route path="/privacy" element={<PrivacyPolicy />} />
+          <Route path="/demo" element={<Demo />} />
 
-        <Route path="/terms" element={<TermsOfService />} />
-        <Route path="/privacy" element={<PrivacyPolicy />} />
-        <Route path="/demo" element={<Demo />} />
-      </Routes>
+          {/* ─── Protected User Dashboard Routes ─── */}
+          <Route element={<ProtectedRoute />}>
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/dashboard/skills" element={<DashboardSkills />} />
+            <Route path="/dashboard/projects" element={<DashboardProjects />} />
+            <Route path="/dashboard/activity" element={<DashboardActivity />} />
+            <Route path="/dashboard/settings" element={<DashboardSettings />} />
+            <Route path="/dashboard/billing" element={<DashboardBilling />} />
+            <Route path="/dashboard/support" element={<DashboardSupport />} />
+          </Route>
+
+          {/* ─── Admin Routes ─── */}
+          <Route path="/admin/login" element={<AdminLogin />} />
+          <Route element={<AdminRoute />}>
+            <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="/admin/users" element={<UsersList />} />
+            <Route path="/admin/blogs" element={<BlogsList />} />
+            <Route path="/admin/blogs/new" element={<BlogEditor />} />
+            <Route path="/admin/blogs/:id/edit" element={<BlogEditor />} />
+            <Route path="/admin/contacts" element={<ContactsList />} />
+            <Route path="/admin/contacts/:id" element={<ContactDetail />} />
+            <Route path="/admin/case-studies" element={<CaseStudiesList />} />
+            <Route path="/admin/case-studies/new" element={<CaseStudyEditor />} />
+            <Route path="/admin/case-studies/:id/edit" element={<CaseStudyEditor />} />
+          </Route>
+        </Routes>
       </BrowserRouter>
     </AuthProvider>
   </StrictMode>
 );
-

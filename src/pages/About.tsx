@@ -1,12 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Navbar, Footer } from '../App';
-import { 
-  Zap, 
-  Unlock, 
-  DollarSign, 
-  BrainCircuit, 
-  Users, 
+import {
+  Zap,
+  Unlock,
+  DollarSign,
+  BrainCircuit,
+  Users,
   RefreshCcw,
   CheckCircle2,
   XCircle,
@@ -25,7 +25,7 @@ function PageHero() {
           <span className="text-[#8B5CF6]">waste money on agencies.</span>
         </h1>
         <p className="text-xl text-[#334155] leading-relaxed max-w-2xl mx-auto font-medium">
-          So I packaged 6 years of building into AI skills that any founder can use today. 
+          So I packaged 6 years of building into AI skills that any founder can use today.
           No agency. No bloated retainer. Just ship.
         </p>
       </div>
@@ -58,36 +58,36 @@ function FounderSection() {
 
         {/* Story */}
         <div className="md:w-3/5 text-lg text-[#334155] leading-[1.8] space-y-6">
-          <p className="text-2xl font-bold text-[#0F172A] mb-8">Hey, I'm Dushyant.</p>
-          
+          <p className="text-2xl font-bold text-[#0F172A] mb-8"></p>
+
           <p>
-            I've been building products for 6 years. Started as a developer. Became a founder. 
+            I've been building products for 6 years. Started as a developer. Became a founder.
             Ran an agency. Shipped 30+ products.
           </p>
-          
+
           <p>
-            I watched hundreds of founders do the same thing: hire expensive agencies, wait 3 months, 
+            I watched hundreds of founders do the same thing: hire expensive agencies, wait 3 months,
             get something that didn't fit, then run out of money.
           </p>
-          
+
           <p>
-            Then AI coding tools changed everything. Cursor. Claude Code. Lovable. Suddenly one person 
+            Then AI coding tools changed everything. Cursor. Claude Code. Lovable. Suddenly one person
             could build what used to take a team of 5.
           </p>
-          
+
           <p>
-            But there was still a missing piece — no one was giving AI agents the right instructions 
+            But there was still a missing piece — no one was giving AI agents the right instructions
             for building production-ready products.
           </p>
-          
+
           <p className="font-bold text-[#0F172A] text-xl pt-4">
             That's why I built this.
           </p>
-          
+
           <p>
             Pre-built AI skills. Battle-tested instructions. So any founder can ship a real product in days.
           </p>
-          
+
           <p className="font-bold text-[#8B5CF6] text-xl">
             Not months. Not $50,000. Days. $29.
           </p>
@@ -130,7 +130,7 @@ function WhyIBuiltThis() {
         </div>
 
         <div className="bg-white rounded-3xl border border-[#E2E8F0] shadow-xl overflow-hidden flex flex-col md:flex-row divide-y md:divide-y-0 md:divide-x divide-[#E2E8F0]">
-          
+
           {/* Old Way */}
           <div className="md:w-1/2 p-10 md:p-16 bg-[#F8FAFC]">
             <h3 className="text-xl font-bold text-[#0F172A] mb-8 text-center uppercase tracking-wide">The Old Way (Agency)</h3>
@@ -155,7 +155,7 @@ function WhyIBuiltThis() {
               <li className="flex items-center gap-4 text-lg text-[#0F172A] font-medium"><CheckCircle2 className="text-[#8B5CF6] shrink-0" size={24} /> Works forever with any AI tool</li>
             </ul>
           </div>
-          
+
         </div>
       </div>
     </section>
@@ -215,13 +215,13 @@ function ToolStack() {
     'Vite', 'React', 'TypeScript', 'Tailwind', 'Node.js',
     'MongoDB', 'PostgreSQL', 'BullMQ', 'Redis', 'Stripe'
   ];
-  
+
   return (
     <section className="py-24 px-6 bg-[#FAF9F6] border-y border-[#E2E8F0]">
       <div className="max-w-5xl mx-auto text-center">
         <span className="text-[#8B5CF6] font-bold tracking-wider text-sm uppercase mb-3 block">The tools I trust</span>
         <h2 className="text-3xl font-bold text-[#0F172A] mb-12">Built with what actually works</h2>
-        
+
         <div className="flex flex-wrap justify-center gap-4 mb-8">
           {tools.map(tool => (
             <div key={tool} className="bg-white border border-[#E2E8F0] text-[#0F172A] px-5 py-2.5 rounded-full font-bold text-sm shadow-sm hover:border-[#8B5CF6] transition-colors">
@@ -241,7 +241,6 @@ function Timeline() {
   const events = [
     { year: '2019', title: 'Started as a fullstack developer', desc: 'Built first SaaS product from scratch' },
     { year: '2021', title: 'Joined agency world', desc: 'Shipped 20+ client products' },
-    { year: '2022', title: 'Founded CodeIntelli', desc: 'Scaled to international clients' },
     { year: '2023', title: 'Discovered AI-assisted development', desc: 'Cut build time by 70%' },
     { year: '2024', title: 'Built first AI skill file', desc: 'Shipped product in 3 days instead of 3 months' },
     { year: '2025', title: 'Launched this platform', desc: 'Helping 500+ founders ship faster' },
@@ -254,17 +253,17 @@ function Timeline() {
           <span className="text-[#8B5CF6] font-bold tracking-wider text-sm uppercase mb-3 block">The Journey</span>
           <h2 className="text-4xl font-bold text-[#0F172A]">How we got here</h2>
         </div>
-        
+
         <div className="relative pl-8 md:pl-0">
           {/* Vertical line */}
           <div className="absolute left-8 md:left-1/2 top-0 bottom-0 w-px bg-[#E2E8F0] md:-translate-x-1/2" />
-          
+
           <div className="space-y-12">
             {events.map((e, i) => (
               <div key={i} className={`relative flex flex-col md:flex-row items-start md:items-center ${i % 2 === 0 ? 'md:flex-row-reverse' : ''}`}>
                 {/* Dot */}
                 <div className="absolute left-0 md:left-1/2 w-4 h-4 rounded-full bg-[#8B5CF6] border-4 border-white shadow-sm transform -translate-x-[7px] md:-translate-x-1/2 mt-1.5 md:mt-0 z-10" />
-                
+
                 {/* Content */}
                 <div className={`w-full md:w-1/2 ${i % 2 === 0 ? 'md:pl-12' : 'md:pr-12 text-left md:text-right'} pl-8 md:pl-0`}>
                   <div className="text-[#8B5CF6] font-bold text-xl mb-1 flex items-center gap-2 justify-start md:justify-end">
@@ -310,7 +309,7 @@ function CollaborationCTA() {
         <p className="text-lg text-[#64748B] mb-10 leading-relaxed">
           I take on a limited number of custom skill builds and consulting projects for founders who need something specific. Let's talk.
         </p>
-        
+
         <div className="flex flex-col sm:flex-row justify-center gap-4">
           <button className="bg-[#8B5CF6] text-white font-bold px-8 py-4 rounded-full hover:bg-[#7C3AED] transition-colors shadow-lg shadow-[#8B5CF6]/20">
             Book a call

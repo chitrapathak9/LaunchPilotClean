@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Navbar, Footer } from '../App';
-import { 
-  Mail, 
-  Twitter, 
-  Linkedin, 
-  Clock, 
-  MessageSquare, 
+import {
+  Mail,
+  Twitter,
+  Linkedin,
+  Clock,
+  MessageSquare,
   HelpCircle,
   CreditCard,
   Settings,
@@ -35,16 +35,44 @@ function PageHero() {
 }
 
 function ContactForm({ initialTopic = '' }) {
-  const [status, setStatus] = useState<'idle' | 'submitting' | 'success'>('idle');
+  const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
   const [topic, setTopic] = useState(initialTopic);
+  const [errorMsg, setErrorMsg] = useState('');
+  const formRef = React.useRef<HTMLFormElement>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setStatus('submitting');
-    // Simulate network request
-    setTimeout(() => {
+    setErrorMsg('');
+
+    const formData = new FormData(e.currentTarget);
+    const payload = {
+      name: formData.get('name') as string,
+      email: formData.get('email') as string,
+      topic,
+      message: formData.get('message') as string,
+      company: formData.get('company') as string || undefined,
+    };
+
+    try {
+      const edgeFunctionUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/send-contact-email`;
+      const response = await fetch(edgeFunctionUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'apikey': import.meta.env.VITE_SUPABASE_ANON_KEY },
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) {
+        const err = await response.json().catch(() => ({}));
+        throw new Error(err.error || 'Failed to send message. Please try again.');
+      }
+
       setStatus('success');
-    }, 1000);
+      formRef.current?.reset();
+    } catch (err) {
+      setErrorMsg(err instanceof Error ? err.message : 'Something went wrong');
+      setStatus('error');
+    }
   };
 
   if (status === 'success') {
@@ -57,7 +85,7 @@ function ContactForm({ initialTopic = '' }) {
         <p className="text-slate-500 text-lg mb-8 max-w-sm">
           Thanks for reaching out. I've received your message and will get back to you within 24 hours.
         </p>
-        <button 
+        <button
           onClick={() => setStatus('idle')}
           className="border-2 border-slate-200 text-slate-700 font-bold px-8 py-3 rounded-xl hover:bg-slate-50 transition-colors"
         >
@@ -69,16 +97,23 @@ function ContactForm({ initialTopic = '' }) {
 
   return (
     <div className="bg-white border border-slate-200 rounded-3xl p-8 md:p-12 shadow-xl shadow-slate-200/50">
-      <form onSubmit={handleSubmit} className="space-y-6">
-        
+      <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
+
         {/* Honeypot */}
         <input type="text" name="_gotcha" className="hidden" tabIndex={-1} autoComplete="off" />
 
+        {status === 'error' && errorMsg && (
+          <div className="flex items-center gap-2 bg-red-50 border border-red-200 rounded-xl px-4 py-3 text-red-700 text-sm">
+            <AlertCircle size={16} className="shrink-0" /> {errorMsg}
+          </div>
+        )}
+
         <div className="space-y-2">
           <label className="text-sm font-bold text-slate-700 block">Name <span className="text-[#8B5CF6]">*</span></label>
-          <input 
-            type="text" 
-            required 
+          <input
+            type="text"
+            name="name"
+            required
             minLength={2}
             placeholder="Your full name"
             className="w-full bg-slate-50 border border-slate-200 rounded-xl px-5 py-4 text-slate-900 focus:outline-none focus:border-[#8B5CF6] focus:ring-4 focus:ring-[#8B5CF6]/20 placeholder:text-slate-400 transition-all"
@@ -87,9 +122,10 @@ function ContactForm({ initialTopic = '' }) {
 
         <div className="space-y-2">
           <label className="text-sm font-bold text-slate-700 block">Email <span className="text-[#8B5CF6]">*</span></label>
-          <input 
-            type="email" 
-            required 
+          <input
+            type="email"
+            name="email"
+            required
             placeholder="your@email.com"
             className="w-full bg-slate-50 border border-slate-200 rounded-xl px-5 py-4 text-slate-900 focus:outline-none focus:border-[#8B5CF6] focus:ring-4 focus:ring-[#8B5CF6]/20 placeholder:text-slate-400 transition-all"
           />
@@ -98,8 +134,8 @@ function ContactForm({ initialTopic = '' }) {
         <div className="space-y-2">
           <label className="text-sm font-bold text-slate-700 block">What's this about? <span className="text-[#8B5CF6]">*</span></label>
           <div className="relative">
-            <select 
-              required 
+            <select
+              required
               value={topic}
               onChange={(e) => setTopic(e.target.value)}
               className="w-full bg-slate-50 border border-slate-200 rounded-xl px-5 py-4 text-slate-900 focus:outline-none focus:border-[#8B5CF6] focus:ring-4 focus:ring-[#8B5CF6]/20 appearance-none transition-all cursor-pointer"
@@ -120,7 +156,8 @@ function ContactForm({ initialTopic = '' }) {
 
         <div className="space-y-2">
           <label className="text-sm font-bold text-slate-700 block">Message <span className="text-[#8B5CF6]">*</span></label>
-          <textarea 
+          <textarea
+            name="message"
             required
             minLength={20}
             rows={5}
@@ -129,8 +166,8 @@ function ContactForm({ initialTopic = '' }) {
           ></textarea>
         </div>
 
-        <button 
-          type="submit" 
+        <button
+          type="submit"
           disabled={status === 'submitting'}
           className="w-full bg-[#8B5CF6] text-white font-bold py-4 rounded-xl hover:bg-[#7C3AED] transition-colors flex items-center justify-center gap-2 shadow-lg shadow-[#8B5CF6]/30 disabled:opacity-70"
         >
@@ -146,7 +183,7 @@ function ContactForm({ initialTopic = '' }) {
 function ContactInfo() {
   return (
     <div className="space-y-6">
-      
+
       {/* Response Time Card */}
       <div className="bg-white border border-[#E2E8F0] p-8 rounded-3xl shadow-sm">
         <div className="flex items-center gap-3 text-lg font-bold text-[#0F172A] mb-4">
@@ -170,11 +207,11 @@ function ContactInfo() {
           </div>
           <div>
             <div className="text-xs font-bold text-[#64748B] uppercase tracking-wider mb-1 flex items-center gap-2"><Twitter size={14} /> Twitter / X</div>
-            <a href="#" className="text-[#0F172A] font-semibold hover:text-[#8B5CF6] transition-colors">@dushyant</a>
+            <a href="#" className="text-[#0F172A] font-semibold hover:text-[#8B5CF6] transition-colors"></a>
           </div>
           <div>
             <div className="text-xs font-bold text-[#64748B] uppercase tracking-wider mb-1 flex items-center gap-2"><Linkedin size={14} /> LinkedIn</div>
-            <a href="#" className="text-[#0F172A] font-semibold hover:text-[#8B5CF6] transition-colors">/in/dushyant</a>
+            <a href="#" className="text-[#0F172A] font-semibold hover:text-[#8B5CF6] transition-colors"></a>
           </div>
         </div>
       </div>
@@ -217,7 +254,7 @@ function FAQShortcutStrip() {
         <div className="text-center mb-12">
           <h2 className="text-2xl md:text-3xl font-bold text-[#0F172A]">Most questions are already answered here</h2>
         </div>
-        
+
         <div className="grid md:grid-cols-3 gap-6">
           {links.map((item, idx) => (
             <Link key={idx} to={item.link} className="bg-slate-50 p-6 rounded-2xl flex items-center justify-between group hover:bg-white transition-all border border-slate-200 shadow-sm hover:shadow-md">
@@ -242,7 +279,7 @@ function CustomSkillCTA({ onRequestClick }: { onRequestClick: () => void }) {
       <div className="max-w-4xl mx-auto">
         <div className="bg-white rounded-3xl p-10 md:p-16 border border-slate-200 shadow-xl shadow-slate-200/40 text-center md:text-left relative overflow-hidden flex flex-col md:flex-row items-center gap-10">
           <div className="absolute top-0 right-0 -mr-16 -mt-16 w-64 h-64 bg-[#8B5CF6]/5 rounded-full blur-3xl pointer-events-none" />
-          
+
           <div className="flex-1 relative z-10">
             <h2 className="text-3xl font-bold text-slate-800 mb-4">Need something custom?</h2>
             <p className="text-slate-600 text-lg leading-relaxed mb-2">
@@ -250,9 +287,9 @@ function CustomSkillCTA({ onRequestClick }: { onRequestClick: () => void }) {
             </p>
             <p className="text-[#8B5CF6] font-bold">Starts at $149 for a scoped custom skill.</p>
           </div>
-          
+
           <div className="relative z-10 shrink-0 w-full md:w-auto">
-            <button 
+            <button
               onClick={onRequestClick}
               className="w-full md:w-auto bg-[#8B5CF6] text-white font-bold px-8 py-4 rounded-full hover:bg-[#7C3AED] transition-colors shadow-lg shadow-[#8B5CF6]/30 whitespace-nowrap"
             >
@@ -269,7 +306,7 @@ export function Contact() {
   const location = useLocation();
   const params = new URLSearchParams(location.search);
   const initialTopicFromUrl = params.get('topic');
-  
+
   // Map URL parameter to dropdown value
   let initialTopic = '';
   if (initialTopicFromUrl === 'custom-skill') initialTopic = 'Custom skill request';
@@ -288,10 +325,10 @@ export function Contact() {
       <Navbar />
       <main>
         <PageHero />
-        
+
         <section className="pb-24 px-6 bg-[#FAF9F6]">
           <div className="max-w-6xl mx-auto flex flex-col lg:flex-row gap-12 lg:gap-16">
-            
+
             {/* Left Column - Form (60%) */}
             <div className="w-full lg:w-[60%]">
               <ContactForm initialTopic={initialTopic} />

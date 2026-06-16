@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Navbar, Footer } from '../App';
-import { 
-  Calendar, 
-  Clock, 
-  Sparkles, 
-  ArrowLeft, 
-  CheckCircle2, 
-  ShieldCheck, 
-  User, 
-  Mail, 
-  FileText, 
-  ArrowRight, 
+import {
+  Calendar,
+  Clock,
+  Sparkles,
+  ArrowLeft,
+  CheckCircle2,
+  ShieldCheck,
+  User,
+  Mail,
+  FileText,
+  ArrowRight,
   ExternalLink,
   ChevronRight,
   Info
@@ -33,7 +33,7 @@ export function BookAppointment() {
   // Parse plan display names
   let planDisplayName = 'Startup Consultation';
   let planPriceText = '';
-  
+
   if (planParam) {
     const cleanPlan = planParam.toLowerCase().replace('-bundle', '').replace('bundle', '');
     if (cleanPlan === 'starter') {
@@ -68,14 +68,14 @@ export function BookAppointment() {
     const days: BookedDay[] = [];
     const options: Intl.DateTimeFormatOptions = { weekday: 'short', month: 'short', day: 'numeric' };
     const today = new Date();
-    
+
     let addedCount = 0;
     let dayOffset = 1;
-    
+
     while (addedCount < 12) {
       const nextDate = new Date();
       nextDate.setDate(today.getDate() + dayOffset);
-      
+
       // Skip Sundays (0)
       if (nextDate.getDay() !== 0) {
         days.push({
@@ -88,7 +88,7 @@ export function BookAppointment() {
       }
       dayOffset++;
     }
-    
+
     setAvailableDays(days);
     // Auto-select first day
     if (days.length > 0) {
@@ -111,9 +111,9 @@ export function BookAppointment() {
       alert('Please select a date and time slot.');
       return;
     }
-    
+
     setIsSubmitting(true);
-    
+
     // Simulate API call for scheduling
     setTimeout(() => {
       setIsSubmitting(false);
@@ -125,10 +125,10 @@ export function BookAppointment() {
   return (
     <div className="min-h-screen font-sans text-[#0F172A] selection:bg-[#8B5CF6]/20 bg-[#FAF9F6] antialiased">
       <Navbar />
-      
+
       <main className="pt-28 pb-24 px-6">
         <div className="max-w-4xl mx-auto">
-          
+
           {/* Back to Home Link */}
           <div className="mb-8">
             <Link to="/" className="inline-flex items-center gap-2 text-sm font-semibold text-slate-500 hover:text-[#8B5CF6] transition-colors group">
@@ -138,18 +138,18 @@ export function BookAppointment() {
 
           {!isSuccess ? (
             <div className="grid lg:grid-cols-12 gap-8 items-start">
-              
+
               {/* Left Column: Info & Summary (5 Cols) */}
               <div className="lg:col-span-5 space-y-6">
-                
+
                 {/* Hero Summary Card */}
                 <div className="bg-gradient-to-br from-[#8B5CF6]/90 to-[#7C3AED]/90 text-white rounded-3xl p-8 shadow-xl shadow-[#8B5CF6]/20 relative overflow-hidden">
                   <div className="absolute -right-16 -top-16 w-48 h-48 bg-white/10 rounded-full blur-2xl pointer-events-none" />
-                  
+
                   <span className="text-[10px] bg-white/20 text-white px-3 py-1 rounded-full uppercase tracking-wider font-bold mb-4 inline-block">
                     Onboarding Session
                   </span>
-                  
+
                   <h1 className="text-2xl font-bold tracking-tight mb-2">Book Startup Clarity Call</h1>
                   <p className="text-white/80 text-xs leading-relaxed font-semibold mb-6">
                     A private 30-minute alignment session to review your MVP scope, de-risk feature set, and outline your 21-day timeline.
@@ -189,7 +189,7 @@ export function BookAppointment() {
                   <h4 className="text-xs font-bold text-slate-900 uppercase tracking-wider flex items-center gap-1.5 border-b border-slate-100 pb-3">
                     <ShieldCheck className="text-[#8B5CF6]" size={16} /> Strategy Meeting Standards
                   </h4>
-                  
+
                   <div className="space-y-4">
                     <div className="flex gap-3">
                       <CheckCircle2 size={16} className="text-[#8B5CF6] shrink-0 mt-0.5" />
@@ -228,7 +228,7 @@ export function BookAppointment() {
               {/* Right Column: Date, Time & Form (7 Cols) */}
               <div className="lg:col-span-7">
                 <form onSubmit={handleSubmit} className="space-y-6">
-                  
+
                   {/* Step 1: Select Date */}
                   <div className="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm space-y-4 text-left">
                     <div className="flex justify-between items-center">
@@ -241,7 +241,7 @@ export function BookAppointment() {
                         </span>
                       )}
                     </div>
-                    
+
                     <div className="grid grid-cols-3 sm:grid-cols-4 gap-2.5 max-h-[220px] overflow-y-auto pr-1">
                       {availableDays.map((day) => {
                         const isSelected = selectedDate?.raw === day.raw;
@@ -250,11 +250,10 @@ export function BookAppointment() {
                             key={day.raw}
                             type="button"
                             onClick={() => setSelectedDate(day)}
-                            className={`p-3 rounded-xl border text-center transition-all ${
-                              isSelected
-                                ? 'border-[#8B5CF6] bg-[#8B5CF6]/10 text-[#8B5CF6] shadow-sm font-bold'
-                                : 'border-slate-200 bg-slate-50 text-slate-600 hover:border-slate-350 hover:bg-slate-100 hover:text-slate-900 font-semibold'
-                            }`}
+                            className={`p-3 rounded-xl border text-center transition-all ${isSelected
+                              ? 'border-[#8B5CF6] bg-[#8B5CF6]/10 text-[#8B5CF6] shadow-sm font-bold'
+                              : 'border-slate-200 bg-slate-50 text-slate-600 hover:border-slate-350 hover:bg-slate-100 hover:text-slate-900 font-semibold'
+                              }`}
                           >
                             <div className="text-[10px] uppercase opacity-70 tracking-wider mb-0.5">{day.formatted.split(',')[0]}</div>
                             <div className="text-lg font-bold leading-tight">{day.dayNum}</div>
@@ -271,7 +270,7 @@ export function BookAppointment() {
                       <span className="block text-[10px] text-slate-400 font-bold uppercase tracking-wider">
                         2. Select Preferred Time Slot (IST)
                       </span>
-                      
+
                       <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
                         {timeSlots.map((slot) => {
                           const isSelected = selectedSlot === slot;
@@ -280,11 +279,10 @@ export function BookAppointment() {
                               key={slot}
                               type="button"
                               onClick={() => setSelectedSlot(slot)}
-                              className={`p-3.5 rounded-xl border text-center text-xs transition-all flex items-center justify-center gap-2 ${
-                                isSelected
-                                  ? 'border-[#8B5CF6] bg-[#8B5CF6]/10 text-[#8B5CF6] shadow-sm font-bold'
-                                  : 'border-slate-200 bg-slate-50 text-slate-600 hover:border-slate-350 hover:bg-slate-100 hover:text-slate-900 font-semibold'
-                              }`}
+                              className={`p-3.5 rounded-xl border text-center text-xs transition-all flex items-center justify-center gap-2 ${isSelected
+                                ? 'border-[#8B5CF6] bg-[#8B5CF6]/10 text-[#8B5CF6] shadow-sm font-bold'
+                                : 'border-slate-200 bg-slate-50 text-slate-600 hover:border-slate-350 hover:bg-slate-100 hover:text-slate-900 font-semibold'
+                                }`}
                             >
                               <Clock size={13} className={isSelected ? 'text-[#8B5CF6]' : 'text-slate-450'} />
                               {slot}
@@ -303,7 +301,7 @@ export function BookAppointment() {
                       </span>
 
                       <div className="space-y-4">
-                        
+
                         {/* Name */}
                         <div className="space-y-1.5">
                           <label className="block text-[10px] font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1.5">
@@ -312,7 +310,7 @@ export function BookAppointment() {
                           <input
                             type="text"
                             required
-                            placeholder="Dushyant Patel"
+                            placeholder=""
                             value={name}
                             onChange={(e) => setName(e.target.value)}
                             className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-xs text-slate-800 font-semibold focus:outline-none focus:border-[#8B5CF6] focus:bg-white transition-all focus:ring-4 focus:ring-[#8B5CF6]/10"
@@ -352,11 +350,11 @@ export function BookAppointment() {
                         {/* NDA Checkbox */}
                         <div className="pt-2">
                           <label className="flex items-start gap-3 cursor-pointer group bg-slate-50 border border-slate-200 p-4 rounded-2xl hover:border-[#8B5CF6]/40 transition-colors">
-                            <input 
-                              type="checkbox" 
-                              checked={requireNda} 
+                            <input
+                              type="checkbox"
+                              checked={requireNda}
                               onChange={(e) => setRequireNda(e.target.checked)}
-                              className="w-4 h-4 rounded border-slate-350 text-[#8B5CF6] focus:ring-[#8B5CF6]/20 bg-white mt-0.5 shrink-0 transition-colors cursor-pointer" 
+                              className="w-4 h-4 rounded border-slate-350 text-[#8B5CF6] focus:ring-[#8B5CF6]/20 bg-white mt-0.5 shrink-0 transition-colors cursor-pointer"
                             />
                             <div>
                               <span className="block text-[11px] font-bold text-slate-800 group-hover:text-[#8B5CF6] transition-colors flex items-center gap-1.5">
@@ -397,10 +395,10 @@ export function BookAppointment() {
 
             </div>
           ) : (
-            
+
             /* Step 4: Success State */
             <div className="bg-white border border-slate-200 rounded-3xl p-8 md:p-12 text-center max-w-xl mx-auto shadow-xl space-y-8 animate-in zoom-in-95 duration-200">
-              
+
               <div className="w-20 h-20 bg-emerald-100/80 border border-emerald-250 text-emerald-500 rounded-2xl flex items-center justify-center mx-auto">
                 <CheckCircle2 size={40} />
               </div>
@@ -418,10 +416,10 @@ export function BookAppointment() {
               {/* Details Summary Card */}
               <div className="bg-slate-50 border border-slate-200 rounded-2xl p-5 text-left space-y-3">
                 <div className="text-[9px] text-slate-400 font-bold uppercase tracking-wider border-b border-slate-200 pb-2">Booking Summary</div>
-                
+
                 <div className="flex justify-between items-center text-xs">
                   <span className="text-slate-500 font-semibold">Consultant</span>
-                  <span className="text-slate-900 font-bold">Dushyant Patel (Founder)</span>
+                  <span className="text-slate-900 font-bold"></span>
                 </div>
 
                 <div className="flex justify-between items-center text-xs">
@@ -464,9 +462,9 @@ export function BookAppointment() {
               </div>
 
               <div className="pt-4 flex flex-col sm:flex-row gap-3">
-                <a 
-                  href="https://calendar.google.com" 
-                  target="_blank" 
+                <a
+                  href="https://calendar.google.com"
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="flex-1 bg-[#8B5CF6] hover:bg-[#7C3AED] text-white font-bold py-3.5 rounded-xl text-xs flex items-center justify-center gap-2 transition-all shadow-md shadow-[#8B5CF6]/15 border border-[#8B5CF6]/20"
                 >

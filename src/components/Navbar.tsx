@@ -18,8 +18,10 @@ export function Navbar() {
     { name: 'Work', href: '/#work' },
     { name: 'How it works', href: '/#how-it-works' },
     { name: 'ROI Calculator', href: '/#roi-calculator' },
+    { name: 'Blog', href: '/blog' },
+    { name: 'Case Studies', href: '/case-studies' },
     { name: 'Pricing', href: '/#pricing' },
-    { name: 'FAQ', href: '/#faq' }
+    { name: 'FAQ', href: '/#faq' },
   ];
 
   return (

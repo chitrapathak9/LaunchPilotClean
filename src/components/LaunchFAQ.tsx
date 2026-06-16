@@ -7,11 +7,11 @@ export function LaunchFAQ() {
 
   const faqs = [
     {
-      q: 'How does the 21-day timeline actually work?',
+      q: 'How does the 30-60 day timeline actually work?',
       a: 'We start with a detailed system architecture audit — both sides agree on exact workflows, API connectors, and agent behaviors before any integration begins. That removes back-and-forth and lets us ship in a tight, focused sprint. Daily Slack updates keep you in the loop.'
     },
     {
-      q: "What if the automation isn't ready in 21 days?",
+      q: "What if the automation isn't ready in 60 days?",
       a: "If we fail to meet the delivery timeline for reasons on our side, we continue work at zero additional cost. Our fixed-scope integration process is built specifically to prevent timeline creep."
     },
     {
@@ -29,19 +29,19 @@ export function LaunchFAQ() {
   ];
 
   return (
-    <section id="faq" className="py-24 bg-cream border-t border-zinc-200">
+    <section id="faq" className="py-24 bg-white border-t border-slate-200">
       <div className="max-w-6xl mx-auto px-6">
         
         {/* Section Header */}
         <div className="text-center mb-16">
           <FadeUp delay={0.1}>
-            <span className="text-xs font-bold uppercase tracking-widest text-violet-600 bg-violet-50 border border-violet-200 rounded-full px-4 py-1.5 inline-block">
+            <span className="text-xs font-bold uppercase tracking-widest text-slate-900 bg-slate-100 border border-slate-200 rounded-full px-4 py-1.5 inline-block">
               FAQ
             </span>
           </FadeUp>
           
           <FadeUp delay={0.2}>
-            <h2 className="text-3xl md:text-4xl font-bold text-zinc-900 mt-6 tracking-tight">
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mt-6 tracking-tight">
               Common questions
             </h2>
           </FadeUp>
