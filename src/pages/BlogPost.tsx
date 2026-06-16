@@ -137,7 +137,7 @@ export function BlogPost() {
       <Navbar />
 
       <main className="pt-32">
-        <div className="max-w-7xl mx-auto px-6">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
           {/* Breadcrumb */}
           <div className="flex items-center gap-2 text-sm text-[#64748B] mb-8 font-medium">
             <Link to="/" className="hover:text-[#0F172A] transition-colors">Home</Link>
@@ -256,7 +256,7 @@ export function BlogPost() {
         {/* Related Posts */}
         {related.length > 0 && (
           <section className="py-24 px-6 bg-white border-y border-[#E2E8F0] mt-16">
-            <div className="max-w-7xl mx-auto">
+            <div className="max-w-7xl mx-auto px-6 lg:px-8">
               <h2 className="text-3xl font-bold text-[#0F172A] mb-12">You might also like</h2>
               <div className="grid md:grid-cols-3 gap-8">
                 {related.map(rel => (
@@ -286,7 +286,7 @@ export function BlogPost() {
         )}
 
         <section className="py-24 px-6 bg-[#FAF9F6] text-center">
-          <div className="max-w-2xl mx-auto">
+          <div className="max-w-7xl mx-auto px-6 lg:px-8">
             <h2 className="text-4xl font-bold text-[#0F172A] mb-4">Ready to build faster?</h2>
             <p className="text-xl text-[#64748B] mb-10">Get the AI skills mentioned in this article.</p>
             <Link to="/skills" className="bg-[#8B5CF6] text-white font-bold px-10 py-4 rounded-full hover:bg-[#7C3AED] transition-colors shadow-lg shadow-[#8B5CF6]/30 inline-flex items-center gap-3 text-lg">

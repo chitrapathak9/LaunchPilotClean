@@ -19,14 +19,14 @@ import {
 function PageHero() {
   return (
     <section className="pt-32 pb-12 px-6 bg-[#FAF9F6]">
-      <div className="max-w-4xl mx-auto text-center">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="inline-flex items-center gap-2 bg-[#8B5CF6]/10 text-[#8B5CF6] px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wide mb-6">
           📬 Get in Touch
         </div>
         <h1 className="text-4xl md:text-6xl font-bold text-[#0F172A] mb-6 leading-tight">
           Let's talk.
         </h1>
-        <p className="text-xl text-[#334155] leading-relaxed max-w-2xl mx-auto font-medium">
+        <p className="max-w-7xl mx-auto px-6 lg:px-8">
           Whether it's a question about skills, a custom build request, or just saying hi — drop a message and I'll get back within 24 hours.
         </p>
       </div>
@@ -250,7 +250,7 @@ function FAQShortcutStrip() {
 
   return (
     <section className="py-24 px-6 bg-white border-y border-[#E2E8F0]">
-      <div className="max-w-5xl mx-auto">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="text-center mb-12">
           <h2 className="text-2xl md:text-3xl font-bold text-[#0F172A]">Most questions are already answered here</h2>
         </div>
@@ -276,7 +276,7 @@ function FAQShortcutStrip() {
 function CustomSkillCTA({ onRequestClick }: { onRequestClick: () => void }) {
   return (
     <section className="py-24 px-6 bg-[#FAF9F6]">
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="bg-white rounded-3xl p-10 md:p-16 border border-slate-200 shadow-xl shadow-slate-200/40 text-center md:text-left relative overflow-hidden flex flex-col md:flex-row items-center gap-10">
           <div className="absolute top-0 right-0 -mr-16 -mt-16 w-64 h-64 bg-[#8B5CF6]/5 rounded-full blur-3xl pointer-events-none" />
 
@@ -327,7 +327,7 @@ export function Contact() {
         <PageHero />
 
         <section className="pb-24 px-6 bg-[#FAF9F6]">
-          <div className="max-w-6xl mx-auto flex flex-col lg:flex-row gap-12 lg:gap-16">
+          <div className="max-w-7xl mx-auto px-6 lg:px-8">
 
             {/* Left Column - Form (60%) */}
             <div className="w-full lg:w-[60%]">

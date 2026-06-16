@@ -4,7 +4,7 @@ import { FadeUp } from './FadeUp';
 export function LaunchFounder() {
   return (
     <section className="bg-white border-y border-zinc-200 py-20 text-left select-none">
-      <div className="max-w-6xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
         
         {/* Left Column: Standalone Software Company Story */}
         <div className="space-y-6">

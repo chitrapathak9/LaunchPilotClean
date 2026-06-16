@@ -44,7 +44,7 @@ export function Industries() {
 
   return (
     <section id="industries" className="py-24 bg-cream border-t border-zinc-200">
-      <div className="max-w-6xl mx-auto px-6">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
         
         {/* Section Header */}
         <div className="text-center mb-16">
@@ -61,7 +61,7 @@ export function Industries() {
           </FadeUp>
           
           <FadeUp delay={0.3}>
-            <p className="text-base text-zinc-600 leading-relaxed max-w-2xl mx-auto mt-4 font-semibold">
+            <p className="max-w-7xl mx-auto px-6 lg:px-8">
               We've built in regulated, complex, and fast-moving industries. 
               We don't learn on your dime — we've shipped it before.
             </p>

@@ -127,7 +127,7 @@ export function BookAppointment() {
       <Navbar />
 
       <main className="pt-28 pb-24 px-6">
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
 
           {/* Back to Home Link */}
           <div className="mb-8">
@@ -397,7 +397,7 @@ export function BookAppointment() {
           ) : (
 
             /* Step 4: Success State */
-            <div className="bg-white border border-slate-200 rounded-3xl p-8 md:p-12 text-center max-w-xl mx-auto shadow-xl space-y-8 animate-in zoom-in-95 duration-200">
+            <div className="max-w-7xl mx-auto px-6 lg:px-8">
 
               <div className="w-20 h-20 bg-emerald-100/80 border border-emerald-250 text-emerald-500 rounded-2xl flex items-center justify-center mx-auto">
                 <CheckCircle2 size={40} />

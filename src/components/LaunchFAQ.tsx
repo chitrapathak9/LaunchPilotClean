@@ -30,7 +30,7 @@ export function LaunchFAQ() {
 
   return (
     <section id="faq" className="py-24 bg-white border-t border-slate-200">
-      <div className="max-w-6xl mx-auto px-6">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
         
         {/* Section Header */}
         <div className="text-center mb-16">
@@ -48,7 +48,7 @@ export function LaunchFAQ() {
         </div>
 
         {/* Accordion List */}
-        <div className="max-w-3xl mx-auto divide-y divide-zinc-200 border-t border-b border-zinc-200">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
           {faqs.map((faq, index) => {
             const isOpen = openIdx === index;
             return (

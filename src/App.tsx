@@ -7,7 +7,12 @@ import { HomeSolution } from './components/home/HomeSolution';
 import { HomeWhoWeWorkedWith } from './components/home/HomeWhoWeWorkedWith';
 import { HomeWhyUs } from './components/home/HomeWhyUs';
 import { HomeWhyWeExist } from './components/home/HomeWhyWeExist';
-import { HomePricing } from './components/home/HomePricing';
+import { HomeContact } from './components/home/HomeContact';
+import { HomeServices } from './components/home/HomeServices';
+import { HomeCTAStats } from './components/home/HomeCTAStats';
+import { HomeTechStack } from './components/home/HomeTechStack';
+import { HomeProcess } from './components/home/HomeProcess';
+import { HomeTestimonials } from './components/home/HomeTestimonials';
 import { LaunchFAQ } from './components/LaunchFAQ';
 import { LaunchFooter } from './components/LaunchFooter';
 import { LogoIcon } from './components/LogoIcon';
@@ -26,11 +31,16 @@ export default function App() {
         <HomeTrusted />
         <HomeProblem />
         <HomeSolution />
+        <HomeTechStack />
         <HomeWhoWeWorkedWith />
+        <HomeServices />
+        <HomeProcess />
         <HomeWhyUs />
         <HomeWhyWeExist />
-        <HomePricing />
+        <HomeTestimonials />
         <LaunchFAQ />
+        <HomeCTAStats />
+        <HomeContact />
       </main>
       <LaunchFooter />
     </div>

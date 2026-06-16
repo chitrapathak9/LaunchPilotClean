@@ -4,18 +4,18 @@ import { FadeUp } from './FadeUp';
 export function LaunchFinalCTA() {
   return (
     <section id="contact" className="py-24 bg-white border-t border-zinc-200 text-center">
-      <div className="max-w-4xl mx-auto px-6">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
         
         {/* Headline */}
         <FadeUp delay={0.1}>
-          <h2 className="text-zinc-900 text-4xl md:text-5xl font-bold max-w-2xl mx-auto tracking-tight leading-tight">
+          <h2 className="max-w-7xl mx-auto px-6 lg:px-8">
             Ready to automate your business operations?
           </h2>
         </FadeUp>
 
         {/* Body Description */}
         <FadeUp delay={0.2}>
-          <p className="text-zinc-655 text-lg mt-5 max-w-xl mx-auto font-medium leading-relaxed">
+          <p className="max-w-7xl mx-auto px-6 lg:px-8">
             Two openings left this month. Book a free 30-minute operations audit — no pitch, no pressure. 
             Just a data-driven roadmap to eliminate manual bottlenecks and scale.
           </p>

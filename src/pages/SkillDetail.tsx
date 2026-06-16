@@ -475,7 +475,7 @@ function PurchaseSidebar() {
 function BottomCTA() {
   return (
     <section className="py-24 px-6 bg-[#FAF9F6] border-y border-[#E2E8F0] text-center">
-      <div className="max-w-2xl mx-auto">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <h2 className="text-4xl font-bold text-[#0F172A] mb-4">Ready to ship faster?</h2>
         <p className="text-xl text-[#64748B] mb-10">One skill. One-time price. Ship your product this week.</p>
         
@@ -504,7 +504,7 @@ export function SkillDetail() {
       <Navbar />
       
       <main className="pt-32">
-        <div className="max-w-7xl mx-auto px-6 mb-24">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <Breadcrumb />
           
           <div className="flex flex-col-reverse lg:flex-row gap-12 lg:gap-24 relative items-start">

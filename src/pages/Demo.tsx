@@ -167,7 +167,7 @@ Please perform a swift validation check. Focus on high MVP actionability. Be con
       
       {/* NAV BAR */}
       <header className="sticky top-0 z-40 bg-cream/90 backdrop-blur-md border-b border-zinc-200/80">
-        <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="flex items-center gap-3">
             <a href="/" className="flex items-center gap-2.5 font-bold text-xl text-zinc-900 tracking-tight">
               <LogoIcon className="w-7 h-7 text-violet-600" />
@@ -191,10 +191,10 @@ Please perform a swift validation check. Focus on high MVP actionability. Be con
       </header>
 
       {/* MAIN CONTAINER */}
-      <main className="max-w-7xl mx-auto px-6 py-12">
+      <main className="max-w-7xl mx-auto px-6 lg:px-8">
         
         {/* HEADER STATEMENT */}
-        <div className="text-center max-w-3xl mx-auto mb-16">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <span className="text-xs font-bold text-violet-600 tracking-wider uppercase bg-violet-50 border border-violet-200 rounded-full px-3 py-1 mb-4 inline-block">
             Founder MVP Planning Engine
           </span>
@@ -204,7 +204,7 @@ Please perform a swift validation check. Focus on high MVP actionability. Be con
               Startup Idea Validator
             </span>
           </h1>
-          <p className="text-base text-zinc-655 font-semibold leading-relaxed max-w-2xl mx-auto">
+          <p className="max-w-7xl mx-auto px-6 lg:px-8">
             Stop building products without market validation. Supply our structured model with your core startup details and receive an immediate viability audit, tech recommendations, and cost breakdown.
           </p>
         </div>
@@ -713,7 +713,7 @@ Please perform a swift validation check. Focus on high MVP actionability. Be con
 
       {/* FOOTER */}
       <footer className="bg-cream border-t border-zinc-200 py-16 text-zinc-555 text-xs">
-        <div className="max-w-7xl mx-auto px-6">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-10 mb-12">
             
             <div className="space-y-4 text-left">

@@ -96,7 +96,7 @@ function BundleHero() {
   return (
     <section className="pt-32 pb-16 px-6 bg-[#FAF9F6] relative overflow-hidden">
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(139,92,246,0.08)_0%,transparent_60%)] pointer-events-none" />
-      <div className="max-w-4xl mx-auto text-center relative z-10">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="inline-flex items-center gap-2 bg-[#8B5CF6]/10 text-[#8B5CF6] px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wide mb-6 border border-[#8B5CF6]/20">
           ⚡ Bundle Deals
         </div>
@@ -104,7 +104,7 @@ function BundleHero() {
           More skills.<br />
           <span className="text-[#8B5CF6]">Less money.</span>
         </h1>
-        <p className="text-lg text-slate-500 leading-relaxed max-w-2xl mx-auto mb-8">
+        <p className="max-w-7xl mx-auto px-6 lg:px-8">
           Buy skills together and save. Every bundle includes lifetime updates, GitHub examples, and priority support.
         </p>
         <div className="inline-flex items-center gap-2 bg-[#10B981]/10 text-[#10B981] px-5 py-2.5 rounded-full text-sm font-bold border border-[#10B981]/20">
@@ -123,7 +123,7 @@ function ValueStrip() {
   ];
   return (
     <section className="py-12 px-6 bg-[#FAF9F6] border-y border-slate-200">
-      <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
         {stats.map((s, i) => (
           <div key={i} className="bg-white rounded-2xl p-6 text-center border border-slate-200 shadow-sm">
             <div className="text-3xl font-bold text-[#8B5CF6] mb-2">{s.value}</div>
@@ -138,7 +138,7 @@ function ValueStrip() {
 function BundleCards({ selectedBundle, setSelectedBundle }: { selectedBundle: string, setSelectedBundle: (id: string) => void }) {
   return (
     <section className="py-20 px-6 bg-[#FAF9F6]">
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <h2 className="text-3xl md:text-4xl font-bold text-slate-900 text-center mb-14">Pick your bundle</h2>
         <div className="grid md:grid-cols-3 gap-6 items-start">
           {bundles.map((b) => {
@@ -253,7 +253,7 @@ function ComparisonTable() {
   };
   return (
     <section className="py-20 px-6 bg-white border-y border-slate-200">
-      <div className="max-w-5xl mx-auto">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <h2 className="text-3xl font-bold text-slate-900 mb-12 text-center">What's included in each bundle</h2>
         <div className="overflow-x-auto pb-4">
           <div className="min-w-[700px] bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-sm">
@@ -286,7 +286,7 @@ function HowItWorks() {
   ];
   return (
     <section className="py-20 px-6 bg-[#FAF9F6]">
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <h2 className="text-3xl font-bold text-slate-900 mb-12 text-center">How it works</h2>
         <div className="grid md:grid-cols-3 gap-8">
           {steps.map((s) => (
@@ -311,7 +311,7 @@ function HowItWorks() {
 function IndividualSkillsStrip() {
   return (
     <section className="py-20 px-6 bg-white border-y border-slate-200">
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <h2 className="text-2xl font-bold text-slate-900 mb-8 text-center">Prefer to buy just one skill?</h2>
         <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-thin">
           {individualSkills.map((s) => (
@@ -344,7 +344,7 @@ function IndividualSkillsStrip() {
 function TestimonialQuote() {
   return (
     <section className="py-20 px-6 bg-[#FAF9F6]">
-      <div className="max-w-3xl mx-auto">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="bg-white rounded-2xl p-8 md:p-10 border-l-4 border-[#8B5CF6] relative shadow-sm border border-slate-200 border-l-[#8B5CF6]">
           <div className="absolute -top-3 -left-1 text-[#8B5CF6] text-5xl font-serif leading-none">"</div>
           <blockquote className="text-slate-800 text-lg md:text-xl font-medium leading-relaxed mb-6 pl-4">
@@ -367,7 +367,7 @@ function BundleFAQ() {
   const [openIdx, setOpenIdx] = useState<number | null>(0);
   return (
     <section className="py-20 px-6 bg-white border-y border-slate-200">
-      <div className="max-w-3xl mx-auto">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <h2 className="text-3xl font-bold text-slate-900 mb-10 text-center">Bundle questions</h2>
         <div className="space-y-3">
           {faqs.map((faq, i) => (
@@ -395,7 +395,7 @@ function BundleFAQ() {
 function BottomCTA({ bundle }: { bundle: any }) {
   return (
     <section className="py-20 px-6 bg-[#FAF9F6]">
-      <div className="max-w-2xl mx-auto text-center">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Start with the {bundle.name}</h2>
         <p className="text-lg text-slate-500 mb-10">{bundle.tagline}</p>
         <Link

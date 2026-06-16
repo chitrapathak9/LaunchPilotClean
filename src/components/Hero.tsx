@@ -5,7 +5,7 @@ import { IconCircleCheck } from '@tabler/icons-react';
 export function Hero() {
   return (
     <section className="min-h-screen flex flex-col items-center justify-center pt-28 pb-16 px-6 bg-cream relative overflow-hidden">
-      <div className="max-w-4xl mx-auto text-center z-10">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
         
         {/* Top Badge */}
         <FadeUp delay={0.1}>
@@ -25,7 +25,7 @@ export function Hero() {
 
         {/* Subheadline */}
         <FadeUp delay={0.3}>
-          <p className="text-xl text-zinc-650 max-w-2xl mx-auto mt-6 leading-relaxed font-semibold">
+          <p className="max-w-7xl mx-auto px-6 lg:px-8">
             We design, build, and deploy production-grade AI agents, custom chatbots, and automated workflows to eliminate manual work. Scale your business with fixed-scope, high-efficiency AI systems.
           </p>
         </FadeUp>

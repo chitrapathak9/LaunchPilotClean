@@ -28,7 +28,7 @@ function SkeletonCard() {
 function FeaturedPostCard({ post }: { post: Blog }) {
   return (
     <section className="py-12 px-6 bg-[#FAF9F6]">
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <Link to={`/blog/${post.slug}`} className="group block">
           <div className="bg-white rounded-3xl border border-[#E2E8F0] overflow-hidden shadow-sm hover:shadow-xl hover:border-[#8B5CF6]/30 transition-all flex flex-col md:flex-row h-full md:h-[420px]">
             <div className="md:w-1/2 bg-slate-50 relative overflow-hidden h-64 md:h-full flex items-center justify-center p-8 border-r border-slate-200">
@@ -153,7 +153,7 @@ export function BlogListing() {
       <main>
         {/* Hero */}
         <section className="pt-32 pb-12 px-6 bg-[#FAF9F6]">
-          <div className="max-w-4xl mx-auto text-center">
+          <div className="max-w-7xl mx-auto px-6 lg:px-8">
             <div className="inline-flex items-center gap-2 bg-[#8B5CF6]/10 text-[#8B5CF6] px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wide mb-6">
               📝 Blog
             </div>
@@ -161,7 +161,7 @@ export function BlogListing() {
               Founder playbooks. <br className="hidden md:block" />
               <span className="text-[#8B5CF6]">Shipped fast.</span>
             </h1>
-            <p className="text-xl text-[#334155] leading-relaxed max-w-2xl mx-auto font-medium">
+            <p className="max-w-7xl mx-auto px-6 lg:px-8">
               Practical guides on building MVPs, using AI tools, and launching products — written by builders, for builders.
             </p>
           </div>
@@ -169,7 +169,7 @@ export function BlogListing() {
 
         {/* Category filter */}
         <div className="bg-[#FAF9F6] border-b border-[#E2E8F0] sticky top-16 z-40">
-          <div className="max-w-7xl mx-auto px-6 py-4 flex space-x-2 overflow-x-auto hide-scrollbar">
+          <div className="max-w-7xl mx-auto px-6 lg:px-8">
             {CATEGORIES.map(c => (
               <button
                 key={c}
@@ -187,7 +187,7 @@ export function BlogListing() {
         </div>
 
         {error && (
-          <div className="max-w-7xl mx-auto px-6 py-8">
+          <div className="max-w-7xl mx-auto px-6 lg:px-8">
             <div className="flex items-center gap-2 bg-red-50 border border-red-200 rounded-xl p-4 text-red-700 text-sm">
               <AlertCircle size={16} /> {error}
             </div>
@@ -196,7 +196,7 @@ export function BlogListing() {
 
         {loading ? (
           <section className="py-12 px-6">
-            <div className="max-w-7xl mx-auto grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="max-w-7xl mx-auto px-6 lg:px-8">
               {Array.from({ length: 6 }).map((_, i) => <SkeletonCard key={i} />)}
             </div>
           </section>
@@ -208,7 +208,7 @@ export function BlogListing() {
 
             {gridPosts.length === 0 && !featuredPost ? (
               <section className="py-24 px-6 bg-[#FAF9F6]">
-                <div className="max-w-7xl mx-auto text-center bg-white border border-[#E2E8F0] rounded-3xl p-16 shadow-sm">
+                <div className="max-w-7xl mx-auto px-6 lg:px-8">
                   <PenTool className="mx-auto text-slate-300 mb-4" size={32} />
                   <h3 className="text-2xl font-bold text-[#0F172A] mb-2">No posts in this category yet</h3>
                   <p className="text-[#64748B]">Check back soon or browse all posts.</p>
@@ -216,7 +216,7 @@ export function BlogListing() {
               </section>
             ) : (
               <section className="py-12 px-6 bg-[#FAF9F6]">
-                <div className="max-w-7xl mx-auto grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div className="max-w-7xl mx-auto px-6 lg:px-8">
                   {gridPosts.map(post => <BlogCard key={post.id} post={post} />)}
                 </div>
 
@@ -244,7 +244,7 @@ export function BlogListing() {
 
         {/* Newsletter */}
         <section className="py-24 px-6 bg-[#FAF9F6]">
-          <div className="max-w-5xl mx-auto">
+          <div className="max-w-7xl mx-auto px-6 lg:px-8">
             <div className="bg-white rounded-3xl overflow-hidden border border-slate-200 shadow-xl shadow-slate-200/50 relative">
               <div className="absolute top-0 right-0 -mr-32 -mt-32 w-96 h-96 bg-[#8B5CF6]/5 rounded-full blur-3xl pointer-events-none" />
               <div className="p-10 md:p-16 flex flex-col md:flex-row items-center gap-12 relative z-10">

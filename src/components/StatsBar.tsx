@@ -10,7 +10,7 @@ export function StatsBar() {
 
   return (
     <section className="bg-zinc-50 border-y border-zinc-100 py-12 select-none">
-      <div className="max-w-4xl mx-auto px-6">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
           {stats.map((stat, index) => (
             <div key={index} className="flex flex-col items-center">

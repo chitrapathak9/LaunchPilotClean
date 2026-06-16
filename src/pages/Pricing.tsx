@@ -15,7 +15,7 @@ import {
 function PageHero() {
   return (
     <section className="pt-32 pb-6 px-6 bg-[#FAF9F6]">
-      <div className="max-w-4xl mx-auto text-center relative">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="inline-flex items-center gap-2 bg-[#8B5CF6]/10 text-[#8B5CF6] px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wide mb-6 font-semibold">
           💸 Fixed Price MVP
         </div>
@@ -23,7 +23,7 @@ function PageHero() {
           One fixed price. <br className="hidden md:block" />
           <span className="text-[#8B5CF6]">Delivered in 21 days.</span>
         </h1>
-        <p className="text-xl text-[#334155] leading-relaxed max-w-2xl mx-auto font-medium">
+        <p className="max-w-7xl mx-auto px-6 lg:px-8">
           No hourly billing. No endless retainers. Get your fully functional, investor-ready MVP live in 3 weeks.
         </p>
       </div>
@@ -39,7 +39,7 @@ function TrustBadgeStrip() {
   ];
   return (
     <div className="bg-[#FAF9F6] pb-12 px-6">
-      <div className="max-w-5xl mx-auto flex flex-col md:flex-row justify-center gap-6 md:gap-12">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
         {badges.map((b, i) => (
           <div key={i} className="flex items-center justify-center gap-2 text-sm font-semibold text-[#64748B]">
             <span className="text-[#8B5CF6]">{b.icon}</span>
@@ -67,7 +67,7 @@ function ComparisonTable() {
 
   return (
     <section className="py-24 px-6 bg-[#FAF9F6]">
-      <div className="max-w-5xl mx-auto">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <h2 className="text-3xl font-bold text-[#0F172A] mb-12 text-center tracking-tight">Compare MVP Plans</h2>
         <div className="overflow-x-auto pb-6">
           <div className="min-w-[700px] bg-white rounded-3xl overflow-hidden border border-[#E2E8F0] shadow-sm">
@@ -112,7 +112,7 @@ function FAQAccordion() {
 
   return (
     <section className="py-24 px-6 bg-white border-y border-[#E2E8F0]">
-      <div className="max-w-3xl mx-auto">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <h2 className="text-3xl font-bold text-[#0F172A] mb-10 text-center tracking-tight">Frequently Asked Questions</h2>
         <div className="space-y-4">
           {faqs.map((faq, i) => (
@@ -140,7 +140,7 @@ function FAQAccordion() {
 function CTASection() {
   return (
     <section className="py-24 px-6 bg-[#FAF9F6] text-center border-t border-[#E2E8F0]">
-      <div className="max-w-2xl mx-auto">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <h2 className="text-4xl font-bold text-[#0F172A] mb-4 tracking-tight">Let's build your MVP in 21 days</h2>
         <p className="text-xl text-[#64748B] mb-10 font-semibold">Schedule a free clarity call. NDA signed automatically before we discuss your product.</p>
         

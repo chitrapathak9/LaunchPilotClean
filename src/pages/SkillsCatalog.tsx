@@ -113,7 +113,7 @@ const SKILLS_DB: Skill[] = [
 function PageHero() {
   return (
     <section className="pt-32 pb-12 px-6 bg-[#FAF9F6]">
-      <div className="max-w-4xl mx-auto text-center">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="inline-flex items-center gap-2 bg-[#8B5CF6]/10 text-[#8B5CF6] px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wide mb-6">
           🛠️ Skill Catalog
         </div>
@@ -121,7 +121,7 @@ function PageHero() {
           One skill for every <br className="hidden md:block" />
           <span className="text-[#8B5CF6]">part of your product</span>
         </h1>
-        <p className="text-xl text-[#334155] leading-relaxed max-w-2xl mx-auto font-medium mb-8">
+        <p className="max-w-7xl mx-auto px-6 lg:px-8">
           Battle-tested AI instructions that turn Claude, Cursor, or Lovable into a specialist. Mix and match to build anything.
         </p>
         
@@ -267,7 +267,7 @@ export function SkillsCatalog() {
         <PageHero />
         
         <section className="pb-24 px-6 bg-[#FAF9F6]">
-          <div className="max-w-7xl mx-auto">
+          <div className="max-w-7xl mx-auto px-6 lg:px-8">
             
             {/* Top Search Bar */}
             <div className="relative mb-8 z-20">

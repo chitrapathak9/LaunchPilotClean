@@ -17,7 +17,7 @@ import {
 function PageHero() {
   return (
     <section className="pt-32 pb-16 px-6 bg-[#FAF9F6]">
-      <div className="max-w-4xl mx-auto text-center">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="inline-flex items-center gap-2 bg-[#8B5CF6] text-white px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wide mb-6 shadow-md shadow-[#8B5CF6]/20">
           <Sparkles size={12} />
           🛠️ Platform Features
@@ -26,7 +26,7 @@ function PageHero() {
           Everything your AI agent <br className="hidden md:block" />
           <span className="text-[#8B5CF6]">needs to ship faster</span>
         </h1>
-        <p className="text-xl text-[#334155] leading-relaxed max-w-2xl mx-auto font-medium">
+        <p className="max-w-7xl mx-auto px-6 lg:px-8">
           From idea validation to launch — every step covered by battle-tested AI skills and tools.
         </p>
       </div>
@@ -37,7 +37,7 @@ function PageHero() {
 function StatStrip() {
   return (
     <div className="bg-white border-y border-[#E2E8F0]">
-      <div className="max-w-7xl mx-auto px-6 py-12">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 divide-x divide-[#E2E8F0]/0 md:divide-[#E2E8F0]">
           <div className="text-center px-4">
             <div className="text-4xl font-bold text-[#0F172A] mb-1">9+</div>
@@ -68,7 +68,7 @@ function FeatureRow({
 }) {
   return (
     <section className={`py-24 px-6 ${bg}`}>
-      <div className={`max-w-7xl mx-auto flex flex-col ${isReversed ? 'md:flex-row-reverse' : 'md:flex-row'} items-center gap-16`}>
+      <div className={`max-w-7xl mx-auto px-6 lg:px-8`}>
         
         {/* Text Content */}
         <div className="flex-1">
@@ -134,9 +134,9 @@ function CompatibilityGrid() {
   const tools = ['Claude Code', 'Cursor', 'Lovable', 'Replit', 'Antigravity', 'Bolt', 'v0', 'Windsurf'];
   return (
     <section className="py-24 px-6 bg-white border-y border-[#E2E8F0]">
-      <div className="max-w-5xl mx-auto text-center">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <h2 className="text-3xl font-bold text-[#0F172A] mb-4">Works with every AI coding tool</h2>
-        <p className="text-lg text-[#64748B] mb-12 max-w-2xl mx-auto">
+        <p className="max-w-7xl mx-auto px-6 lg:px-8">
           Skills are plain Markdown files. If your AI agent can read a file, it works perfectly.
         </p>
         <div className="flex flex-wrap justify-center gap-4 mb-10">
@@ -166,7 +166,7 @@ function ComparisonTable() {
 
   return (
     <section className="py-24 px-6 bg-[#FAF9F6]">
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <h2 className="text-3xl md:text-4xl font-bold text-[#0F172A] mb-12 text-center">Skills vs hiring an agency</h2>
         <div className="bg-white rounded-3xl overflow-hidden border border-[#E2E8F0] shadow-sm">
           <div className="grid grid-cols-3 p-6 border-b border-[#E2E8F0] bg-[#F8FAFC]">
@@ -190,7 +190,7 @@ function ComparisonTable() {
 function PullQuote() {
   return (
     <section className="py-24 px-6 bg-white border-y border-[#E2E8F0]">
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="border-l-4 border-[#8B5CF6] pl-8 py-4">
           <h2 className="text-3xl md:text-4xl font-bold text-[#0F172A] leading-tight mb-8">
             "I shipped my SaaS in 4 days using the Builder Bundle. Saved me at least $8,000 in agency fees."
@@ -211,7 +211,7 @@ function PullQuote() {
 function CTASection() {
   return (
     <section className="py-24 px-6 bg-[#FAF9F6] text-center">
-      <div className="max-w-2xl mx-auto">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <h2 className="text-4xl font-bold text-[#0F172A] mb-4">Ready to build faster?</h2>
         <p className="text-xl text-[#64748B] mb-10">One-time purchase. No subscriptions. Use forever.</p>
         

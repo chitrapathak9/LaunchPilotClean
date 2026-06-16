@@ -16,7 +16,7 @@ export function Comparison() {
 
   return (
     <section className="py-24 bg-cream border-t border-zinc-200">
-      <div className="max-w-6xl mx-auto px-6">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
         
         {/* Section Header */}
         <div className="text-center mb-16">

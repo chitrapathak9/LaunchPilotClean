@@ -75,7 +75,7 @@ export function LegalPageLayout({ children, toc }: { children: React.ReactNode, 
       <Navbar />
       
       <main className="pt-32 pb-24 px-6">
-        <div className="max-w-6xl mx-auto flex gap-12 items-start">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <TableOfContents items={toc} />
           
           <div className="flex-1 max-w-[800px] bg-white border border-[#E2E8F0] rounded-2xl p-8 md:p-12 shadow-sm">

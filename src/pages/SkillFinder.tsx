@@ -113,14 +113,14 @@ function PageHero() {
   const navigate = useNavigate();
   return (
     <section className="pt-32 pb-12 px-6 bg-[#FAF9F6]">
-      <div className="max-w-3xl mx-auto text-center">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="inline-flex items-center gap-2 bg-[#8B5CF6]/10 text-[#8B5CF6] px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wide mb-6">
           🎯 Skill Finder
         </div>
         <h1 className="text-4xl md:text-5xl font-bold text-[#0F172A] mb-6 leading-tight">
           Not sure which skill you need?
         </h1>
-        <p className="text-xl text-[#334155] leading-relaxed max-w-2xl mx-auto font-medium mb-10">
+        <p className="max-w-7xl mx-auto px-6 lg:px-8">
           Answer 5 quick questions and we'll recommend the exact skills for what you're building.
           Takes less than 2 minutes.
         </p>
@@ -194,7 +194,7 @@ export function SkillFinder() {
       <div className="min-h-screen font-sans text-[#0F172A] selection:bg-[#8B5CF6]/20 bg-[#FAF9F6]">
         <Navbar />
         <main className="pt-32 pb-24 px-6">
-          <div className="max-w-2xl mx-auto">
+          <div className="max-w-7xl mx-auto px-6 lg:px-8">
             <div className="bg-white rounded-3xl p-8 md:p-12 shadow-xl shadow-slate-200/50 border border-slate-200">
               <h2 className="text-3xl font-bold text-slate-800 mb-6 text-center">🎯 Your Recommended Skills</h2>
               <p className="text-slate-500 text-center mb-10">Based on your answers, here is what you need:</p>
@@ -284,7 +284,7 @@ export function SkillFinder() {
         <PageHero />
 
         <section id="quiz-container" className="pb-24 px-6 bg-[#FAF9F6] pt-12">
-          <div className="max-w-2xl mx-auto">
+          <div className="max-w-7xl mx-auto px-6 lg:px-8">
             <div className="bg-white rounded-3xl overflow-hidden shadow-xl shadow-slate-200/50 border border-slate-200">
 
               {/* Progress Bar */}

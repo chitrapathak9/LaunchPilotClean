@@ -100,7 +100,7 @@ export function HowItWorks() {
 export function ProductGallery() {
   return (
     <section className="py-24 px-6 bg-[#FAF9F6] overflow-hidden">
-      <div className="max-w-7xl mx-auto mb-12">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <span className="text-[#8B5CF6] font-bold tracking-wider text-sm uppercase mb-3 block">Built with our skills</span>
         <h2 className="text-4xl font-bold text-[#0F172A]">14 products shipped. All started with a skill.</h2>
       </div>
@@ -138,7 +138,7 @@ export function SkillPreview() {
 
   return (
     <section className="py-24 px-6 bg-white border-y border-[#E2E8F0]">
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="text-center mb-16">
           <span className="text-[#8B5CF6] font-bold tracking-wider text-sm uppercase mb-3 block">Skill Catalog</span>
           <h2 className="text-4xl font-bold text-[#0F172A]">One skill for every part of your product</h2>
@@ -166,7 +166,7 @@ export function SkillPreview() {
 export function FounderStory() {
   return (
     <section className="py-24 px-6 bg-[#FAF9F6]">
-      <div className="max-w-5xl mx-auto">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="bg-white rounded-3xl overflow-hidden shadow-xl shadow-slate-200/40 border border-slate-200 flex flex-col md:flex-row">
           <div className="md:w-2/5 bg-gradient-to-br from-[#8B5CF6]/10 to-[#0EA5E9]/10 relative min-h-[300px] border-r border-slate-100">
             {/* Placeholder for Founder Photo */}
@@ -198,7 +198,7 @@ export function FounderStory() {
 export function Testimonials() {
   return (
     <section className="py-24 px-6 bg-white border-y border-[#E2E8F0]">
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="text-center mb-16">
           <span className="text-[#8B5CF6] font-bold tracking-wider text-sm uppercase mb-3 block">What Builders Say</span>
           <h2 className="text-4xl font-bold text-[#0F172A]">Real results from real founders</h2>
@@ -236,13 +236,13 @@ export function PricingPreview() {
   const [selectedPlan, setSelectedPlan] = useState<'starter' | 'builder' | 'full-arsenal'>('builder');
   return (
     <section className="py-24 px-6 bg-[#FAF9F6]">
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="text-center mb-16">
           <span className="text-[#8B5CF6] font-bold tracking-wider text-sm uppercase mb-3 block">Pricing</span>
           <h2 className="text-4xl font-bold text-[#0F172A]">Pick your skill pack</h2>
         </div>
         
-        <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
           {/* Single */}
           <div 
             onClick={() => setSelectedPlan('starter')}
@@ -316,7 +316,7 @@ export function PricingPreview() {
 export function NewsletterSection() {
   return (
     <section className="py-24 px-6 bg-[#FAF9F6]">
-      <div className="max-w-4xl mx-auto bg-white rounded-3xl border border-slate-200 p-10 md:p-16 text-center relative overflow-hidden shadow-xl shadow-slate-200/40">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-1 bg-gradient-to-r from-[#8B5CF6] to-[#0EA5E9]" />
         <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-64 h-64 bg-[#8B5CF6]/10 rounded-full blur-3xl pointer-events-none" />
         

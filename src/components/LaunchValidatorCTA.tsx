@@ -8,7 +8,7 @@ export function LaunchValidatorCTA() {
       {/* Subtle light violet background glow blur */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-violet-600/[0.02] blur-3xl pointer-events-none rounded-full" />
 
-      <div className="max-w-6xl mx-auto px-6 relative z-10">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="grid lg:grid-cols-12 gap-12 items-center">
           
           {/* Left Column: Strategic Value Proposition */}

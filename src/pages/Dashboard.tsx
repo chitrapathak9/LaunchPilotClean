@@ -396,7 +396,7 @@ export function Dashboard() {
 
   return (
     <DashboardLayout>
-      <div className="max-w-5xl mx-auto space-y-8 select-none font-sans text-slate-700">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
         
         {/* Floating toast notification */}
         {toastMessage && (
@@ -752,7 +752,7 @@ export function Dashboard() {
 
         {/* ─── TAB 3: NEW STARTUP VALIDATION WIZARD (10 Fields Form) ─── */}
         {activeTab === 'new-validation' && (
-          <div className="space-y-6 max-w-2xl mx-auto animate-in fade-in duration-200 text-left">
+          <div className="max-w-7xl mx-auto px-6 lg:px-8">
             
             {/* Header */}
             <div className="space-y-2">
@@ -970,7 +970,7 @@ export function Dashboard() {
 
         {/* ─── TAB 4: USAGE & LIMITS (With Credit Buy Top-ups) ─── */}
         {activeTab === 'usage' && (
-          <div className="space-y-6 max-w-xl mx-auto animate-in fade-in duration-200 text-left">
+          <div className="max-w-7xl mx-auto px-6 lg:px-8">
             
             {/* Header */}
             <div className="space-y-2">
@@ -1108,7 +1108,7 @@ export function Dashboard() {
 
         {/* ─── TAB 6: 1-ON-1 STRATEGY SCHEDULER ─── */}
         {activeTab === 'strategy-call' && (
-          <div className="space-y-6 max-w-2xl mx-auto animate-in fade-in duration-200 text-left">
+          <div className="max-w-7xl mx-auto px-6 lg:px-8">
             
             {/* Header */}
             <div className="space-y-2">
@@ -1244,7 +1244,7 @@ export function Dashboard() {
 
         {/* ─── TAB 7: PROFILE & SECURITY SETTINGS ─── */}
         {activeTab === 'settings' && (
-          <div className="space-y-6 max-w-xl mx-auto animate-in fade-in duration-200 text-left">
+          <div className="max-w-7xl mx-auto px-6 lg:px-8">
             
             {/* Header */}
             <div className="space-y-2">

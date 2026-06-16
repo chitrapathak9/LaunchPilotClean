@@ -124,7 +124,7 @@ export function CaseStudiesListing() {
       <main>
         {/* Hero */}
         <section className="pt-32 pb-16 px-6 bg-[#FAF9F6]">
-          <div className="max-w-4xl mx-auto text-center">
+          <div className="max-w-7xl mx-auto px-6 lg:px-8">
             <div className="inline-flex items-center gap-2 bg-[#8B5CF6]/10 text-[#8B5CF6] px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wide mb-6">
               📊 Case Studies
             </div>
@@ -132,7 +132,7 @@ export function CaseStudiesListing() {
               Real results.<br className="hidden md:block" />
               <span className="text-[#8B5CF6]">Real clients.</span>
             </h1>
-            <p className="text-xl text-[#334155] leading-relaxed max-w-2xl mx-auto font-medium">
+            <p className="max-w-7xl mx-auto px-6 lg:px-8">
               See exactly how we've helped founders and businesses build, launch, and grow using AI-powered tools and strategies.
             </p>
           </div>
@@ -140,7 +140,7 @@ export function CaseStudiesListing() {
 
         {/* Industry Filter */}
         <div className="bg-[#FAF9F6] border-b border-[#E2E8F0] sticky top-16 z-40">
-          <div className="max-w-7xl mx-auto px-6 py-4 flex space-x-2 overflow-x-auto">
+          <div className="max-w-7xl mx-auto px-6 lg:px-8">
             {INDUSTRIES.map(ind => (
               <button
                 key={ind}
@@ -158,7 +158,7 @@ export function CaseStudiesListing() {
         </div>
 
         {error && (
-          <div className="max-w-7xl mx-auto px-6 py-8">
+          <div className="max-w-7xl mx-auto px-6 lg:px-8">
             <div className="flex items-center gap-2 bg-red-50 border border-red-200 rounded-xl p-4 text-red-700 text-sm">
               <AlertCircle size={16} /> {error}
             </div>
@@ -167,7 +167,7 @@ export function CaseStudiesListing() {
 
         {/* Grid */}
         <section className="py-16 px-6">
-          <div className="max-w-7xl mx-auto">
+          <div className="max-w-7xl mx-auto px-6 lg:px-8">
             {loading ? (
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {Array.from({ length: 6 }).map((_, i) => <SkeletonCard key={i} />)}
@@ -188,7 +188,7 @@ export function CaseStudiesListing() {
 
         {/* CTA */}
         <section className="py-24 px-6 bg-white border-t border-[#E2E8F0]">
-          <div className="max-w-3xl mx-auto text-center">
+          <div className="max-w-7xl mx-auto px-6 lg:px-8">
             <h2 className="text-4xl font-bold text-[#0F172A] mb-4">Want results like these?</h2>
             <p className="text-xl text-[#64748B] mb-10">Let's talk about how LaunchPilot can help you achieve your goals.</p>
             <Link to="/contact" className="inline-flex items-center gap-2 bg-[#8B5CF6] text-white font-bold px-10 py-4 rounded-full hover:bg-[#7C3AED] transition-colors shadow-lg shadow-[#8B5CF6]/30 text-lg">

@@ -19,12 +19,12 @@ import {
 function PageHero() {
   return (
     <section className="pt-32 pb-16 px-6 bg-[#FAF9F6]">
-      <div className="max-w-4xl mx-auto text-center">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <h1 className="text-4xl md:text-6xl font-bold text-[#0F172A] mb-8 leading-tight tracking-tight">
           I got tired of watching founders <br className="hidden md:block" />
           <span className="text-[#8B5CF6]">waste money on agencies.</span>
         </h1>
-        <p className="text-xl text-[#334155] leading-relaxed max-w-2xl mx-auto font-medium">
+        <p className="max-w-7xl mx-auto px-6 lg:px-8">
           So I packaged 6 years of building into AI skills that any founder can use today.
           No agency. No bloated retainer. Just ship.
         </p>
@@ -36,7 +36,7 @@ function PageHero() {
 function FounderSection() {
   return (
     <section className="py-24 px-6 bg-white border-y border-[#E2E8F0]">
-      <div className="max-w-5xl mx-auto flex flex-col md:flex-row gap-16 items-center">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
         {/* Founder Photo */}
         <div className="md:w-2/5 w-full">
           <div className="bg-white w-full aspect-[4/5] rounded-3xl relative overflow-hidden shadow-xl shadow-slate-200/50 border border-slate-200">
@@ -106,7 +106,7 @@ function StatStrip() {
   ];
   return (
     <div className="bg-white border-y border-slate-200 shadow-sm">
-      <div className="max-w-7xl mx-auto px-6 py-12">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 divide-x divide-slate-100/0 md:divide-slate-200">
           {stats.map((s, i) => (
             <div key={i} className={`text-center px-4 ${i % 2 !== 0 ? 'border-l border-slate-200 md:border-l-0' : ''}`}>
@@ -123,7 +123,7 @@ function StatStrip() {
 function WhyIBuiltThis() {
   return (
     <section className="py-24 px-6 bg-[#FAF9F6]">
-      <div className="max-w-5xl mx-auto">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="text-center mb-16">
           <span className="text-[#8B5CF6] font-bold tracking-wider text-sm uppercase mb-3 block">Why this exists</span>
           <h2 className="text-3xl md:text-4xl font-bold text-[#0F172A]">Agencies charge $50,000. The right AI skill costs $29.</h2>
@@ -166,7 +166,7 @@ function MissionStatement() {
   return (
     <section className="py-24 px-6 bg-white border-y border-slate-200 text-center relative overflow-hidden shadow-sm">
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-[#8B5CF6]/5 rounded-full blur-3xl pointer-events-none" />
-      <div className="max-w-4xl mx-auto relative z-10">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <h2 className="text-3xl md:text-5xl font-bold text-slate-800 leading-tight">
           "Every founder deserves access to the same tools and knowledge that elite engineering teams use. <br className="hidden md:block" />
           <span className="text-[#8B5CF6]">We're making that happen — one skill at a time.</span>"
@@ -188,7 +188,7 @@ function ValuesGrid() {
 
   return (
     <section className="py-24 px-6 bg-white">
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="text-center mb-16">
           <span className="text-[#8B5CF6] font-bold tracking-wider text-sm uppercase mb-3 block">What we stand for</span>
           <h2 className="text-4xl font-bold text-[#0F172A]">Built on these principles</h2>
@@ -218,7 +218,7 @@ function ToolStack() {
 
   return (
     <section className="py-24 px-6 bg-[#FAF9F6] border-y border-[#E2E8F0]">
-      <div className="max-w-5xl mx-auto text-center">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <span className="text-[#8B5CF6] font-bold tracking-wider text-sm uppercase mb-3 block">The tools I trust</span>
         <h2 className="text-3xl font-bold text-[#0F172A] mb-12">Built with what actually works</h2>
 
@@ -229,7 +229,7 @@ function ToolStack() {
             </div>
           ))}
         </div>
-        <p className="text-[#64748B] max-w-2xl mx-auto font-medium">
+        <p className="max-w-7xl mx-auto px-6 lg:px-8">
           Every skill is built and tested with these tools — nothing recommended that I don't use myself.
         </p>
       </div>
@@ -248,7 +248,7 @@ function Timeline() {
 
   return (
     <section className="py-24 px-6 bg-white">
-      <div className="max-w-3xl mx-auto">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="text-center mb-16">
           <span className="text-[#8B5CF6] font-bold tracking-wider text-sm uppercase mb-3 block">The Journey</span>
           <h2 className="text-4xl font-bold text-[#0F172A]">How we got here</h2>
@@ -286,7 +286,7 @@ function Timeline() {
 function PullQuote() {
   return (
     <section className="py-24 px-6 bg-[#FAF9F6] border-y border-[#E2E8F0]">
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="bg-white rounded-3xl p-10 md:p-16 border border-slate-200 shadow-xl shadow-slate-200/40 text-center md:text-left relative overflow-hidden">
           <div className="absolute top-0 right-0 -mr-16 -mt-16 w-64 h-64 bg-[#8B5CF6]/5 rounded-full blur-3xl pointer-events-none" />
           <h2 className="text-3xl md:text-4xl font-bold text-slate-800 leading-tight mb-8 relative z-10">
@@ -304,7 +304,7 @@ function PullQuote() {
 function CollaborationCTA() {
   return (
     <section className="py-24 px-6 bg-white text-center">
-      <div className="max-w-2xl mx-auto">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <h2 className="text-4xl font-bold text-[#0F172A] mb-6">Want to work together?</h2>
         <p className="text-lg text-[#64748B] mb-10 leading-relaxed">
           I take on a limited number of custom skill builds and consulting projects for founders who need something specific. Let's talk.

@@ -41,7 +41,7 @@ export function LaunchPricing() {
 
   return (
     <section id="pricing" className="py-24 bg-cream border-t border-zinc-200">
-      <div className="max-w-6xl mx-auto px-6">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
         
         {/* Section Header */}
         <div className="text-center mb-16">
@@ -58,14 +58,14 @@ export function LaunchPricing() {
           </FadeUp>
 
           <FadeUp delay={0.3}>
-            <p className="text-base text-zinc-650 leading-relaxed max-w-2xl mx-auto mt-4 font-semibold">
+            <p className="max-w-7xl mx-auto px-6 lg:px-8">
               Know the exact cost and workflow scope before we write a single line of code.
             </p>
           </FadeUp>
         </div>
 
         {/* Pricing Cards Grid */}
-        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch mt-8">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
           
           {/* Card 1: Starter Workflow */}
           <FadeUp delay={0.3} className="h-full">
@@ -243,7 +243,7 @@ export function LaunchPricing() {
         </div>
 
         {/* Payment stepper / workflow */}
-        <div className="max-w-4xl mx-auto mt-20 p-8 rounded-2xl bg-white border border-zinc-200 shadow-sm text-center">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <h4 className="text-lg font-bold text-zinc-900 mb-6">Transparent Payment Structure (50/50 Model)</h4>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 relative">
             <div className="flex flex-col items-center">

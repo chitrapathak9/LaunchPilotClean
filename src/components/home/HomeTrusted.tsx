@@ -3,75 +3,75 @@ import { Star, ShieldCheck, Clock, FileSignature } from 'lucide-react';
 
 export function HomeTrusted() {
   return (
-    <section className="py-12 bg-slate-50 border-y border-slate-200">
+    <section className="py-8 bg-slate-50 border-y border-slate-200">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-8 md:gap-12">
+        <div className="flex flex-wrap lg:flex-nowrap items-center justify-center lg:justify-between gap-8 lg:gap-4">
           
           {/* Trust Pillar 1 */}
-          <div className="flex items-center gap-4 flex-1">
-            <div className="flex -space-x-2">
-              <img className="w-10 h-10 rounded-full border-2 border-slate-50 object-cover" src="https://flagcdn.com/us.svg" alt="USA" title="Healthcare & SaaS" />
-              <img className="w-10 h-10 rounded-full border-2 border-slate-50 object-cover" src="https://flagcdn.com/gb.svg" alt="UK" title="AdTech" />
-              <img className="w-10 h-10 rounded-full border-2 border-slate-50 object-cover" src="https://flagcdn.com/de.svg" alt="Germany" title="Hospital Management" />
+          <div className="flex items-center gap-3">
+            <div className="flex -space-x-2 shrink-0">
+              <img className="w-8 h-8 rounded-full border-2 border-slate-50 object-cover" src="https://flagcdn.com/us.svg" alt="USA" />
+              <img className="w-8 h-8 rounded-full border-2 border-slate-50 object-cover" src="https://flagcdn.com/gb.svg" alt="UK" />
+              <img className="w-8 h-8 rounded-full border-2 border-slate-50 object-cover" src="https://flagcdn.com/de.svg" alt="Germany" />
             </div>
             <div>
-              <p className="text-sm text-slate-800 font-semibold">Trusted by 5+ Founders</p>
-              <p className="text-xs text-slate-500">Healthcare, AdTech, SaaS</p>
+              <p className="text-sm text-slate-900 font-semibold whitespace-nowrap">Trusted by 5+ Founders from</p>
+              <p className="text-xs text-slate-500 whitespace-nowrap">Healthcare, AdTech, Hospital Management, SaaS</p>
             </div>
           </div>
 
-          <div className="hidden md:block w-px h-10 bg-slate-200"></div>
+          <div className="hidden lg:block w-px h-8 bg-slate-200 shrink-0"></div>
 
           {/* Trust Pillar 2 */}
-          <div className="flex items-center gap-3 flex-1">
-            <div className="w-10 h-10 rounded-lg bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-700">
-              <Clock size={20} />
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-lg bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-700 shrink-0">
+              <Clock size={18} />
             </div>
             <div>
-              <p className="text-sm text-slate-800 font-semibold">30-60 Days</p>
-              <p className="text-xs text-slate-500">Guaranteed Delivery</p>
+              <p className="text-sm text-slate-900 font-semibold whitespace-nowrap">Rapid Deployment</p>
+              <p className="text-xs text-slate-500 whitespace-nowrap">Production-ready systems</p>
             </div>
           </div>
 
-          <div className="hidden md:block w-px h-10 bg-slate-200"></div>
+          <div className="hidden lg:block w-px h-8 bg-slate-200 shrink-0"></div>
 
           {/* Trust Pillar 3 */}
-          <div className="flex items-center gap-3 flex-1">
-            <div className="w-10 h-10 rounded-lg bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-700">
-              <ShieldCheck size={20} />
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-lg bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-700 shrink-0">
+              <ShieldCheck size={18} />
             </div>
             <div>
-              <p className="text-sm text-slate-800 font-semibold">100% Code Ownership</p>
-              <p className="text-xs text-slate-500">Transferred immediately</p>
+              <p className="text-sm text-slate-900 font-semibold whitespace-nowrap">100% IP Transfer</p>
+              <p className="text-xs text-slate-500 whitespace-nowrap">Full code ownership</p>
             </div>
           </div>
 
-          <div className="hidden md:block w-px h-10 bg-slate-200"></div>
+          <div className="hidden lg:block w-px h-8 bg-slate-200 shrink-0"></div>
 
           {/* Trust Pillar 4 */}
-          <div className="flex items-center gap-3 flex-1">
-            <div className="w-10 h-10 rounded-lg bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-700">
-              <FileSignature size={20} />
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-lg bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-700 shrink-0">
+              <FileSignature size={18} />
             </div>
             <div>
-              <p className="text-sm text-slate-800 font-semibold">Day 0 NDA</p>
-              <p className="text-xs text-slate-500">Signed before our call</p>
+              <p className="text-sm text-slate-900 font-semibold whitespace-nowrap">Day Zero NDA</p>
+              <p className="text-xs text-slate-500 whitespace-nowrap">Total confidentiality</p>
             </div>
           </div>
 
-          <div className="hidden md:block w-px h-10 bg-slate-200"></div>
+          <div className="hidden lg:block w-px h-8 bg-slate-200 shrink-0"></div>
 
           {/* Trust Pillar 5 */}
-          <div className="flex items-center gap-3 flex-1">
+          <div className="flex items-center gap-3">
              <div>
               <div className="flex text-amber-400 mb-1">
-                <Star size={16} fill="currentColor" />
-                <Star size={16} fill="currentColor" />
-                <Star size={16} fill="currentColor" />
-                <Star size={16} fill="currentColor" />
-                <Star size={16} fill="currentColor" />
+                <Star size={14} fill="currentColor" />
+                <Star size={14} fill="currentColor" />
+                <Star size={14} fill="currentColor" />
+                <Star size={14} fill="currentColor" />
+                <Star size={14} fill="currentColor" />
               </div>
-              <p className="text-xs text-slate-500">Founder reviewed</p>
+              <p className="text-xs text-slate-500 font-medium whitespace-nowrap">Verified Reviews</p>
             </div>
           </div>
 
