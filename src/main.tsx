@@ -92,10 +92,10 @@ createRoot(document.getElementById('root')!).render(
           <Route path="/why-launch" element={<WhyLaunch />} />
           <Route path="/careers" element={<Careers />} />
           <Route path="/contact" element={<Contact />} />
-          <Route path="/blog" element={<BlogList />} />
-          <Route path="/blog/:id" element={<BlogDetail />} />
-          <Route path="/case-studies" element={<CaseStudiesList />} />
-          <Route path="/case-studies/:id" element={<CaseStudyDetail />} />
+          {/* <Route path="/blog" element={<BlogList />} /> */}
+          {/* <Route path="/blog/:id" element={<BlogDetail />} /> */}
+          {/* <Route path="/case-studies" element={<CaseStudiesList />} /> */}
+          {/* <Route path="/case-studies/:id" element={<CaseStudyDetail />} /> */}
           <Route path="/skill-finder" element={<SkillFinder />} />
           <Route path="/skills" element={<SkillsCatalog />} />
           <Route path="/skills/:slug" element={<SkillDetail />} />

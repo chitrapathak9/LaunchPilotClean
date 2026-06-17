@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { LogoIcon } from '../../App';
-import { Mail, Lock, Eye, EyeOff, AlertCircle, Shield } from 'lucide-react';
+import { Mail, Lock, Eye, EyeOff, AlertCircle, Shield, Loader2 } from 'lucide-react';
 
 export function AdminLogin() {
   const { login, isAuthenticated, isAdmin, isLoading } = useAuth();
@@ -30,62 +30,68 @@ export function AdminLogin() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0F0A1E] flex items-center justify-center p-6">
-      {/* Background glow */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-96 h-96 bg-[#8B5CF6]/20 rounded-full blur-3xl pointer-events-none" />
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center p-6 relative overflow-hidden font-sans text-ink-900">
+      {/* Background styling matching the main site's hero sections */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-cobalt-50/50 via-white to-white pointer-events-none" />
+      <div className="absolute top-0 right-0 w-full h-[600px] bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-[0.03] pointer-events-none" />
 
-      <div className="relative w-full max-w-md">
-        {/* Card */}
-        <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-8 md:p-10 shadow-2xl">
-          {/* Logo */}
-          <div className="text-center mb-8">
-            <div className="inline-flex items-center gap-2.5 mb-4">
-              <LogoIcon className="w-8 h-8 text-[#8B5CF6]" />
-              <span className="text-white font-bold text-xl tracking-tight">Launch<span className="text-[#8B5CF6]">Pilot</span></span>
+      <div className="relative w-full max-w-md z-10">
+        {/* Premium Light Card */}
+        <div className="bg-white border border-gray-200 rounded-[2rem] p-8 md:p-12 shadow-xl">
+          {/* Logo & Header */}
+          <div className="text-center mb-10">
+            <div className="inline-flex items-center gap-2.5 mb-6">
+              <LogoIcon className="w-8 h-8 text-indigo-600" />
+              <span className="text-ink-900 font-bold text-2xl tracking-tight">Launch<span className="text-indigo-600">Pilot</span></span>
             </div>
-            <div className="inline-flex items-center gap-2 bg-[#8B5CF6]/20 text-[#A78BFA] px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest mb-4">
-              <Shield size={12} /> Admin Portal
+            
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-indigo-50 border border-indigo-100 mb-6">
+              <Shield size={14} className="text-indigo-600" />
+              <span className="text-[0.6875rem] font-bold tracking-[0.1em] uppercase text-indigo-600">
+                Admin Portal
+              </span>
             </div>
-            <h1 className="text-2xl font-bold text-white">Sign in to Admin</h1>
-            <p className="text-slate-400 text-sm mt-2">Restricted access — admins only</p>
+            
+            <h1 className="font-display font-bold text-ink-900 mb-2 leading-tight text-3xl">Sign in to Admin</h1>
+            <p className="text-ink-500 text-sm">Restricted access — authorized personnel only</p>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-5">
-            <div className="space-y-1.5">
-              <label className="text-xs font-semibold text-slate-300 uppercase tracking-wider">Email</label>
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div className="space-y-2">
+              <label className="text-[0.6875rem] font-bold text-ink-400 uppercase tracking-widest">Email Address</label>
               <div className="relative">
-                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500" size={16} />
+                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-ink-400" size={18} />
                 <input
                   type="email"
                   required
                   value={email}
                   onChange={e => setEmail(e.target.value)}
-                  placeholder="admin@company.com"
-                  className="w-full bg-white/5 border border-white/10 rounded-xl pl-10 pr-4 py-3.5 text-white placeholder:text-slate-600 focus:outline-none focus:border-[#8B5CF6] focus:ring-2 focus:ring-[#8B5CF6]/20 transition-all text-sm"
+                  placeholder="admin@launchpilot.ai"
+                  className="w-full bg-gray-50 border border-gray-200 rounded-xl pl-12 pr-4 py-3.5 text-ink-900 placeholder:text-ink-400 focus:outline-none focus:border-indigo-600 focus:ring-2 focus:ring-indigo-600/20 transition-all font-medium text-sm"
                 />
               </div>
             </div>
 
-            <div className="space-y-1.5">
-              <label className="text-xs font-semibold text-slate-300 uppercase tracking-wider">Password</label>
+            <div className="space-y-2">
+              <label className="text-[0.6875rem] font-bold text-ink-400 uppercase tracking-widest">Password</label>
               <div className="relative">
-                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500" size={16} />
+                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-ink-400" size={18} />
                 <input
                   type={showPw ? 'text' : 'password'}
                   required
                   value={password}
                   onChange={e => setPassword(e.target.value)}
                   placeholder="••••••••"
-                  className="w-full bg-white/5 border border-white/10 rounded-xl pl-10 pr-12 py-3.5 text-white placeholder:text-slate-600 focus:outline-none focus:border-[#8B5CF6] focus:ring-2 focus:ring-[#8B5CF6]/20 transition-all text-sm"
+                  className="w-full bg-gray-50 border border-gray-200 rounded-xl pl-12 pr-12 py-3.5 text-ink-900 placeholder:text-ink-400 focus:outline-none focus:border-indigo-600 focus:ring-2 focus:ring-indigo-600/20 transition-all font-medium text-sm"
                 />
-                <button type="button" onClick={() => setShowPw(p => !p)} className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300 transition-colors">
-                  {showPw ? <EyeOff size={16} /> : <Eye size={16} />}
+                <button type="button" onClick={() => setShowPw(p => !p)} className="absolute right-4 top-1/2 -translate-y-1/2 text-ink-400 hover:text-indigo-600 transition-colors">
+                  {showPw ? <EyeOff size={18} /> : <Eye size={18} />}
                 </button>
               </div>
             </div>
 
             {error && (
-              <div className="flex items-center gap-2 bg-red-500/10 border border-red-500/20 rounded-xl px-4 py-3 text-red-400 text-sm">
+              <div className="flex items-center gap-2 bg-red-50 border border-red-100 rounded-xl px-4 py-3 text-red-600 text-sm font-medium">
                 <AlertCircle size={16} className="shrink-0" />
                 {error.includes('Invalid') ? 'Invalid credentials. Please try again.' : error}
               </div>
@@ -94,19 +100,21 @@ export function AdminLogin() {
             <button
               type="submit"
               disabled={submitting}
-              className="w-full bg-[#8B5CF6] hover:bg-[#7C3AED] text-white font-bold py-3.5 rounded-xl transition-all shadow-lg shadow-[#8B5CF6]/30 disabled:opacity-60 flex items-center justify-center gap-2 text-sm"
+              className="w-full btn-primary py-4 rounded-xl disabled:opacity-60 flex items-center justify-center gap-2 text-[0.9375rem] mt-2 shadow-lg shadow-indigo-600/20"
             >
               {submitting ? (
-                <><div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> Signing in...</>
+                <><Loader2 size={18} className="animate-spin" /> Signing in...</>
               ) : (
-                'Access Admin Panel'
+                'Access Dashboard'
               )}
             </button>
           </form>
 
-          <p className="text-center text-xs text-slate-600 mt-6">
-            Not an admin? <a href="/" className="text-[#8B5CF6] hover:underline">Return to site</a>
-          </p>
+          <div className="mt-8 text-center border-t border-gray-100 pt-8">
+            <p className="text-sm font-medium text-ink-500">
+              Not an admin? <a href="/" className="text-indigo-600 hover:text-indigo-700 hover:underline transition-colors">Return to site</a>
+            </p>
+          </div>
         </div>
       </div>
     </div>
