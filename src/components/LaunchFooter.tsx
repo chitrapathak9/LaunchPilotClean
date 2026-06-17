@@ -25,11 +25,11 @@ const footerLinks = {
     { label: 'SaaS Apps', href: '/industries/saas-apps' },
   ],
   Company: [
-    'About Us',
-    'Case Studies',
-    'Blog',
-    'Careers',
-    'Why Launch AI Pilot',
+    { label: 'About Us', href: '/about' },
+    { label: 'Case Studies', href: '/case-studies' },
+    { label: 'Blog', href: '/blog' },
+    { label: 'Careers', href: '/careers' },
+    { label: 'Why Launch AI Pilot', href: '/why-launch' },
   ],
   Contact: [
     { label: 'Book a Call', href: '/book-appointment' },

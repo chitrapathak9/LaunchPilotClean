@@ -10,6 +10,7 @@ import { AboutUs } from './pages/AboutUs';
 import { EngagementModels } from './pages/EngagementModels';
 import { GlobalDelivery } from './pages/GlobalDelivery';
 import { WhyLaunch } from './pages/WhyLaunch';
+import { Careers } from './pages/Careers';
 import { Contact } from './pages/Contact';
 import { SkillFinder } from './pages/SkillFinder';
 import { SkillsCatalog } from './pages/SkillsCatalog';
@@ -89,6 +90,7 @@ createRoot(document.getElementById('root')!).render(
           <Route path="/engagement-models" element={<EngagementModels />} />
           <Route path="/global-delivery" element={<GlobalDelivery />} />
           <Route path="/why-launch" element={<WhyLaunch />} />
+          <Route path="/careers" element={<Careers />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/skill-finder" element={<SkillFinder />} />
           <Route path="/skills" element={<SkillsCatalog />} />

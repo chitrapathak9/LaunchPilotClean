@@ -45,9 +45,9 @@ const navLinks: NavLink[] = [
     name: 'Company',
     items: [
       { name: 'About Us', href: '/about' },
-      'Careers',
       { name: 'Case Studies', href: '/case-studies' },
       { name: 'Blog', href: '/blog' },
+      { name: 'Careers', href: '/careers' },
       { name: 'Engagement Models', href: '/engagement-models' },
       { name: 'Global Delivery', href: '/global-delivery' },
       { name: 'Why Launch AI Pilot', href: '/why-launch' }
