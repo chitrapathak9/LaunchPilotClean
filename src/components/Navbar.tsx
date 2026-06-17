@@ -49,7 +49,7 @@ const navLinks: NavLink[] = [
       { name: 'Case Studies', href: '/case-studies' },
       { name: 'Blog', href: '/blog' },
       { name: 'Engagement Models', href: '/engagement-models' },
-      'Global Delivery',
+      { name: 'Global Delivery', href: '/global-delivery' },
       'Why Launch AI Pilot'
     ],
   },
