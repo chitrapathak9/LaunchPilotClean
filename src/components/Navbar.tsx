@@ -50,7 +50,7 @@ const navLinks: NavLink[] = [
       { name: 'Blog', href: '/blog' },
       { name: 'Engagement Models', href: '/engagement-models' },
       { name: 'Global Delivery', href: '/global-delivery' },
-      'Why Launch AI Pilot'
+      { name: 'Why Launch AI Pilot', href: '/why-launch' }
     ],
   },
 ];
