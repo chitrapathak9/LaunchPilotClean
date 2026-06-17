@@ -35,6 +35,7 @@ import { CaseStudiesListing } from './pages/CaseStudiesListing';
 import { CaseStudyDetail } from './pages/CaseStudyDetail';
 import { ServiceDetail } from './pages/ServiceDetail';
 import { SolutionDetail } from './pages/SolutionDetail';
+import { IndustryDetail } from './pages/IndustryDetail';
 
 // Auth context & route protection
 import { AuthProvider } from './contexts/AuthContext';
@@ -91,6 +92,7 @@ createRoot(document.getElementById('root')!).render(
           <Route path="/blog/:slug" element={<BlogPost />} />
           <Route path="/services/:slug" element={<ServiceDetail />} />
           <Route path="/solutions/:slug" element={<SolutionDetail />} />
+          <Route path="/industries/:slug" element={<IndustryDetail />} />
           <Route path="/case-studies" element={<CaseStudiesListing />} />
           <Route path="/case-studies/:slug" element={<CaseStudyDetail />} />
           <Route path="/login" element={<Login />} />

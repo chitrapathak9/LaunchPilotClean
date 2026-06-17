@@ -18,6 +18,12 @@ const footerLinks = {
     { label: 'Web Portal', href: '/solutions/web-portal' },
     { label: 'Mobile Apps', href: '/solutions/mobile-apps' },
   ],
+  Industries: [
+    { label: 'Healthcare', href: '/industries/healthcare' },
+    { label: 'Ad Tech', href: '/industries/ad-tech' },
+    { label: 'Hospital Management', href: '/industries/hospital-management' },
+    { label: 'SaaS Apps', href: '/industries/saas-apps' },
+  ],
   Company: [
     'About Us',
     'Case Studies',
@@ -87,7 +93,7 @@ export function LaunchFooter() {
         </div>
 
         {/* Link columns */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-14 pb-14 border-b border-gray-100">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 mb-14 pb-14 border-b border-gray-100">
           {Object.entries(footerLinks).map(([category, links]) => (
             <div key={category}>
               <h4 className="text-[0.6875rem] font-extrabold text-ink-400 uppercase tracking-[0.12em] mb-5">

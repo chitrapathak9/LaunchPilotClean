@@ -2,7 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { IconMenu2, IconX, IconChevronDown, IconArrowRight } from '@tabler/icons-react';
 import { LogoIcon } from './LogoIcon';
 
-const navLinks = [
+type NavLinkItem = { name: string; href: string } | string;
+
+type NavLink = {
+  name: string;
+  href?: string;
+  items?: NavLinkItem[];
+};
+
+const navLinks: NavLink[] = [
   {
     name: 'Solutions',
     items: [
@@ -15,7 +23,12 @@ const navLinks = [
   },
   {
     name: 'Industries',
-    href: '/#industries',
+    items: [
+      { name: 'Healthcare', href: '/industries/healthcare' },
+      { name: 'Ad Tech', href: '/industries/ad-tech' },
+      { name: 'Hospital Management', href: '/industries/hospital-management' },
+      { name: 'SaaS Apps', href: '/industries/saas-apps' },
+    ],
   },
   {
     name: 'Services',
