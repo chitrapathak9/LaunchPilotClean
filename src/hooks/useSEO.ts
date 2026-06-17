@@ -14,7 +14,7 @@ interface SEOOptions {
 
 const DEFAULT_TITLE = 'LaunchPilot — AI-Powered Startup Launch Platform';
 const DEFAULT_DESCRIPTION = 'Build and launch your startup faster with AI-powered skills, tools, and mentorship. LaunchPilot helps founders go from idea to revenue in days.';
-const SITE_URL = 'https://launchpilot.ai';
+const SITE_URL = 'https://launchaipilot.com';
 
 export function useSEO(options: SEOOptions = {}) {
   const {

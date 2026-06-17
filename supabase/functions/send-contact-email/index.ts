@@ -9,8 +9,8 @@ const CORS_HEADERS = {
 
 const RESEND_API_KEY = Deno.env.get('RESEND_API_KEY')!
 const ADMIN_EMAIL = Deno.env.get('ADMIN_EMAIL') ?? 'launchpilotai41@gmail.com'
-const FROM_EMAIL = Deno.env.get('FROM_EMAIL') ?? 'noreply@launchpilot.ai'
-const SITE_URL = Deno.env.get('SITE_URL') ?? 'https://launchpilot.ai'
+const FROM_EMAIL = Deno.env.get('FROM_EMAIL') ?? 'noreply@launchaipilot.com'
+const SITE_URL = Deno.env.get('SITE_URL') ?? 'https://launchaipilot.com'
 
 interface ContactPayload {
   name: string

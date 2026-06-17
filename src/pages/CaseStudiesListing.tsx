@@ -93,7 +93,7 @@ export function CaseStudiesListing() {
   useSEO({
     title: 'Case Studies — Real Results for Real Clients',
     description: 'See how LaunchPilot has helped businesses increase revenue, save time, and ship faster with AI-powered tools and strategies.',
-    canonicalUrl: 'https://launchpilot.ai/case-studies',
+    canonicalUrl: 'https://launchaipilot.com/case-studies',
   });
 
   const [items, setItems] = useState<CaseStudy[]>([]);

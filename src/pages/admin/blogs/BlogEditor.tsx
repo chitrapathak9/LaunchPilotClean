@@ -322,7 +322,7 @@ export function BlogEditor() {
             <div className="bg-slate-50 rounded-xl p-4 border border-slate-100">
               <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3">Search Preview</p>
               <p className="text-[#1a0dab] text-lg font-medium truncate">{form.seo_title || form.title || 'Post Title'}</p>
-              <p className="text-green-700 text-xs mb-1">launchpilot.ai/blog/{form.slug || 'your-slug'}</p>
+              <p className="text-green-700 text-xs mb-1">launchaipilot.com/blog/{form.slug || 'your-slug'}</p>
               <p className="text-slate-600 text-sm line-clamp-2">{form.seo_description || form.excerpt || 'Post description will appear here...'}</p>
             </div>
           </Section>

@@ -296,7 +296,7 @@ export function CaseStudyEditor() {
             <div className="bg-slate-50 rounded-xl p-4 border border-slate-100">
               <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">SERP Preview</p>
               <p className="text-[#1a0dab] text-base font-medium truncate">{form.seo_title || form.title || 'Case Study Title'}</p>
-              <p className="text-green-700 text-xs">launchpilot.ai/case-studies/{form.slug || 'slug'}</p>
+              <p className="text-green-700 text-xs">launchaipilot.com/case-studies/{form.slug || 'slug'}</p>
               <p className="text-slate-600 text-sm line-clamp-2 mt-1">{form.seo_description || form.challenge || 'Description...'}</p>
             </div>
           </Section>

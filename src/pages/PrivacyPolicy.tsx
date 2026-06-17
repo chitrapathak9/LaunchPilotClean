@@ -1,84 +1,96 @@
-import { useEffect } from 'react';
-import { LegalPageLayout, LegalHeader, LegalSection } from './TermsOfService';
-import { Link } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Navbar } from '../components/Navbar';
+import { LaunchFooter } from '../components/LaunchFooter';
 
 export function PrivacyPolicy() {
   useEffect(() => {
-    document.body.style.backgroundColor = '#FAF9F6';
-    return () => { document.body.style.backgroundColor = ''; };
+    window.scrollTo(0, 0);
   }, []);
 
-  const toc = [
-    { id: 'info-collection', label: 'Information We Collect' },
-    { id: 'use-info', label: 'How We Use Your Information' },
-    { id: 'data-sharing', label: 'Data Sharing & Disclosure' },
-    { id: 'data-security', label: 'Data Security' },
-    { id: 'your-rights', label: 'Your Privacy Rights' },
-    { id: 'cookies', label: 'Cookies & Tracking' },
-    { id: 'contact', label: 'Contact Us' },
-  ];
-
   return (
-    <LegalPageLayout toc={toc}>
-      <LegalHeader 
-        title="Privacy Policy"
-        lastUpdated="January 15, 2025"
-        summary="This Privacy Policy describes how your personal information is collected, used, and shared when you visit or make a purchase from LaunchPilot."
-      />
+    <div className="min-h-screen bg-gray-50 flex flex-col font-sans text-ink-900 selection:bg-cobalt-100 selection:text-cobalt-900">
+      <Navbar />
 
-      <hr className="border-[#E2E8F0] my-10" />
+      <main className="flex-grow pt-32 pb-24 px-6">
+        <div className="container-narrow bg-white border border-gray-200 rounded-[2rem] p-8 md:p-16 shadow-sm">
+          
+          <div className="mb-12 border-b border-gray-100 pb-8">
+            <h1 className="heading-display text-ink-900 mb-4">Privacy Policy</h1>
+            <p className="text-ink-500 text-[1.125rem]">Last updated: {new Date().toLocaleDateString()}</p>
+          </div>
 
-      <LegalSection id="info-collection" title="1. Information We Collect">
-        <p>We collect information you provide directly to us when you create an account, make a purchase, or contact support. This includes:</p>
-        <ul className="list-disc pl-5 space-y-1 my-3 text-[#334155]">
-          <li><strong className="text-[#0F172A] font-bold">Personal Information:</strong> Name, email address, and billing address.</li>
-          <li><strong className="text-[#0F172A] font-bold">Payment Information:</strong> Handled securely by our payment processor (Stripe). We do not store full credit card details.</li>
-          <li><strong className="text-[#0F172A] font-bold">Usage Data:</strong> Information about how you interact with our website, collected automatically via cookies.</li>
-        </ul>
-      </LegalSection>
+          <div className="space-y-10 text-ink-600 text-[1.0625rem] leading-relaxed">
+            
+            <section>
+              <h2 className="heading-lg text-ink-900 mb-4">1. Introduction</h2>
+              <p className="mb-4">
+                Welcome to Launch AI Pilot. We respect your privacy and are committed to protecting your personal data. This privacy policy will inform you as to how we look after your personal data when you visit our website, engage with our services, and tell you about your privacy rights and how the law protects you.
+              </p>
+            </section>
 
-      <LegalSection id="use-info" title="2. How We Use Your Information">
-        <p>We use the collected information for various purposes, including:</p>
-        <ul className="list-disc pl-5 space-y-1 my-3 text-[#334155]">
-          <li>To provide and maintain our Service</li>
-          <li>To process your transactions and send related information</li>
-          <li>To notify you about changes to our Service or updates to purchased skills</li>
-          <li>To provide customer support</li>
-          <li>To monitor the usage of our Service and improve our offerings</li>
-        </ul>
-      </LegalSection>
+            <section>
+              <h2 className="heading-lg text-ink-900 mb-4">2. The Data We Collect</h2>
+              <p className="mb-4">
+                We may collect, use, store and transfer different kinds of personal data about you which we have grouped together as follows:
+              </p>
+              <ul className="list-disc pl-6 space-y-2 mb-4 text-ink-700">
+                <li><strong className="text-ink-900">Identity Data:</strong> includes first name, last name, username or similar identifier.</li>
+                <li><strong className="text-ink-900">Contact Data:</strong> includes email address, billing address, and telephone numbers.</li>
+                <li><strong className="text-ink-900">Technical Data:</strong> includes internet protocol (IP) address, your login data, browser type and version, time zone setting and location, browser plug-in types and versions, operating system and platform, and other technology on the devices you use to access this website.</li>
+                <li><strong className="text-ink-900">Usage Data:</strong> includes information about how you use our website, products and services.</li>
+              </ul>
+            </section>
 
-      <LegalSection id="data-sharing" title="3. Data Sharing & Disclosure">
-        <p>We do not sell your personal data. We may share your data with trusted third-party service providers solely to operate our Service (e.g., payment processing via Stripe, transactional emails via SendGrid/Resend).</p>
-        <p>We may also disclose your information if required by law or to protect our legal rights.</p>
-      </LegalSection>
+            <section>
+              <h2 className="heading-lg text-ink-900 mb-4">3. How We Use Your Data</h2>
+              <p className="mb-4">
+                We will only use your personal data when the law allows us to. Most commonly, we will use your personal data in the following circumstances:
+              </p>
+              <ul className="list-disc pl-6 space-y-2 mb-4 text-ink-700">
+                <li>Where we need to perform the contract we are about to enter into or have entered into with you (e.g., to provide agency services).</li>
+                <li>Where it is necessary for our legitimate interests (or those of a third party) and your interests and fundamental rights do not override those interests.</li>
+                <li>Where we need to comply with a legal obligation.</li>
+              </ul>
+            </section>
 
-      <LegalSection id="data-security" title="4. Data Security">
-        <p>The security of your data is important to us. We implement standard security measures to protect your personal information. However, no method of transmission over the Internet is 100% secure, and we cannot guarantee absolute security.</p>
-      </LegalSection>
+            <section>
+              <h2 className="heading-lg text-ink-900 mb-4">4. Data Sharing & Disclosure</h2>
+              <p className="mb-4">
+                We do not sell your personal data. We may share your data with trusted third-party service providers solely to operate our Service (e.g., payment processing, cloud hosting, client communication platforms). We require all third parties to respect the security of your personal data and to treat it in accordance with the law.
+              </p>
+            </section>
 
-      <LegalSection id="your-rights" title="5. Your Privacy Rights">
-        <p>Depending on your location, you may have rights regarding your personal data, such as:</p>
-        <ul className="list-disc pl-5 space-y-1 my-3 text-[#334155]">
-          <li>The right to access the personal information we hold about you</li>
-          <li>The right to request that we correct or delete your personal information</li>
-          <li>The right to opt-out of marketing communications</li>
-        </ul>
-        <p>To exercise these rights, please contact us at launchpilotai41@gmail.com.</p>
-      </LegalSection>
+            <section>
+              <h2 className="heading-lg text-ink-900 mb-4">5. Data Security</h2>
+              <p className="mb-4">
+                We have put in place appropriate security measures to prevent your personal data from being accidentally lost, used or accessed in an unauthorized way, altered or disclosed. In addition, we limit access to your personal data to those employees, agents, contractors and other third parties who have a business need to know.
+              </p>
+            </section>
 
-      <LegalSection id="cookies" title="6. Cookies & Tracking">
-        <p>We use cookies and tracking technologies to track activity on our Service and hold certain information. You can instruct your browser to refuse all cookies or to indicate when a cookie is being sent.</p>
-      </LegalSection>
+            <section>
+              <h2 className="heading-lg text-ink-900 mb-4">6. Your Privacy Rights</h2>
+              <p className="mb-4">
+                Depending on your location, you may have rights under data protection laws in relation to your personal data, including the right to request access, correction, erasure, restriction, transfer, to object to processing, to portability of data and (where the lawful ground of processing is consent) to withdraw consent.
+              </p>
+            </section>
 
-      <LegalSection id="contact" title="7. Contact Us">
-        <p>If you have any questions about this Privacy Policy, please contact us:</p>
-        <div className="bg-[#F8FAFC] border border-[#CBD5E1] rounded-xl p-5 mt-4 font-mono text-sm text-[#334155] shadow-sm">
-          <p className="mb-2">📧 <span className="text-[#94A3B8] w-20 inline-block">Email:</span> launchpilotai41@gmail.com</p>
-          <p className="mb-2">🌐 <span className="text-[#94A3B8] w-20 inline-block">Website:</span> <Link to="/contact" className="hover:text-[#8B5CF6] transition-colors">launchpilot.ai/contact</Link></p>
-          <p>📍 <span className="text-[#94A3B8] w-20 inline-block">Address:</span> Ahmedabad, India</p>
+            <section>
+              <h2 className="heading-lg text-ink-900 mb-4">7. Contact Us</h2>
+              <p className="mb-4">
+                If you have any questions about this Privacy Policy, including any requests to exercise your legal rights, please contact us using the details set out below:
+              </p>
+              <div className="bg-gray-50 border border-gray-200 rounded-xl p-6 mt-4 font-mono text-[0.9375rem] text-ink-700 shadow-sm">
+                <p className="mb-2">📧 <span className="text-ink-400 w-24 inline-block font-sans">Email:</span> launchpilotai41@gmail.com</p>
+                <p className="mb-2">🌐 <span className="text-ink-400 w-24 inline-block font-sans">Website:</span> <a href="/contact" className="hover:text-cobalt-600 transition-colors underline">launchaipilot.com/contact</a></p>
+                <p>📍 <span className="text-ink-400 w-24 inline-block font-sans">Address:</span> Ahmedabad, India</p>
+              </div>
+            </section>
+
+          </div>
         </div>
-      </LegalSection>
-    </LegalPageLayout>
+      </main>
+
+      <LaunchFooter />
+    </div>
   );
 }

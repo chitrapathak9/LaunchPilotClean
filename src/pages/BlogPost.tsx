@@ -98,7 +98,7 @@ export function BlogPost() {
   useSEO(post ? {
     title: post.seo_title || post.title,
     description: post.seo_description || post.excerpt,
-    canonicalUrl: `https://launchpilot.ai/blog/${post.slug}`,
+    canonicalUrl: `https://launchaipilot.com/blog/${post.slug}`,
     ogImage: post.og_image_url || post.cover_image_url || undefined,
     ogType: 'article',
     publishedAt: post.published_at || undefined,
@@ -201,14 +201,14 @@ export function BlogPost() {
                 <div className="flex items-center gap-4 py-6 border-y border-[#E2E8F0]">
                   <span className="font-bold text-[#0F172A] text-sm mr-2">Share this post:</span>
                   <a
-                    href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title)}&url=${encodeURIComponent(`https://launchpilot.ai/blog/${post.slug}`)}`}
+                    href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title)}&url=${encodeURIComponent(`https://launchaipilot.com/blog/${post.slug}`)}`}
                     target="_blank" rel="noopener noreferrer"
                     className="w-10 h-10 rounded-full bg-[#F8FAFC] border border-[#E2E8F0] flex items-center justify-center text-[#64748B] hover:text-[#0F172A] hover:border-[#CBD5E1] transition-all"
                   >
                     <Twitter size={18} />
                   </a>
                   <a
-                    href={`https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(`https://launchpilot.ai/blog/${post.slug}`)}&title=${encodeURIComponent(post.title)}`}
+                    href={`https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(`https://launchaipilot.com/blog/${post.slug}`)}&title=${encodeURIComponent(post.title)}`}
                     target="_blank" rel="noopener noreferrer"
                     className="w-10 h-10 rounded-full bg-[#F8FAFC] border border-[#E2E8F0] flex items-center justify-center text-[#64748B] hover:text-[#0F172A] hover:border-[#CBD5E1] transition-all"
                   >

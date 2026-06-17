@@ -60,7 +60,7 @@ export function CaseStudyDetail() {
   useSEO(cs ? {
     title: cs.seo_title || cs.title,
     description: cs.seo_description || cs.challenge,
-    canonicalUrl: `https://launchpilot.ai/case-studies/${cs.slug}`,
+    canonicalUrl: `https://launchaipilot.com/case-studies/${cs.slug}`,
     ogImage: cs.og_image_url || cs.cover_image_url || undefined,
     ogType: 'article',
     publishedAt: cs.published_at || undefined,

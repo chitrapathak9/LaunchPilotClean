@@ -112,7 +112,7 @@ export function BlogListing() {
   useSEO({
     title: 'Blog — Founder Playbooks & AI Tools',
     description: 'Practical guides on building MVPs, using AI tools, and launching products — written by builders, for builders.',
-    canonicalUrl: 'https://launchpilot.ai/blog',
+    canonicalUrl: 'https://launchaipilot.com/blog',
     ogType: 'website',
   });
 
