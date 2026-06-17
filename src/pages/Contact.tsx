@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Navbar, Footer } from '../App';
+import { submitLead } from '../lib/supabase';
+
 import { 
   Mail, 
   Twitter, 
@@ -37,14 +39,32 @@ function PageHero() {
 function ContactForm({ initialTopic = '' }) {
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success'>('idle');
   const [topic, setTopic] = useState(initialTopic);
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [message, setMessage] = useState('');
+  const [errorMsg, setErrorMsg] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setStatus('submitting');
-    // Simulate network request
-    setTimeout(() => {
+    setErrorMsg('');
+    
+    try {
+      await submitLead({
+        name,
+        email,
+        type: 'contact',
+        details: {
+          topic,
+          message
+        }
+      });
       setStatus('success');
-    }, 1000);
+    } catch (err: any) {
+      console.error(err);
+      setErrorMsg(err.message || 'Something went wrong. Please try again.');
+      setStatus('idle');
+    }
   };
 
   if (status === 'success') {
@@ -58,7 +78,13 @@ function ContactForm({ initialTopic = '' }) {
           Thanks for reaching out. I've received your message and will get back to you within 24 hours.
         </p>
         <button 
-          onClick={() => setStatus('idle')}
+          onClick={() => {
+            setStatus('idle');
+            setName('');
+            setEmail('');
+            setMessage('');
+            setTopic(initialTopic);
+          }}
           className="border-2 border-slate-200 text-slate-700 font-bold px-8 py-3 rounded-xl hover:bg-slate-50 transition-colors"
         >
           Send another message
@@ -80,6 +106,8 @@ function ContactForm({ initialTopic = '' }) {
             type="text" 
             required 
             minLength={2}
+            value={name}
+            onChange={(e) => setName(e.target.value)}
             placeholder="Your full name"
             className="w-full bg-slate-50 border border-slate-200 rounded-xl px-5 py-4 text-slate-900 focus:outline-none focus:border-[#8B5CF6] focus:ring-4 focus:ring-[#8B5CF6]/20 placeholder:text-slate-400 transition-all"
           />
@@ -90,6 +118,8 @@ function ContactForm({ initialTopic = '' }) {
           <input 
             type="email" 
             required 
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             placeholder="your@email.com"
             className="w-full bg-slate-50 border border-slate-200 rounded-xl px-5 py-4 text-slate-900 focus:outline-none focus:border-[#8B5CF6] focus:ring-4 focus:ring-[#8B5CF6]/20 placeholder:text-slate-400 transition-all"
           />
@@ -124,10 +154,19 @@ function ContactForm({ initialTopic = '' }) {
             required
             minLength={20}
             rows={5}
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
             placeholder="Tell me what's on your mind..."
             className="w-full bg-slate-50 border border-slate-200 rounded-xl px-5 py-4 text-slate-900 focus:outline-none focus:border-[#8B5CF6] focus:ring-4 focus:ring-[#8B5CF6]/20 placeholder:text-slate-400 transition-all resize-none"
           ></textarea>
         </div>
+
+        {errorMsg && (
+          <div className="bg-red-50 border border-red-200 text-red-700 p-4 rounded-xl flex items-start gap-2.5 text-sm font-semibold">
+            <AlertCircle className="shrink-0 mt-0.5" size={16} />
+            <span>{errorMsg}</span>
+          </div>
+        )}
 
         <button 
           type="submit" 
@@ -170,11 +209,11 @@ function ContactInfo() {
           </div>
           <div>
             <div className="text-xs font-bold text-[#64748B] uppercase tracking-wider mb-1 flex items-center gap-2"><Twitter size={14} /> Twitter / X</div>
-            <a href="#" className="text-[#0F172A] font-semibold hover:text-[#8B5CF6] transition-colors">@dushyant</a>
+            <a href="#" className="text-[#0F172A] font-semibold hover:text-[#8B5CF6] transition-colors">@LaunchAIPilot</a>
           </div>
           <div>
             <div className="text-xs font-bold text-[#64748B] uppercase tracking-wider mb-1 flex items-center gap-2"><Linkedin size={14} /> LinkedIn</div>
-            <a href="#" className="text-[#0F172A] font-semibold hover:text-[#8B5CF6] transition-colors">/in/dushyant</a>
+            <a href="#" className="text-[#0F172A] font-semibold hover:text-[#8B5CF6] transition-colors">/in/LaunchAIPilot</a>
           </div>
         </div>
       </div>

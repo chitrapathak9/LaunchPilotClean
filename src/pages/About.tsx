@@ -58,7 +58,7 @@ function FounderSection() {
 
         {/* Story */}
         <div className="md:w-3/5 text-lg text-[#334155] leading-[1.8] space-y-6">
-          <p className="text-2xl font-bold text-[#0F172A] mb-8">Hey, I'm Dushyant.</p>
+          <p className="text-2xl font-bold text-[#0F172A] mb-8">Hey, I'm LaunchAiPilot.</p>
           
           <p>
             I've been building products for 6 years. Started as a developer. Became a founder. 
@@ -241,7 +241,7 @@ function Timeline() {
   const events = [
     { year: '2019', title: 'Started as a fullstack developer', desc: 'Built first SaaS product from scratch' },
     { year: '2021', title: 'Joined agency world', desc: 'Shipped 20+ client products' },
-    { year: '2022', title: 'Founded CodeIntelli', desc: 'Scaled to international clients' },
+    { year: '2022', title: 'Founded Launch AI Pilot', desc: 'Scaled to international clients' },
     { year: '2023', title: 'Discovered AI-assisted development', desc: 'Cut build time by 70%' },
     { year: '2024', title: 'Built first AI skill file', desc: 'Shipped product in 3 days instead of 3 months' },
     { year: '2025', title: 'Launched this platform', desc: 'Helping 500+ founders ship faster' },

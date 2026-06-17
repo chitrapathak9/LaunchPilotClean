@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Navbar, Footer } from '../App';
+import { submitLead } from '../lib/supabase';
+
 import { 
   Calendar, 
   Clock, 
@@ -105,7 +107,7 @@ export function BookAppointment() {
     '06:30 PM'
   ];
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!selectedDate || !selectedSlot) {
       alert('Please select a date and time slot.');
@@ -114,13 +116,32 @@ export function BookAppointment() {
     
     setIsSubmitting(true);
     
-    // Simulate API call for scheduling
-    setTimeout(() => {
+    try {
+      await submitLead({
+        name: name,
+        email: email,
+        type: 'booking',
+        details: {
+          plan: planParam,
+          planDisplayName,
+          planPriceText,
+          bookingDate: selectedDate.raw,
+          bookingDateFormatted: selectedDate.formatted,
+          bookingTime: selectedSlot,
+          startupConcept: concept,
+          requireNda: requireNda
+        }
+      });
       setIsSubmitting(false);
       setIsSuccess(true);
       window.scrollTo({ top: 0, behavior: 'smooth' });
-    }, 1500);
+    } catch (err: any) {
+      console.error(err);
+      alert(err.message || 'Failed to schedule booking. Please try again.');
+      setIsSubmitting(false);
+    }
   };
+
 
   return (
     <div className="min-h-screen font-sans text-[#0F172A] selection:bg-[#8B5CF6]/20 bg-[#FAF9F6] antialiased">
@@ -312,7 +333,7 @@ export function BookAppointment() {
                           <input
                             type="text"
                             required
-                            placeholder="Dushyant Patel"
+                            placeholder="Launch Ai"
                             value={name}
                             onChange={(e) => setName(e.target.value)}
                             className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-xs text-slate-800 font-semibold focus:outline-none focus:border-[#8B5CF6] focus:bg-white transition-all focus:ring-4 focus:ring-[#8B5CF6]/10"
@@ -421,7 +442,7 @@ export function BookAppointment() {
                 
                 <div className="flex justify-between items-center text-xs">
                   <span className="text-slate-500 font-semibold">Consultant</span>
-                  <span className="text-slate-900 font-bold">Dushyant Patel (Founder)</span>
+                  <span className="text-slate-900 font-bold"> LaunchAIPilot (Founder)</span>
                 </div>
 
                 <div className="flex justify-between items-center text-xs">

@@ -15,11 +15,12 @@ import {
   Rocket,
   Map as MapIcon,
   Library,
-  Package
+  Package,
+  Heart
 } from 'lucide-react';
 
 // --- DATA ---
-type Skill = {
+export type Skill = {
   id: string;
   slug: string;
   name: string;
@@ -33,7 +34,7 @@ type Skill = {
   compatibleWith: string[];
 };
 
-const SKILLS_DB: Skill[] = [
+export const SKILLS_DB: Skill[] = [
   {
     id: 'saas-builder', slug: 'saas-builder', name: 'SaaS Builder',
     tagline: 'Full-stack SaaS with auth & billing',
@@ -137,10 +138,27 @@ function PageHero() {
   );
 }
 
-function SkillCard({ skill }: { skill: Skill }) {
+function SkillCard({ skill, wishlisted, onToggleWishlist }: { skill: Skill, wishlisted: boolean, onToggleWishlist: () => void }) {
   return (
     <div className="bg-white rounded-3xl border border-[#E2E8F0] shadow-sm hover:shadow-xl hover:-translate-y-1 hover:border-[#8B5CF6]/50 transition-all flex flex-col group h-full overflow-hidden relative">
       
+      {/* Wishlist Heart Toggle */}
+      <button 
+        type="button"
+        onClick={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          onToggleWishlist();
+        }}
+        className="absolute top-5 left-5 z-10 p-2.5 bg-white/90 hover:bg-white rounded-full border border-[#E2E8F0] shadow-sm hover:shadow-md transition-all scale-90 hover:scale-100 active:scale-90"
+        title={wishlisted ? 'Remove from Wishlist' : 'Save to Wishlist'}
+      >
+        <Heart 
+          size={16} 
+          className={`transition-all duration-350 ${wishlisted ? 'text-pink-500 fill-pink-500 animate-pulse' : 'text-slate-400 hover:text-pink-500'}`} 
+        />
+      </button>
+
       {/* Badges */}
       <div className="absolute top-5 right-5 flex gap-2 z-10">
         {skill.badge === 'popular' && <span className="bg-[#F59E0B] text-white px-3 py-1 rounded-full text-xs font-bold shadow-md flex items-center gap-1">🔥 Popular</span>}
@@ -231,6 +249,25 @@ export function SkillsCatalog() {
   const [aiTool, setAiTool] = useState('all');
   const [sortBy, setSortBy] = useState('popular');
   const [showMobileFilters, setShowMobileFilters] = useState(false);
+
+  const [wishlist, setWishlist] = useState<string[]>(() => {
+    const saved = localStorage.getItem('launchpilot_wishlist');
+    try {
+      return saved ? JSON.parse(saved) : [];
+    } catch (e) {
+      return [];
+    }
+  });
+
+  useEffect(() => {
+    localStorage.setItem('launchpilot_wishlist', JSON.stringify(wishlist));
+  }, [wishlist]);
+
+  const toggleWishlist = (skillId: string) => {
+    setWishlist(prev => 
+      prev.includes(skillId) ? prev.filter(id => id !== skillId) : [...prev, skillId]
+    );
+  };
 
   const filteredSkills = useMemo(() => {
     return SKILLS_DB.filter(s => {
@@ -387,7 +424,12 @@ export function SkillsCatalog() {
                 {filteredSkills.length > 0 ? (
                   <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
                     {filteredSkills.map(skill => (
-                      <SkillCard key={skill.id} skill={skill} />
+                      <SkillCard 
+                        key={skill.id} 
+                        skill={skill} 
+                        wishlisted={wishlist.includes(skill.id)}
+                        onToggleWishlist={() => toggleWishlist(skill.id)}
+                      />
                     ))}
                   </div>
                 ) : (

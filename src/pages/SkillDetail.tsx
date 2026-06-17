@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { Navbar, Footer } from '../App';
 import { 
   ChevronRight,
@@ -21,8 +21,10 @@ import {
   Map as MapIcon,
   Library,
   Lock,
-  Package
+  Package,
+  Heart
 } from 'lucide-react';
+import { SKILLS_DB, Skill } from './SkillsCatalog';
 
 const SKILL_DATA = {
   id: 'saas-builder',
@@ -70,63 +72,126 @@ const RELATED_SKILLS = [
 
 function BarChart({ size }: { size: number }) { return <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>; }
 
-function Breadcrumb() {
+function getSkillData(slug: string) {
+  const catalogSkill = SKILLS_DB.find(s => s.slug === slug) || SKILLS_DB[0];
+  
+  // Custom metadata for other skills
+  const mockDetails: Record<string, any> = {
+    'saas-builder': {
+      rating: 4.9, reviewCount: 48, foundersUsing: 142, shipsInDays: '3–5', lastUpdated: 'Jan 2026',
+      techStack: [
+        { label: 'Frontend', items: ['React + Vite', 'TypeScript', 'Tailwind CSS'] },
+        { label: 'Backend', items: ['Node.js', 'Express', 'Hono'] },
+        { label: 'Database', items: ['PostgreSQL', 'MongoDB', 'Supabase'] },
+        { label: 'Auth', items: ['Clerk', 'Supabase Auth', 'NextAuth'] },
+        { label: 'Billing', items: ['Stripe', 'LemonSqueezy', '—'] }
+      ]
+    },
+    'ios-builder': {
+      rating: 4.8, reviewCount: 22, foundersUsing: 64, shipsInDays: '3–5', lastUpdated: 'Feb 2026',
+      techStack: [
+        { label: 'Frontend', items: ['SwiftUI', 'UIKit', 'Swift'] },
+        { label: 'Backend', items: ['Supabase', 'Firebase', 'Node.js'] },
+        { label: 'Database', items: ['CoreData', 'PostgreSQL', 'Firestore'] },
+        { label: 'Auth', items: ['Apple Sign In', 'Supabase Auth', 'Firebase Auth'] },
+        { label: 'Billing', items: ['RevenueCat', 'App Store In-App Purchases', '—'] }
+      ]
+    },
+    'shadcn-dashboard': {
+      rating: 4.7, reviewCount: 19, foundersUsing: 88, shipsInDays: '2–4', lastUpdated: 'Jan 2026',
+      techStack: [
+        { label: 'Frontend', items: ['React + Vite', 'Tailwind CSS', 'shadcn/ui'] },
+        { label: 'Charts', items: ['Recharts', 'Tremor', 'Chart.js'] },
+        { label: 'Tables', items: ['TanStack Table', 'Standard HTML Table', '—'] },
+        { label: 'Icons', items: ['Lucide React', 'Radix Icons', '—'] },
+        { label: 'Hosting', items: ['Vercel', 'Netlify', '—'] }
+      ]
+    },
+  };
+
+  const details = mockDetails[catalogSkill.id] || {
+    rating: 4.7,
+    reviewCount: 15,
+    foundersUsing: 40,
+    shipsInDays: '3–5',
+    lastUpdated: 'Mar 2026',
+    techStack: [
+      { label: 'Frontend', items: ['React / Next.js', 'TypeScript', 'Tailwind CSS'] },
+      { label: 'Backend', items: ['Node.js', 'Serverless', '—'] },
+      { label: 'Database', items: ['PostgreSQL', 'Supabase', '—'] },
+      { label: 'Auth', items: ['Supabase Auth', 'Clerk', '—'] },
+      { label: 'Billing', items: ['Stripe', '—', '—'] }
+    ]
+  };
+
+  return {
+    ...catalogSkill,
+    rating: details.rating,
+    reviewCount: details.reviewCount,
+    foundersUsing: details.foundersUsing,
+    shipsInDays: details.shipsInDays,
+    lastUpdated: details.lastUpdated,
+    techStack: details.techStack,
+  };
+}
+
+function Breadcrumb({ skill }: { skill: any }) {
   return (
     <div className="flex items-center gap-2 text-sm text-[#64748B] mb-8 font-medium">
       <Link to="/" className="hover:text-[#0F172A] transition-colors">Home</Link>
       <ChevronRight size={14} />
       <Link to="/skills" className="hover:text-[#0F172A] transition-colors">Skills</Link>
       <ChevronRight size={14} />
-      <span className="text-[#94A3B8]">{SKILL_DATA.name}</span>
+      <span className="text-[#94A3B8]">{skill.name}</span>
     </div>
   );
 }
 
-function SkillHeader() {
+function SkillHeader({ skill }: { skill: any }) {
   return (
     <div className="mb-12">
       <div className="flex items-center gap-3 mb-6">
         <div className="inline-flex items-center gap-1.5 bg-[#8B5CF6]/10 text-[#8B5CF6] px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider border border-[#8B5CF6]/20">
-          🏷️ {SKILL_DATA.category}
+          🏷️ {skill.category}
         </div>
-        {SKILL_DATA.badge && (
+        {skill.badge && (
           <div className="inline-flex items-center gap-1.5 bg-[#F59E0B] text-white px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider shadow-md shadow-[#F59E0B]/20">
-            🔥 {SKILL_DATA.badge}
+            🔥 {skill.badge}
           </div>
         )}
       </div>
       
       <h1 className="text-4xl md:text-5xl font-bold text-[#0F172A] mb-4 leading-tight tracking-tight">
-        {SKILL_DATA.name}
+        {skill.name}
       </h1>
       <p className="text-xl text-[#64748B] font-medium leading-relaxed mb-8">
-        {SKILL_DATA.tagline}
+        {skill.tagline}
       </p>
 
       {/* Meta Row */}
       <div className="flex flex-wrap items-center gap-6 text-sm font-semibold text-[#334155] mb-8 bg-white border border-[#E2E8F0] px-6 py-4 rounded-2xl shadow-sm">
         <div className="flex items-center gap-1.5">
           <Star size={16} className="text-[#F59E0B] fill-[#F59E0B]" />
-          <span className="text-[#0F172A]">{SKILL_DATA.rating} / 5</span>
+          <span className="text-[#0F172A]">{skill.rating} / 5</span>
         </div>
         <div className="w-1 h-1 rounded-full bg-[#CBD5E1]" />
         <div className="flex items-center gap-1.5 text-[#64748B]">
-          <Users size={16} /> {SKILL_DATA.foundersUsing} founders using this
+          <Users size={16} /> {skill.foundersUsing} founders using this
         </div>
         <div className="w-1 h-1 rounded-full bg-[#CBD5E1]" />
         <div className="flex items-center gap-1.5 text-[#64748B]">
-          <Clock size={16} /> Ships in {SKILL_DATA.shipsInDays} days
+          <Clock size={16} /> Ships in {skill.shipsInDays} days
         </div>
         <div className="w-1 h-1 rounded-full bg-[#CBD5E1]" />
         <div className="flex items-center gap-1.5 text-[#64748B]">
-          <RefreshCcw size={16} /> Updated: {SKILL_DATA.lastUpdated}
+          <RefreshCcw size={16} /> Updated: {skill.lastUpdated}
         </div>
       </div>
 
       {/* Compatible Pills */}
       <div className="flex flex-wrap gap-2">
         <span className="text-sm font-bold text-[#64748B] mr-2 py-1">Compatible with:</span>
-        {SKILL_DATA.compatibleWith.map(tool => (
+        {skill.compatibleWith.map((tool: string) => (
           <span key={tool} className="bg-slate-100 text-slate-800 border border-slate-200 text-xs font-bold px-3 py-1.5 rounded-lg shadow-sm">
             {tool}
           </span>
@@ -136,7 +201,7 @@ function SkillHeader() {
   );
 }
 
-function SkillPreview() {
+function SkillPreview({ skill }: { skill: any }) {
   return (
     <div className="mb-16">
       <div className="bg-white rounded-3xl overflow-hidden shadow-xl shadow-slate-200/50 border border-slate-200">
@@ -151,23 +216,18 @@ function SkillPreview() {
           </div>
         </div>
         <div className="p-6 md:p-8 overflow-x-auto bg-slate-50/50">
-          <pre className="text-sm text-slate-700 font-mono leading-relaxed">
-<span className="text-[#8B5CF6] font-bold"># SaaS Builder Instructions</span>
+          <pre className="text-sm text-slate-700 font-mono leading-relaxed text-left">
+<span className="text-[#8B5CF6] font-bold"># {skill.name} Instructions</span>
 
 <span className="text-emerald-600 font-bold">## Role</span>
-You are an expert full-stack developer specializing in building production-ready 
-SaaS applications. You write clean, modular, and extremely maintainable code.
+You are an expert specialist in this field. You write clean, modular, and extremely maintainable code.
 
 <span className="text-emerald-600 font-bold">## Architecture Rules</span>
-- Auth: Supabase Auth configured with RLS
-- Database: PostgreSQL with Prisma ORM
-- Styling: Tailwind CSS + shadcn/ui
-- Routing: Next.js App Router
+- Framework: {skill.compatibleWith.join(', ')}
+- Setup patterns following {skill.category} guidelines
 
-<span className="text-emerald-600 font-bold">## Implementation Steps</span>
-1. Scaffold the core directory structure
-2. Implement the authentication flow (middleware.ts)
-3. Build the authenticated dashboard layout
+<span className="text-emerald-600 font-bold">## Core Features</span>
+{skill.features.slice(0, 3).map((f: string, i: number) => `${i+1}. ${f}`).join('\n')}
 ...
           </pre>
         </div>
@@ -179,11 +239,11 @@ SaaS applications. You write clean, modular, and extremely maintainable code.
   );
 }
 
-function WhatItDoes() {
+function WhatItDoes({ skill }: { skill: any }) {
   return (
-    <div className="mb-16 prose prose-lg prose-headings:text-[#0F172A] prose-p:text-[#334155] max-w-none">
-      <h2 className="text-2xl font-bold mb-6 border-l-4 border-[#8B5CF6] pl-4">What is the SaaS Builder Skill?</h2>
-      {SKILL_DATA.description.split('\n\n').map((paragraph, idx) => (
+    <div className="mb-16 prose prose-lg prose-headings:text-[#0F172A] prose-p:text-[#334155] max-w-none text-left">
+      <h2 className="text-2xl font-bold mb-6 border-l-4 border-[#8B5CF6] pl-4">What is the {skill.name}?</h2>
+      {skill.description.split('\n\n').map((paragraph: string, idx: number) => (
         <p key={idx} className="leading-relaxed mb-4">{paragraph}</p>
       ))}
     </div>
@@ -194,13 +254,13 @@ function WhatYouGet() {
   const items = [
     { icon: <FileText size={24} />, title: 'SKILL.md', desc: 'Full AI agent instructions — the core of the skill.' },
     { icon: <BookOpen size={24} />, title: 'README.md', desc: 'Setup guide, how to use, common prompts to run.' },
-    { icon: <Github size={24} />, title: 'Example Project (GitHub)', desc: 'A real working SaaS built with this skill. Clone it. Study it. Use it as your starting point.' },
+    { icon: <Github size={24} />, title: 'Example Project (GitHub)', desc: 'A real working project built with this skill. Clone it. Study it. Use it as your starting point.' },
     { icon: <ShieldCheck size={24} />, title: 'Security Checklist', desc: 'Common vulnerabilities to check before launch.' },
     { icon: <RefreshCcw size={24} />, title: 'Lifetime Updates', desc: 'Every improvement pushed to your email. Free. Forever.' },
   ];
 
   return (
-    <div className="mb-16">
+    <div className="mb-16 text-left">
       <h2 className="text-2xl font-bold text-[#0F172A] mb-6 border-l-4 border-[#8B5CF6] pl-4">What's inside</h2>
       <div className="bg-slate-50 rounded-3xl p-8 shadow-sm border border-slate-200">
         <div className="space-y-6 text-slate-800">
@@ -219,17 +279,17 @@ function WhatYouGet() {
   );
 }
 
-function FeatureChecklist() {
-  const mid = Math.ceil(SKILL_DATA.features.length / 2);
-  const leftCol = SKILL_DATA.features.slice(0, mid);
-  const rightCol = SKILL_DATA.features.slice(mid);
+function FeatureChecklist({ skill }: { skill: any }) {
+  const mid = Math.ceil(skill.features.length / 2);
+  const leftCol = skill.features.slice(0, mid);
+  const rightCol = skill.features.slice(mid);
 
   return (
-    <div className="mb-16">
+    <div className="mb-16 text-left">
       <h2 className="text-2xl font-bold text-[#0F172A] mb-6 border-l-4 border-[#8B5CF6] pl-4">What it covers</h2>
       <div className="grid md:grid-cols-2 gap-4 md:gap-8 bg-white border border-[#E2E8F0] p-8 rounded-3xl shadow-sm">
         <ul className="space-y-4">
-          {leftCol.map((feat, i) => (
+          {leftCol.map((feat: string, i: number) => (
             <li key={i} className="flex items-start gap-3">
               <CheckCircle2 size={20} className="text-[#10B981] shrink-0 mt-0.5" />
               <span className="text-[#334155] font-medium">{feat}</span>
@@ -237,7 +297,7 @@ function FeatureChecklist() {
           ))}
         </ul>
         <ul className="space-y-4">
-          {rightCol.map((feat, i) => (
+          {rightCol.map((feat: string, i: number) => (
             <li key={i} className="flex items-start gap-3">
               <CheckCircle2 size={20} className="text-[#10B981] shrink-0 mt-0.5" />
               <span className="text-[#334155] font-medium">{feat}</span>
@@ -249,15 +309,15 @@ function FeatureChecklist() {
   );
 }
 
-function TechStackGrid() {
+function TechStackGrid({ skill }: { skill: any }) {
   return (
-    <div className="mb-16">
+    <div className="mb-16 text-left">
       <h2 className="text-2xl font-bold text-[#0F172A] mb-6 border-l-4 border-[#8B5CF6] pl-4">Tech stack this skill supports</h2>
       <div className="overflow-x-auto bg-white border border-[#E2E8F0] rounded-3xl shadow-sm p-2">
         <table className="w-full text-left border-collapse min-w-[600px]">
           <thead>
             <tr className="bg-[#F8FAFC]">
-              {SKILL_DATA.techStack.map(stack => (
+              {skill.techStack.map((stack: any) => (
                 <th key={stack.label} className="p-4 font-bold text-[#64748B] text-xs uppercase tracking-wider">{stack.label}</th>
               ))}
             </tr>
@@ -265,7 +325,7 @@ function TechStackGrid() {
           <tbody>
             {[0, 1, 2].map(rowIdx => (
               <tr key={rowIdx} className="border-t border-[#E2E8F0]">
-                {SKILL_DATA.techStack.map(stack => (
+                {skill.techStack.map((stack: any) => (
                   <td key={stack.label} className="p-4 text-[#0F172A] font-semibold text-sm">
                     {stack.items[rowIdx] || '—'}
                   </td>
@@ -287,7 +347,7 @@ function HowToUse() {
   ];
 
   return (
-    <div className="mb-16">
+    <div className="mb-16 text-left">
       <h2 className="text-2xl font-bold text-[#0F172A] mb-6 border-l-4 border-[#8B5CF6] pl-4">How to use this skill</h2>
       <div className="space-y-6">
         {steps.map((step, i) => (
@@ -306,7 +366,7 @@ function HowToUse() {
 
 function WhoIsItFor() {
   return (
-    <div className="mb-16">
+    <div className="mb-16 text-left">
       <h2 className="text-2xl font-bold text-[#0F172A] mb-6 border-l-4 border-[#8B5CF6] pl-4">This skill is for you if...</h2>
       <div className="grid sm:grid-cols-2 gap-6">
         
@@ -316,7 +376,7 @@ function WhoIsItFor() {
             <CheckCircle2 size={24} className="text-[#10B981]" /> Perfect for:
           </div>
           <ul className="space-y-4">
-            <li className="text-[#64748B] flex items-start gap-2"><span className="text-[#10B981] mt-1">•</span> Solo founders building their first SaaS</li>
+            <li className="text-[#64748B] flex items-start gap-2"><span className="text-[#10B981] mt-1">•</span> Solo founders building their first products</li>
             <li className="text-[#64748B] flex items-start gap-2"><span className="text-[#10B981] mt-1">•</span> Developers who want AI to follow a proven pattern</li>
             <li className="text-[#64748B] flex items-start gap-2"><span className="text-[#10B981] mt-1">•</span> Non-technical founders using Lovable or Cursor</li>
             <li className="text-[#64748B] flex items-start gap-2"><span className="text-[#10B981] mt-1">•</span> Anyone who's wasted time on boilerplate before</li>
@@ -342,7 +402,7 @@ function WhoIsItFor() {
 
 function Testimonials() {
   return (
-    <div className="mb-16">
+    <div className="mb-16 text-left">
       <h2 className="text-2xl font-bold text-[#0F172A] mb-6 border-l-4 border-[#8B5CF6] pl-4">What founders say about this skill</h2>
       <div className="space-y-6">
         <div className="bg-white border-l-4 border-[#8B5CF6] border-y border-r border-slate-200 p-8 rounded-3xl shadow-md relative overflow-hidden">
@@ -354,7 +414,7 @@ function Testimonials() {
             <Star size={16} fill="currentColor" />
             <Star size={16} fill="currentColor" />
           </div>
-          <p className="text-slate-800 text-lg leading-relaxed mb-6 font-medium">
+          <p className="text-slate-800 text-lg leading-relaxed mb-6 font-medium text-left">
             "Built my entire SaaS backend in 2 days. Auth, billing, dashboard — everything worked first try. Saved me from weeks of reading Stripe docs."
           </p>
           <div className="flex items-center gap-3">
@@ -381,7 +441,7 @@ function FAQAccordion() {
   ];
 
   return (
-    <div className="mb-16">
+    <div className="mb-16 text-left">
       <h2 className="text-2xl font-bold text-[#0F172A] mb-6 border-l-4 border-[#8B5CF6] pl-4">Common questions</h2>
       <div className="space-y-4">
         {faqs.map((faq, i) => (
@@ -407,7 +467,7 @@ function FAQAccordion() {
 
 function RelatedSkills() {
   return (
-    <div className="mb-16">
+    <div className="mb-16 text-left">
       <h2 className="text-2xl font-bold text-[#0F172A] mb-6 border-l-4 border-[#8B5CF6] pl-4">Often used together</h2>
       <div className="grid md:grid-cols-3 gap-4">
         {RELATED_SKILLS.map(skill => (
@@ -424,19 +484,37 @@ function RelatedSkills() {
   );
 }
 
-function PurchaseSidebar() {
+function PurchaseSidebar({ skill, wishlisted, onToggleWishlist }: { skill: any, wishlisted: boolean, onToggleWishlist: () => void }) {
+  const navigate = useNavigate();
   return (
-    <div className="bg-white rounded-3xl p-8 border border-slate-200 shadow-xl shadow-slate-200/50 sticky top-24">
-      <h2 className="text-2xl font-bold text-slate-800 mb-6 leading-tight">{SKILL_DATA.name}</h2>
+    <div className="bg-white rounded-3xl p-8 border border-slate-200 shadow-xl shadow-slate-200/50 sticky top-24 text-left">
+      <h2 className="text-2xl font-bold text-slate-800 mb-6 leading-tight">{skill.name}</h2>
       
       <div className="flex items-end gap-3 mb-8">
-        <div className="text-5xl font-bold text-slate-900">${SKILL_DATA.price}</div>
-        <div className="text-lg text-slate-400 font-medium pb-1 line-through decoration-slate-300 decoration-2">$29</div>
+        <div className="text-5xl font-bold text-slate-900">${skill.price}</div>
+        <div className="text-lg text-slate-400 font-medium pb-1 line-through decoration-slate-300 decoration-2">${skill.price * 3}</div>
         <div className="text-sm font-bold text-[#10B981] pb-2">Early bird 🔥</div>
       </div>
 
-      <button className="w-full bg-[#8B5CF6] text-white font-bold py-4 rounded-xl hover:bg-[#7C3AED] transition-colors shadow-lg shadow-[#8B5CF6]/20 mb-8 flex justify-center items-center gap-2 text-lg">
+      <button 
+        onClick={() => navigate(`/checkout?plan=starter&price=${skill.price}`)}
+        className="w-full bg-[#8B5CF6] text-white font-bold py-4 rounded-xl hover:bg-[#7C3AED] transition-colors shadow-lg shadow-[#8B5CF6]/20 mb-3 flex justify-center items-center gap-2 text-lg"
+      >
         Get This Skill <ArrowRight size={20} />
+      </button>
+
+      {/* Wishlist Button */}
+      <button 
+        type="button"
+        onClick={onToggleWishlist}
+        className={`w-full font-bold py-3.5 rounded-xl border transition-all mb-8 flex justify-center items-center gap-2 text-sm ${
+          wishlisted 
+            ? 'bg-pink-50 border-pink-200 text-pink-600 hover:bg-pink-100 hover:border-pink-300 shadow-sm animate-pulse'
+            : 'bg-white border-slate-200 text-slate-700 hover:bg-slate-50 hover:border-slate-300 shadow-sm'
+        }`}
+      >
+        <Heart size={16} className={wishlisted ? 'fill-pink-500 text-pink-500' : 'text-slate-400'} />
+        {wishlisted ? 'Saved in Wishlist' : 'Save to Wishlist'}
       </button>
 
       <ul className="space-y-4 mb-8">
@@ -465,22 +543,26 @@ function PurchaseSidebar() {
       <div className="flex flex-col items-center justify-center text-slate-400 text-sm font-medium gap-1">
         <div className="flex items-center gap-1.5"><Lock size={14} /> Secure checkout via Stripe</div>
         <div className="flex items-center gap-1 mt-2 text-[#F59E0B]">
-          <Star size={14} fill="currentColor" /> <span className="text-slate-600 ml-1">4.9/5</span> <span className="text-slate-300 mx-1">•</span> <span className="text-slate-400">48 reviews</span>
+          <Star size={14} fill="currentColor" /> <span className="text-slate-600 ml-1">{skill.rating}/5</span> <span className="text-slate-300 mx-1">•</span> <span className="text-slate-400">{skill.reviewCount} reviews</span>
         </div>
       </div>
     </div>
   );
 }
 
-function BottomCTA() {
+function BottomCTA({ skill }: { skill: any }) {
+  const navigate = useNavigate();
   return (
     <section className="py-24 px-6 bg-[#FAF9F6] border-y border-[#E2E8F0] text-center">
       <div className="max-w-2xl mx-auto">
         <h2 className="text-4xl font-bold text-[#0F172A] mb-4">Ready to ship faster?</h2>
         <p className="text-xl text-[#64748B] mb-10">One skill. One-time price. Ship your product this week.</p>
         
-        <button className="bg-[#8B5CF6] text-white font-bold px-10 py-5 rounded-full hover:bg-[#7C3AED] transition-colors shadow-lg shadow-[#8B5CF6]/30 inline-flex justify-center items-center gap-3 text-lg mb-8">
-          Get SaaS Builder Skill — $9 <ArrowRight size={20} />
+        <button 
+          onClick={() => navigate(`/checkout?plan=starter&price=${skill.price}`)}
+          className="bg-[#8B5CF6] text-white font-bold px-10 py-5 rounded-full hover:bg-[#7C3AED] transition-colors shadow-lg shadow-[#8B5CF6]/30 inline-flex justify-center items-center gap-3 text-lg mb-8"
+        >
+          Get {skill.name} — ${skill.price} <ArrowRight size={20} />
         </button>
         
         <div className="flex justify-center items-center gap-2 text-sm text-[#64748B] font-medium">
@@ -493,6 +575,30 @@ function BottomCTA() {
 
 export function SkillDetail() {
   const { slug } = useParams();
+  
+  // Resolve dynamic skill details from catalog DB
+  const skill = getSkillData(slug || 'saas-builder');
+
+  // Load wishlist state
+  const [wishlist, setWishlist] = useState<string[]>(() => {
+    const saved = localStorage.getItem('launchpilot_wishlist');
+    try {
+      return saved ? JSON.parse(saved) : [];
+    } catch (e) {
+      return [];
+    }
+  });
+
+  useEffect(() => {
+    localStorage.setItem('launchpilot_wishlist', JSON.stringify(wishlist));
+  }, [wishlist]);
+
+  const wishlisted = wishlist.includes(skill.id);
+  const toggleWishlist = () => {
+    setWishlist(prev => 
+      prev.includes(skill.id) ? prev.filter(id => id !== skill.id) : [...prev, skill.id]
+    );
+  };
 
   // Scroll to top on mount
   useEffect(() => {
@@ -505,18 +611,18 @@ export function SkillDetail() {
       
       <main className="pt-32">
         <div className="max-w-7xl mx-auto px-6 mb-24">
-          <Breadcrumb />
+          <Breadcrumb skill={skill} />
           
           <div className="flex flex-col-reverse lg:flex-row gap-12 lg:gap-24 relative items-start">
             
             {/* Left Column - Content (65%) */}
             <div className="w-full lg:w-[65%] shrink-0">
-              <SkillHeader />
-              <SkillPreview />
-              <WhatItDoes />
+              <SkillHeader skill={skill} />
+              <SkillPreview skill={skill} />
+              <WhatItDoes skill={skill} />
               <WhatYouGet />
-              <FeatureChecklist />
-              <TechStackGrid />
+              <FeatureChecklist skill={skill} />
+              <TechStackGrid skill={skill} />
               <HowToUse />
               <WhoIsItFor />
               <Testimonials />
@@ -526,13 +632,13 @@ export function SkillDetail() {
             
             {/* Right Column - Sidebar (35%) */}
             <div className="w-full lg:w-[35%]">
-              <PurchaseSidebar />
+              <PurchaseSidebar skill={skill} wishlisted={wishlisted} onToggleWishlist={toggleWishlist} />
             </div>
 
           </div>
         </div>
         
-        <BottomCTA />
+        <BottomCTA skill={skill} />
       </main>
       
       <Footer />

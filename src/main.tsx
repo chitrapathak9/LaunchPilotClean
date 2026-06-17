@@ -78,6 +78,7 @@ createRoot(document.getElementById('root')!).render(
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/checkout" element={<BookAppointment />} />
         <Route path="/book-appointment" element={<BookAppointment />} />
+        <Route path="/checkout-success" element={<CheckoutSuccess />} />
         
         {/* Protected Dashboard Routes */}
         <Route element={<ProtectedRoute />}>

@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { submitLead } from '../lib/supabase';
+
 import { 
   BrainCircuit, 
   Map, 
@@ -314,6 +316,32 @@ export function PricingPreview() {
 }
 
 export function NewsletterSection() {
+  const [email, setEmail] = useState('');
+  const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
+  const [errorMsg, setErrorMsg] = useState('');
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setStatus('submitting');
+    setErrorMsg('');
+
+    try {
+      await submitLead({
+        email,
+        type: 'newsletter',
+        details: {
+          signupSource: 'landing_newsletter_footer'
+        }
+      });
+      setStatus('success');
+      setEmail('');
+    } catch (err: any) {
+      console.error(err);
+      setErrorMsg(err.message || 'Failed to subscribe. Please try again.');
+      setStatus('error');
+    }
+  };
+
   return (
     <section className="py-24 px-6 bg-[#FAF9F6]">
       <div className="max-w-4xl mx-auto bg-white rounded-3xl border border-slate-200 p-10 md:p-16 text-center relative overflow-hidden shadow-xl shadow-slate-200/40">
@@ -323,16 +351,34 @@ export function NewsletterSection() {
         <h2 className="text-3xl md:text-4xl font-bold text-[#0F172A] mb-4 relative z-10">Ship faster with AI skills</h2>
         <p className="text-[#64748B] mb-8 relative z-10 text-lg">Weekly skill drops. Free resources to build your startup.</p>
         
-        <form className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto relative z-10">
-          <input 
-            type="email" 
-            placeholder="founder@startup.com" 
-            className="flex-1 bg-slate-50 border border-slate-200 rounded-full px-6 py-3 text-slate-900 focus:outline-none focus:border-[#8B5CF6] placeholder:text-[#94A3B8]"
-          />
-          <button type="submit" className="bg-[#8B5CF6] text-white font-bold rounded-full px-8 py-3 hover:bg-[#7C3AED] transition-colors whitespace-nowrap shadow-md shadow-[#8B5CF6]/20">
-            Get free skills
-          </button>
-        </form>
+        {status === 'success' ? (
+          <div className="bg-emerald-50 border border-emerald-250 p-6 rounded-2xl max-w-md mx-auto text-center relative z-10 animate-in fade-in zoom-in-95 duration-250">
+            <span className="font-bold text-emerald-800 block text-lg mb-1">🎉 You're on the list!</span>
+            <span className="text-emerald-650 text-sm font-semibold">Thank you for subscribing. We will send you free skills drops weekly.</span>
+          </div>
+        ) : (
+          <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto relative z-10">
+            <input 
+              type="email" 
+              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="founder@startup.com" 
+              className="flex-1 bg-slate-50 border border-slate-200 rounded-full px-6 py-3 text-slate-900 focus:outline-none focus:border-[#8B5CF6] placeholder:text-[#94A3B8]"
+            />
+            <button 
+              type="submit" 
+              disabled={status === 'submitting'}
+              className="bg-[#8B5CF6] text-white font-bold rounded-full px-8 py-3 hover:bg-[#7C3AED] transition-colors whitespace-nowrap shadow-md shadow-[#8B5CF6]/20 disabled:opacity-75"
+            >
+              {status === 'submitting' ? 'Subscribing...' : 'Get free skills'}
+            </button>
+          </form>
+        )}
+        
+        {status === 'error' && (
+          <p className="text-red-500 text-xs font-semibold mt-3 relative z-10">{errorMsg}</p>
+        )}
         <p className="text-[#64748B] text-xs mt-4 relative z-10">No spam. Unsubscribe anytime.</p>
       </div>
     </section>

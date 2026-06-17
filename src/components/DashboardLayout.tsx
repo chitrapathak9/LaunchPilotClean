@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
+import { Link, useSearchParams, useNavigate, useLocation } from 'react-router-dom';
 import { LogoIcon } from '../App';
 import {
   LayoutDashboard,
@@ -14,25 +14,93 @@ import {
   ChevronDown,
   User,
   Menu,
-  X
+  X,
+  BookOpen,
+  FolderClosed,
+  Heart
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 
 export function DashboardLayout({ children }: { children: React.ReactNode }) {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
   const { user, logout } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
   const activeTab = searchParams.get('tab') || 'dashboard';
 
   const menuItems = [
-    { icon: LayoutDashboard, label: 'Dashboard', tab: 'dashboard' },
-    { icon: FileText, label: 'My Reports', tab: 'reports' },
-    { icon: Sparkles, label: 'New Validation', tab: 'new-validation' },
-    { icon: TrendingUp, label: 'Usage & Credits', tab: 'usage' },
-    { icon: CreditCard, label: 'Billing', tab: 'billing' },
-    { icon: Calendar, label: 'Book Strategy Call', tab: 'strategy-call' },
-    { icon: Settings, label: 'Settings', tab: 'settings' },
+    { 
+      icon: LayoutDashboard, 
+      label: 'Dashboard', 
+      path: '/dashboard?tab=dashboard', 
+      active: location.pathname === '/dashboard' && activeTab === 'dashboard' 
+    },
+    { 
+      icon: FileText, 
+      label: 'My Reports', 
+      path: '/dashboard?tab=reports', 
+      active: location.pathname === '/dashboard' && activeTab === 'reports' 
+    },
+    { 
+      icon: Sparkles, 
+      label: 'New Validation', 
+      path: '/dashboard?tab=new-validation', 
+      active: location.pathname === '/dashboard' && activeTab === 'new-validation' 
+    },
+    { 
+      icon: BookOpen, 
+      label: 'My Skills', 
+      path: '/dashboard/skills', 
+      active: location.pathname === '/dashboard/skills' 
+    },
+    { 
+      icon: FolderClosed, 
+      label: 'My Projects', 
+      path: '/dashboard/projects', 
+      active: location.pathname === '/dashboard/projects' 
+    },
+    { 
+      icon: Heart, 
+      label: 'My Wishlist', 
+      path: '/dashboard?tab=wishlist', 
+      active: location.pathname === '/dashboard' && activeTab === 'wishlist' 
+    },
+    { 
+      icon: TrendingUp, 
+      label: 'Usage & Credits', 
+      path: '/dashboard?tab=usage', 
+      active: location.pathname === '/dashboard' && activeTab === 'usage' 
+    },
+    { 
+      icon: CreditCard, 
+      label: 'Billing', 
+      path: '/dashboard?tab=billing', 
+      active: location.pathname === '/dashboard' && activeTab === 'billing' 
+    },
+    { 
+      icon: Calendar, 
+      label: 'Book Strategy Call', 
+      path: '/dashboard?tab=strategy-call', 
+      active: location.pathname === '/dashboard' && activeTab === 'strategy-call' 
+    },
+    { 
+      icon: Settings, 
+      label: 'Settings', 
+      path: '/dashboard?tab=settings', 
+      active: location.pathname === '/dashboard' && activeTab === 'settings' 
+    },
   ];
+
+  if (user?.email === 'launchpilotai41@gmail.com') {
+    menuItems.push({ 
+      icon: FileText, 
+      label: 'Admin Leads', 
+      path: '/dashboard?tab=leads', 
+      active: location.pathname === '/dashboard' && activeTab === 'leads' 
+    });
+  }
+
 
   return (
     <div className="min-h-screen bg-[#FAF9F6] text-slate-600 font-sans selection:bg-[#8B5CF6]/20 antialiased flex flex-col md:flex-row">
@@ -55,11 +123,11 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
           </div>
           {menuItems.map((item) => {
             const Icon = item.icon;
-            const active = activeTab === item.tab;
+            const active = item.active;
             return (
               <button
-                key={item.tab}
-                onClick={() => setSearchParams({ tab: item.tab })}
+                key={item.path}
+                onClick={() => navigate(item.path)}
                 className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold tracking-wide transition-all duration-200 ${
                   active
                     ? 'bg-[#8B5CF6]/5 text-[#8B5CF6] border border-[#8B5CF6]/15 shadow-sm'
@@ -158,12 +226,12 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
               </div>
               {menuItems.map((item) => {
                 const Icon = item.icon;
-                const active = activeTab === item.tab;
+                const active = item.active;
                 return (
                   <button
-                    key={item.tab}
+                    key={item.path}
                     onClick={() => {
-                      setSearchParams({ tab: item.tab });
+                      navigate(item.path);
                       setMobileDrawerOpen(false);
                     }}
                     className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold tracking-wide transition-all duration-200 text-left ${
@@ -209,17 +277,17 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
       {/* MOBILE BOTTOM NAVIGATION BAR */}
       <div className="md:hidden fixed bottom-0 inset-x-0 bg-white border-t border-slate-200/80 z-50 flex pb-safe select-none shadow-sm">
         {[
-          { icon: LayoutDashboard, label: 'Home', tab: 'dashboard' },
-          { icon: FileText, label: 'Reports', tab: 'reports' },
-          { icon: Sparkles, label: 'New', tab: 'new-validation' },
-          { icon: TrendingUp, label: 'Usage', tab: 'usage' },
-          { icon: Settings, label: 'Settings', tab: 'settings' },
+          { icon: LayoutDashboard, label: 'Home', path: '/dashboard?tab=dashboard', active: location.pathname === '/dashboard' && activeTab === 'dashboard' },
+          { icon: FileText, label: 'Reports', path: '/dashboard?tab=reports', active: location.pathname === '/dashboard' && activeTab === 'reports' },
+          { icon: Sparkles, label: 'New', path: '/dashboard?tab=new-validation', active: location.pathname === '/dashboard' && activeTab === 'new-validation' },
+          { icon: TrendingUp, label: 'Usage', path: '/dashboard?tab=usage', active: location.pathname === '/dashboard' && activeTab === 'usage' },
+          { icon: Settings, label: 'Settings', path: '/dashboard?tab=settings', active: location.pathname === '/dashboard' && activeTab === 'settings' },
         ].map(t => {
-          const active = activeTab === t.tab;
+          const active = t.active;
           return (
             <button 
-              key={t.tab} 
-              onClick={() => setSearchParams({ tab: t.tab })} 
+              key={t.path} 
+              onClick={() => navigate(t.path)} 
               className="flex-1 flex flex-col items-center gap-1 py-2"
             >
               <t.icon size={18} className={active ? 'text-[#8B5CF6]' : 'text-slate-400'} />
@@ -242,7 +310,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
             {/* Upgrade Badge for Non-pro users */}
             {user?.plan !== 'full-arsenal' && (
               <button 
-                onClick={() => setSearchParams({ tab: 'billing' })}
+                onClick={() => navigate('/dashboard?tab=billing')}
                 className="bg-[#8B5CF6] hover:bg-[#7c4ee4] text-white rounded-full px-4 py-1.5 text-[10px] font-bold uppercase tracking-widest shadow-lg shadow-[#8B5CF6]/10 transition-all border border-[#8B5CF6]/20"
               >
                 Upgrade to Pro

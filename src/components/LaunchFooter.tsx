@@ -94,7 +94,7 @@ export function LaunchFooter() {
             © 2025 Launch AI Pilot. All rights reserved.
           </div>
           <div>
-            Built by CodeIntelli · Ahmedabad, India
+            Built by Launch AI Pilot · Ahmedabad, India
           </div>
         </div>
 

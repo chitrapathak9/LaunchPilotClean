@@ -14,10 +14,11 @@ export function Comparison() {
     { label: 'Post-launch support', agency: 'Expensive retainer contracts', us: '30 days included free' },
   ];
 
+
   return (
     <section className="py-24 bg-cream border-t border-zinc-200">
       <div className="max-w-6xl mx-auto px-6">
-        
+
         {/* Section Header */}
         <div className="text-center mb-16">
           <FadeUp delay={0.1}>

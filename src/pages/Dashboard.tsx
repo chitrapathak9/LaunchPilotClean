@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useNavigate, Link } from 'react-router-dom';
 import {
   LayoutDashboard,
   FileText,
@@ -33,10 +33,14 @@ import {
   Clock,
   Layers,
   ChevronRight,
-  ShieldCheck
+  ShieldCheck,
+  Heart
 } from 'lucide-react';
 import { DashboardLayout } from '../components/DashboardLayout';
 import { useAuth } from '../contexts/AuthContext';
+import { supabase } from '../lib/supabase';
+import { SKILLS_DB, Skill } from './SkillsCatalog';
+
 
 /* ── Typings ── */
 interface StartupReport {
@@ -208,6 +212,7 @@ const INITIAL_REPORTS: StartupReport[] = [
 
 export function Dashboard() {
   const { user } = useAuth();
+  const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const activeTab = searchParams.get('tab') || 'dashboard';
 
@@ -220,6 +225,19 @@ export function Dashboard() {
     return INITIAL_REPORTS;
   });
 
+  const [wishlistIds, setWishlistIds] = useState<string[]>(() => {
+    const saved = localStorage.getItem('launchpilot_wishlist');
+    try {
+      return saved ? JSON.parse(saved) : [];
+    } catch (e) {
+      return [];
+    }
+  });
+
+  useEffect(() => {
+    localStorage.setItem('launchpilot_wishlist', JSON.stringify(wishlistIds));
+  }, [wishlistIds]);
+
   const [selectedReport, setSelectedReport] = useState<StartupReport | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [industryFilter, setIndustryFilter] = useState('All');
@@ -230,6 +248,68 @@ export function Dashboard() {
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [buyCreditsOpen, setBuyCreditsOpen] = useState(false);
   const [selectedCreditTier, setSelectedCreditTier] = useState<number>(3); // Default to 3 Credits bundle
+
+  /* ── Admin Leads Panel State & Functions ── */
+  interface Lead {
+    id: string;
+    name: string;
+    email: string;
+    type: 'contact' | 'booking' | 'newsletter';
+    details: Record<string, any>;
+    created_at: string;
+  }
+  const [leads, setLeads] = useState<Lead[]>([]);
+  const [loadingLeads, setLoadingLeads] = useState(false);
+  const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
+  const [searchQueryLeads, setSearchQueryLeads] = useState('');
+  const [typeFilterLeads, setTypeFilterLeads] = useState('All');
+  const [leadsError, setLeadsError] = useState('');
+
+  const fetchLeads = async () => {
+    if (user?.email !== 'launchpilotai41@gmail.com') return;
+    setLoadingLeads(true);
+    setLeadsError('');
+    try {
+      const { data, error } = await supabase
+        .from('leads')
+        .select('*')
+        .order('created_at', { ascending: false });
+      
+      if (error) throw error;
+      setLeads(data || []);
+    } catch (err: any) {
+      console.error('Error fetching leads:', err);
+      setLeadsError(err.message || 'Failed to load leads from Supabase.');
+    } finally {
+      setLoadingLeads(false);
+    }
+  };
+
+  const deleteLead = async (id: string) => {
+    if (!confirm('Are you sure you want to permanently delete this lead?')) return;
+    try {
+      const { error } = await supabase
+        .from('leads')
+        .delete()
+        .eq('id', id);
+      
+      if (error) throw error;
+      setLeads(prev => prev.filter(l => l.id !== id));
+      showToast('Lead deleted successfully.');
+      if (selectedLead?.id === id) {
+        setSelectedLead(null);
+      }
+    } catch (err: any) {
+      alert(err.message || 'Failed to delete lead.');
+    }
+  };
+
+  useEffect(() => {
+    if (activeTab === 'leads' && user?.email === 'launchpilotai41@gmail.com') {
+      fetchLeads();
+    }
+  }, [activeTab, user]);
+
 
   /* New Validation Wizard Fields - 10 Fields */
   const [wizardFields, setWizardFields] = useState({
@@ -1415,6 +1495,165 @@ export function Dashboard() {
           </div>
         )}
 
+        {/* ─── TAB 8: ADMIN LEADS PANEL ─── */}
+        {activeTab === 'leads' && user?.email === 'launchpilotai41@gmail.com' && (
+          <div className="space-y-6 animate-in fade-in duration-200 text-left">
+            
+            {/* Header */}
+            <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-4">
+              <div className="space-y-2">
+                <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight">Admin Leads Manager</h1>
+                <p className="text-slate-550 text-xs font-semibold">Track, view details, and manage all leads captured from forms.</p>
+              </div>
+              <button 
+                onClick={fetchLeads}
+                disabled={loadingLeads}
+                className="bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 font-bold px-4 py-2.5 rounded-xl text-xs flex items-center gap-2 transition-all shadow-sm shrink-0"
+              >
+                {loadingLeads ? 'Refreshing...' : 'Refresh Leads'}
+              </button>
+            </div>
+
+            {/* Error Message */}
+            {leadsError && (
+              <div className="bg-red-50 border border-red-200 text-red-700 p-4 rounded-xl flex items-start gap-2.5 text-xs font-semibold">
+                <AlertCircle className="shrink-0 mt-0.5" size={16} />
+                <span>{leadsError}</span>
+              </div>
+            )}
+
+            {/* Metrics cards */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <div className="bg-white border border-slate-200 rounded-3xl p-5 shadow-sm">
+                <span className="text-[9px] text-slate-450 font-bold uppercase tracking-wider block">Total Leads</span>
+                <span className="text-2xl font-extrabold text-slate-900 mt-2 block">{leads.length}</span>
+              </div>
+              <div className="bg-white border border-slate-200 rounded-3xl p-5 shadow-sm">
+                <span className="text-[9px] text-[#8B5CF6] font-bold uppercase tracking-wider block">Bookings</span>
+                <span className="text-2xl font-extrabold text-slate-900 mt-2 block">
+                  {leads.filter(l => l.type === 'booking').length}
+                </span>
+              </div>
+              <div className="bg-white border border-slate-200 rounded-3xl p-5 shadow-sm">
+                <span className="text-[9px] text-slate-450 font-bold uppercase tracking-wider block">Contact Messages</span>
+                <span className="text-2xl font-extrabold text-slate-900 mt-2 block">
+                  {leads.filter(l => l.type === 'contact').length}
+                </span>
+              </div>
+              <div className="bg-white border border-slate-200 rounded-3xl p-5 shadow-sm">
+                <span className="text-[9px] text-slate-450 font-bold uppercase tracking-wider block">Newsletters</span>
+                <span className="text-2xl font-extrabold text-slate-900 mt-2 block">
+                  {leads.filter(l => l.type === 'newsletter').length}
+                </span>
+              </div>
+            </div>
+
+            {/* Filter / Search Bar */}
+            <div className="bg-white border border-slate-200 rounded-3xl p-4 flex flex-col sm:flex-row gap-3 items-center justify-between shadow-sm">
+              <div className="relative w-full sm:max-w-xs">
+                <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" size={14} />
+                <input
+                  type="text"
+                  placeholder="Search by name or email..."
+                  value={searchQueryLeads}
+                  onChange={(e) => setSearchQueryLeads(e.target.value)}
+                  className="w-full bg-slate-50 border border-slate-200 rounded-full pl-9 pr-4 py-2.5 text-xs text-slate-800 font-semibold focus:outline-none focus:border-[#8B5CF6] focus:bg-white transition-all"
+                />
+              </div>
+              
+              <div className="flex items-center gap-2 w-full sm:w-auto shrink-0 justify-end">
+                <Filter size={13} className="text-slate-400" />
+                <select
+                  value={typeFilterLeads}
+                  onChange={(e) => setTypeFilterLeads(e.target.value)}
+                  className="bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-650 font-semibold focus:outline-none focus:border-[#8B5CF6] transition-all cursor-pointer"
+                >
+                  <option value="All">All Types</option>
+                  <option value="booking">Bookings</option>
+                  <option value="contact">Contact Messages</option>
+                  <option value="newsletter">Newsletter Signups</option>
+                </select>
+              </div>
+            </div>
+
+            {/* Leads Table */}
+            <div className="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm overflow-hidden">
+              {loadingLeads ? (
+                <div className="py-12 flex flex-col items-center justify-center text-center">
+                  <div className="w-8 h-8 border-2 border-[#8B5CF6]/30 border-t-[#8B5CF6] rounded-full animate-spin mb-3" />
+                  <p className="text-xs text-slate-450 font-semibold">Fetching leads from Supabase...</p>
+                </div>
+              ) : leads.length === 0 ? (
+                <div className="py-12 text-center max-w-sm mx-auto space-y-4">
+                  <div className="w-12 h-12 bg-slate-50 border border-slate-200 rounded-2xl flex items-center justify-center mx-auto text-slate-400">
+                    <Info size={22} />
+                  </div>
+                  <div>
+                    <h4 className="text-sm font-bold text-slate-850">No Leads Found</h4>
+                    <p className="text-xs text-slate-450 mt-1 font-semibold leading-relaxed">
+                      Forms submitted by public visitors will appear here in real-time. Make sure your environment keys are set up.
+                    </p>
+                  </div>
+                </div>
+              ) : (
+                <div className="overflow-x-auto">
+                  <table className="w-full text-xs font-semibold text-slate-550">
+                    <thead>
+                      <tr className="border-b border-slate-100 text-slate-400 text-[10px] uppercase tracking-wider text-left">
+                        <th className="py-3 font-bold">Type</th>
+                        <th className="py-3 font-bold">Name</th>
+                        <th className="py-3 font-bold">Email</th>
+                        <th className="py-3 font-bold">Submitted At</th>
+                        <th className="py-3 font-bold text-right">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-50">
+                      {leads
+                        .filter(l => {
+                          const query = searchQueryLeads.toLowerCase();
+                          const matchesSearch = l.email.toLowerCase().includes(query) || (l.name || '').toLowerCase().includes(query);
+                          const matchesType = typeFilterLeads === 'All' || l.type === typeFilterLeads;
+                          return matchesSearch && matchesType;
+                        })
+                        .map((lead) => (
+                          <tr key={lead.id} className="hover:bg-slate-50 transition-colors text-left">
+                            <td className="py-4">
+                              <span className={`px-2.5 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider ${
+                                lead.type === 'booking' ? 'bg-purple-50 text-purple-700 border border-purple-200/50' :
+                                lead.type === 'contact' ? 'bg-blue-50 text-blue-700 border border-blue-200/50' :
+                                'bg-emerald-50 text-emerald-700 border border-emerald-200/50'
+                              }`}>
+                                {lead.type}
+                              </span>
+                            </td>
+                            <td className="py-4 text-slate-900 font-bold">{lead.name || '—'}</td>
+                            <td className="py-4"><a href={`mailto:${lead.email}`} className="hover:underline">{lead.email}</a></td>
+                            <td className="py-4 text-slate-450">{new Date(lead.created_at).toLocaleString()}</td>
+                            <td className="py-4 text-right flex justify-end gap-2">
+                              <button
+                                onClick={() => setSelectedLead(lead)}
+                                className="bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-700 px-3 py-1.5 rounded-xl font-bold transition-all text-[10px]"
+                              >
+                                View details
+                              </button>
+                              <button
+                                onClick={() => deleteLead(lead.id)}
+                                className="bg-red-50 hover:bg-red-100 border border-red-200 text-red-700 px-3 py-1.5 rounded-xl font-bold transition-all text-[10px]"
+                              >
+                                Delete
+                              </button>
+                            </td>
+                          </tr>
+                        ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+            </div>
+
+          </div>
+        )}
+
       </div>
 
       {/* ─── FULL VALIDATION DETAILS MODAL PREVIEWER (Clean Light Mode) ─── */}
@@ -1640,6 +1879,211 @@ export function Dashboard() {
           </div>
         </div>
       )}
+
+      {/* ─── FULL LEAD DETAILS MODAL PREVIEWER (Clean Light Mode) ─── */}
+      {selectedLead && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-6 bg-black/40 backdrop-blur-sm select-none animate-in fade-in duration-200">
+          <div className="bg-white border border-slate-200 rounded-3xl p-6 w-full max-w-lg shadow-2xl relative text-left overflow-y-auto max-h-[85vh] animate-in zoom-in-95 duration-200">
+            
+            {/* Header */}
+            <div className="flex items-center gap-3 border-b border-slate-100 pb-4 mb-6">
+              <span className={`px-2.5 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider ${
+                selectedLead.type === 'booking' ? 'bg-purple-50 text-purple-700 border border-purple-200/50' :
+                selectedLead.type === 'contact' ? 'bg-blue-50 text-blue-700 border border-blue-200/50' :
+                'bg-emerald-50 text-emerald-700 border border-emerald-200/50'
+              }`}>
+                {selectedLead.type}
+              </span>
+              <div>
+                <h3 className="text-base font-bold text-slate-900">Lead Submission Details</h3>
+                <p className="text-[9px] text-slate-455 font-bold">ID: {selectedLead.id.toUpperCase()}</p>
+              </div>
+              <button 
+                onClick={() => setSelectedLead(null)} 
+                className="absolute top-4 right-4 p-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-550 hover:text-slate-900 hover:border-slate-355 transition-all"
+              >
+                <X size={15} />
+              </button>
+            </div>
+
+            {/* Details Fields */}
+            <div className="space-y-4 text-xs font-semibold text-slate-550 leading-relaxed">
+              <div className="grid grid-cols-2 gap-4 border-b border-slate-50 pb-3">
+                <div>
+                  <span className="block text-[9px] text-slate-400 font-bold uppercase tracking-wider">Submitted By</span>
+                  <span className="text-slate-800 font-bold text-sm mt-0.5 block">{selectedLead.name || 'Anonymous'}</span>
+                </div>
+                <div>
+                  <span className="block text-[9px] text-slate-400 font-bold uppercase tracking-wider">Email Address</span>
+                  <a href={`mailto:${selectedLead.email}`} className="text-[#8B5CF6] hover:underline font-bold text-sm mt-0.5 block">{selectedLead.email}</a>
+                </div>
+              </div>
+
+              <div className="border-b border-slate-50 pb-3">
+                <span className="block text-[9px] text-slate-400 font-bold uppercase tracking-wider">Date & Time Received</span>
+                <span className="text-slate-800 mt-0.5 block">{new Date(selectedLead.created_at).toLocaleString()}</span>
+              </div>
+
+              {/* Form type specific fields */}
+              {selectedLead.type === 'contact' && (
+                <>
+                  <div className="border-b border-slate-50 pb-3">
+                    <span className="block text-[9px] text-slate-400 font-bold uppercase tracking-wider">Message Topic</span>
+                    <span className="text-slate-850 mt-0.5 block font-bold">{selectedLead.details?.topic || '—'}</span>
+                  </div>
+                  <div className="bg-slate-50 border border-slate-100 p-4 rounded-xl">
+                    <span className="block text-[9px] text-slate-400 font-bold uppercase tracking-wider mb-1">Message Content</span>
+                    <p className="text-slate-700 leading-relaxed text-xs whitespace-pre-wrap font-medium">{selectedLead.details?.message || '—'}</p>
+                  </div>
+                </>
+              )}
+
+              {selectedLead.type === 'booking' && (
+                <>
+                  <div className="grid grid-cols-2 gap-4 border-b border-slate-50 pb-3">
+                    <div>
+                      <span className="block text-[9px] text-slate-400 font-bold uppercase tracking-wider">Booking Date</span>
+                      <span className="text-slate-850 mt-0.5 block font-bold">{selectedLead.details?.bookingDateFormatted || selectedLead.details?.bookingDate || '—'}</span>
+                    </div>
+                    <div>
+                      <span className="block text-[9px] text-slate-400 font-bold uppercase tracking-wider">Booking Time (IST)</span>
+                      <span className="text-slate-850 mt-0.5 block font-bold">{selectedLead.details?.bookingTime || '—'}</span>
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-2 gap-4 border-b border-slate-50 pb-3">
+                    <div>
+                      <span className="block text-[9px] text-slate-400 font-bold uppercase tracking-wider">Plan of Interest</span>
+                      <span className="text-slate-850 mt-0.5 block font-bold">{selectedLead.details?.planDisplayName || selectedLead.details?.plan || '—'}</span>
+                    </div>
+                    <div>
+                      <span className="block text-[9px] text-slate-400 font-bold uppercase tracking-wider">Plan Price</span>
+                      <span className="text-slate-850 mt-0.5 block font-bold">{selectedLead.details?.planPriceText || 'Free Consultation'}</span>
+                    </div>
+                  </div>
+                  <div className="border-b border-slate-50 pb-3">
+                    <span className="block text-[9px] text-slate-400 font-bold uppercase tracking-wider">Mutual NDA Required</span>
+                    <span className={`mt-0.5 font-bold block ${selectedLead.details?.requireNda ? 'text-emerald-650' : 'text-slate-550'}`}>
+                      {selectedLead.details?.requireNda ? '✓ NDA protection requested' : 'No NDA requested'}
+                    </span>
+                  </div>
+                  <div className="bg-slate-50 border border-slate-100 p-4 rounded-xl">
+                    <span className="block text-[9px] text-slate-400 font-bold uppercase tracking-wider mb-1">Startup Concept Details</span>
+                    <p className="text-slate-700 leading-relaxed text-xs whitespace-pre-wrap font-medium">{selectedLead.details?.startupConcept || '—'}</p>
+                  </div>
+                </>
+              )}
+
+              {selectedLead.type === 'newsletter' && (
+                <div className="border-b border-slate-50 pb-3">
+                  <span className="block text-[9px] text-slate-400 font-bold uppercase tracking-wider">Newsletter Signup Source</span>
+                  <span className="text-slate-850 mt-0.5 block">{selectedLead.details?.signupSource || 'landing_newsletter_footer'}</span>
+                </div>
+              )}
+            </div>
+
+            {/* Modal Actions Footer */}
+            <div className="flex gap-3 justify-end pt-5 border-t border-slate-100 mt-6">
+              <button
+                onClick={() => setSelectedLead(null)}
+                className="w-full bg-[#8B5CF6] hover:bg-[#7c4ee4] border border-[#8B5CF6]/20 text-white font-bold py-3.5 rounded-xl text-xs transition-all text-center"
+              >
+                Close Details
+              </button>
+            </div>
+
+          </div>
+        </div>
+      )}
+
+      {/* ─── TAB 9: MY WISHLIST ─── */}
+      {activeTab === 'wishlist' && (() => {
+        const wishlistedSkills = SKILLS_DB.filter(s => wishlistIds.includes(s.id));
+
+        const handleRemoveFromWishlist = (id: string, name: string) => {
+          setWishlistIds(prev => prev.filter(item => item !== id));
+          showToast(`Removed "${name}" from wishlist.`);
+        };
+
+        return (
+          <div className="space-y-6 animate-in fade-in duration-200 text-left">
+            {/* Header */}
+            <div className="space-y-2">
+              <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight">My Wishlist</h1>
+              <p className="text-slate-550 text-xs font-semibold">Browse and manage AI skills you saved for later.</p>
+            </div>
+
+            {wishlistedSkills.length === 0 ? (
+              <div className="bg-white border border-slate-200 rounded-3xl p-16 text-center space-y-6 shadow-sm">
+                <div className="w-16 h-16 bg-[#8B5CF6]/5 border border-[#8B5CF6]/10 text-[#8B5CF6] rounded-2xl flex items-center justify-center mx-auto">
+                  <Heart size={28} className="text-[#8B5CF6]" />
+                </div>
+                <div className="space-y-2">
+                  <h3 className="text-lg font-bold text-slate-900">Your wishlist is empty</h3>
+                  <p className="text-slate-500 text-sm max-w-sm mx-auto leading-relaxed">
+                    Explore our catalog of custom-engineered AI prompt developer instruction sets and add them to your wishlist.
+                  </p>
+                </div>
+                <Link 
+                  to="/skills" 
+                  className="inline-flex items-center gap-2 bg-[#8B5CF6] hover:bg-[#7c4ee4] text-white font-bold px-6 py-3 rounded-xl text-xs transition-all shadow-md shadow-[#8B5CF6]/10"
+                >
+                  Browse Skills Catalog <ArrowRight size={14} />
+                </Link>
+              </div>
+            ) : (
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {wishlistedSkills.map(skill => (
+                  <div 
+                    key={skill.id}
+                    className="bg-white border border-slate-200 rounded-2xl p-6 hover:border-[#8B5CF6]/50 hover:shadow-md transition-all flex flex-col justify-between group duration-300 shadow-sm relative overflow-hidden"
+                  >
+                    <div>
+                      <div className="flex justify-between items-center mb-4">
+                        <span className="bg-slate-100 text-slate-600 text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 border border-slate-200/50 rounded">
+                          {skill.category}
+                        </span>
+                        <span className="text-sm font-extrabold text-[#8B5CF6]">${skill.price}</span>
+                      </div>
+                      
+                      <div className="flex items-center gap-3 mb-3">
+                        <div className="w-10 h-10 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-center text-[#8B5CF6]">
+                          {skill.icon}
+                        </div>
+                        <h3 className="text-base font-bold text-slate-900 truncate">{skill.name}</h3>
+                      </div>
+                      
+                      <p className="text-slate-550 text-xs leading-relaxed line-clamp-3 mb-6 font-semibold">{skill.tagline}</p>
+                    </div>
+
+                    <div className="flex flex-col gap-2 border-t border-slate-100 pt-4 mt-2">
+                      <button
+                        onClick={() => navigate(`/checkout?plan=starter&price=${skill.price}`)}
+                        className="w-full bg-[#8B5CF6] hover:bg-[#7c4ee4] text-white font-bold py-2.5 rounded-xl text-xs transition-all border border-[#8B5CF6]/15 flex items-center justify-center gap-1.5 shadow-sm shadow-[#8B5CF6]/5"
+                      >
+                        Buy Now
+                      </button>
+                      <div className="grid grid-cols-2 gap-2">
+                        <Link
+                          to={`/skills/${skill.slug}`}
+                          className="bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-lg text-slate-700 font-bold py-2 text-center text-[10px] transition-all"
+                        >
+                          View Details
+                        </Link>
+                        <button
+                          onClick={() => handleRemoveFromWishlist(skill.id, skill.name)}
+                          className="bg-transparent hover:bg-red-50 border border-transparent hover:border-red-100 rounded-lg text-slate-500 hover:text-red-600 font-bold py-2 text-center text-[10px] transition-all"
+                        >
+                          Remove
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        );
+      })()}
 
     </DashboardLayout>
   );
