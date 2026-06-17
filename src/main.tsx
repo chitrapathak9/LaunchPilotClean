@@ -12,12 +12,14 @@ import { GlobalDelivery } from './pages/GlobalDelivery';
 import { WhyLaunch } from './pages/WhyLaunch';
 import { Careers } from './pages/Careers';
 import { Contact } from './pages/Contact';
+import { BlogList } from './pages/BlogList';
+import { BlogDetail } from './pages/BlogDetail';
+import { CaseStudiesList } from './pages/CaseStudiesList';
+import { CaseStudyDetail } from './pages/CaseStudyDetail';
 import { SkillFinder } from './pages/SkillFinder';
 import { SkillsCatalog } from './pages/SkillsCatalog';
 import { SkillDetail } from './pages/SkillDetail';
 import { Pricing } from './pages/Pricing';
-import { BlogListing } from './pages/BlogListing';
-import { BlogPost } from './pages/BlogPost';
 import { Login } from './pages/Login';
 import { Signup } from './pages/Signup';
 import { DashboardSkills } from './pages/DashboardSkills';
@@ -35,8 +37,6 @@ import { DashboardSupport } from './pages/DashboardSupport';
 import { StripeCheckoutMock } from './pages/StripeCheckoutMock';
 import { CheckoutSuccess } from './pages/CheckoutSuccess';
 import { BookAppointment } from './pages/BookAppointment';
-import { CaseStudiesListing } from './pages/CaseStudiesListing';
-import { CaseStudyDetail } from './pages/CaseStudyDetail';
 import { ServiceDetail } from './pages/ServiceDetail';
 import { SolutionDetail } from './pages/SolutionDetail';
 import { IndustryDetail } from './pages/IndustryDetail';
@@ -53,7 +53,7 @@ import { BlogsList } from './pages/admin/blogs/BlogsList';
 import { BlogEditor } from './pages/admin/blogs/BlogEditor';
 import { ContactsList } from './pages/admin/contacts/ContactsList';
 import { ContactDetail } from './pages/admin/contacts/ContactDetail';
-import { CaseStudiesList } from './pages/admin/case-studies/CaseStudiesList';
+import { CaseStudiesList as AdminCaseStudiesList } from './pages/admin/case-studies/CaseStudiesList';
 import { CaseStudyEditor } from './pages/admin/case-studies/CaseStudyEditor';
 
 // ─── ScrollToTop ───────────────────────────────────────────────────────────────
@@ -92,17 +92,17 @@ createRoot(document.getElementById('root')!).render(
           <Route path="/why-launch" element={<WhyLaunch />} />
           <Route path="/careers" element={<Careers />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/blog" element={<BlogList />} />
+          <Route path="/blog/:id" element={<BlogDetail />} />
+          <Route path="/case-studies" element={<CaseStudiesList />} />
+          <Route path="/case-studies/:id" element={<CaseStudyDetail />} />
           <Route path="/skill-finder" element={<SkillFinder />} />
           <Route path="/skills" element={<SkillsCatalog />} />
           <Route path="/skills/:slug" element={<SkillDetail />} />
           <Route path="/pricing" element={<Pricing />} />
-          <Route path="/blog" element={<BlogListing />} />
-          <Route path="/blog/:slug" element={<BlogPost />} />
           <Route path="/services/:slug" element={<ServiceDetail />} />
           <Route path="/solutions/:slug" element={<SolutionDetail />} />
           <Route path="/industries/:slug" element={<IndustryDetail />} />
-          <Route path="/case-studies" element={<CaseStudiesListing />} />
-          <Route path="/case-studies/:slug" element={<CaseStudyDetail />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/bundles" element={<Bundles />} />
@@ -134,7 +134,7 @@ createRoot(document.getElementById('root')!).render(
             <Route path="/admin/blogs/:id/edit" element={<BlogEditor />} />
             <Route path="/admin/contacts" element={<ContactsList />} />
             <Route path="/admin/contacts/:id" element={<ContactDetail />} />
-            <Route path="/admin/case-studies" element={<CaseStudiesList />} />
+            <Route path="/admin/case-studies" element={<AdminCaseStudiesList />} />
             <Route path="/admin/case-studies/new" element={<CaseStudyEditor />} />
             <Route path="/admin/case-studies/:id/edit" element={<CaseStudyEditor />} />
           </Route>

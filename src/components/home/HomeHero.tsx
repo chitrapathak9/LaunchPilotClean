@@ -24,7 +24,6 @@ export function HomeHero() {
   const [typingSpeed, setTypingSpeed] = useState(150);
 
   useEffect(() => {
-    let timer: ReturnType<typeof setTimeout>;
     const handleType = () => {
       const current = loopNum % ROTATING_PHRASES.length;
       const fullText = ROTATING_PHRASES[current];
@@ -47,7 +46,7 @@ export function HomeHero() {
       }
     };
 
-    timer = setTimeout(handleType, typingSpeed);
+    const timer = setTimeout(handleType, typingSpeed);
     return () => clearTimeout(timer);
   }, [text, isDeleting, loopNum, typingSpeed]);
 
