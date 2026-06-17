@@ -1,17 +1,65 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Navbar } from '../components/Navbar';
 import { LaunchFooter } from '../components/LaunchFooter';
-import { mockBlogs } from '../data/dummyData';
-import { Clock, ArrowLeft } from 'lucide-react';
+import { supabase } from '../lib/supabase';
+import type { BlogWithAuthor } from '../types/database';
+import { Clock, ArrowLeft, Loader2 } from 'lucide-react';
 
 export function BlogDetail() {
   const { id } = useParams();
-  const post = mockBlogs.find(p => p.slug === id) || mockBlogs[0];
+  const [post, setPost] = useState<BlogWithAuthor | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     window.scrollTo(0, 0);
+
+    const fetchPost = async () => {
+      if (!id) return;
+      const { data, error } = await supabase
+        .from('blogs')
+        .select('*, profiles(full_name, avatar_url)')
+        .eq('slug', id)
+        .single();
+      
+      if (data) setPost(data as unknown as BlogWithAuthor);
+      setLoading(false);
+    };
+
+    fetchPost();
   }, [id]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-white flex flex-col font-sans text-ink-900 selection:bg-cobalt-100 selection:text-cobalt-900">
+        <Navbar />
+        <main className="flex-grow flex items-center justify-center pt-32 pb-24">
+          <Loader2 className="animate-spin text-indigo-600" size={32} />
+        </main>
+        <LaunchFooter />
+      </div>
+    );
+  }
+
+  if (!post) {
+    return (
+      <div className="min-h-screen bg-white flex flex-col font-sans text-ink-900 selection:bg-cobalt-100 selection:text-cobalt-900">
+        <Navbar />
+        <main className="flex-grow flex flex-col items-center justify-center pt-32 pb-24 text-center">
+          <h1 className="heading-lg text-ink-900 mb-4">Post not found</h1>
+          <p className="body-lg text-ink-500 mb-8">The article you're looking for doesn't exist or has been removed.</p>
+          <a href="/blog" className="btn-primary">Back to Blog</a>
+        </main>
+        <LaunchFooter />
+      </div>
+    );
+  }
+
+  const authorName = post.profiles?.full_name || 'Launch AI Pilot Team';
+  const authorRole = 'AI Engineer'; // Default for now
+  const dateString = post.published_at 
+    ? new Date(post.published_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+    : 'Recent';
 
   return (
     <div className="min-h-screen bg-white flex flex-col font-sans text-ink-900 selection:bg-cobalt-100 selection:text-cobalt-900">
@@ -26,12 +74,12 @@ export function BlogDetail() {
           </a>
           
           <div className="flex items-center gap-3 mb-6">
-            <span className="badge-cobalt">{post.category}</span>
+            <span className="badge-cobalt">{post.category || 'Engineering'}</span>
             <span className="flex items-center gap-1.5 text-[0.875rem] font-medium text-ink-500">
-              <Clock size={16} /> {post.readTime}
+              <Clock size={16} /> {post.read_time_minutes || 5} min read
             </span>
             <span className="w-1 h-1 rounded-full bg-gray-300" />
-            <span className="text-[0.875rem] font-medium text-ink-500">{post.date}</span>
+            <span className="text-[0.875rem] font-medium text-ink-500">{dateString}</span>
           </div>
           
           <h1 className="heading-hero text-ink-900 mb-10 text-balance">
@@ -40,24 +88,29 @@ export function BlogDetail() {
 
           {/* Author Block */}
           <div className="flex items-center gap-4 py-6 border-y border-gray-100">
-            <div className="w-12 h-12 rounded-full bg-indigo-50 flex items-center justify-center font-bold text-[1.25rem] text-indigo-600">
-              {post.author.charAt(0)}
+            <div className="w-12 h-12 rounded-full bg-indigo-50 flex items-center justify-center font-bold text-[1.25rem] text-indigo-600 overflow-hidden">
+              {post.profiles?.avatar_url ? (
+                <img src={post.profiles.avatar_url} alt={authorName} className="w-full h-full object-cover" />
+              ) : (
+                authorName.charAt(0)
+              )}
             </div>
             <div>
-              <p className="text-[1rem] font-bold text-ink-900 m-0">{post.author}</p>
-              <p className="text-[0.875rem] text-ink-500 m-0">{post.authorRole}</p>
+              <p className="text-[1rem] font-bold text-ink-900 m-0">{authorName}</p>
+              <p className="text-[0.875rem] text-ink-500 m-0">{authorRole}</p>
             </div>
           </div>
         </div>
 
-        {/* Hero Image */}
-        <div className="w-full max-w-[1600px] mx-auto px-4 lg:px-8 mb-16">
-          <img 
-            src={post.image} 
-            alt={post.title} 
-            className="w-full aspect-[21/9] object-cover rounded-[2rem] shadow-sm border border-gray-100"
-          />
-        </div>
+        {post.cover_image_url && (
+          <div className="w-full max-w-[1600px] mx-auto px-4 lg:px-8 mb-16">
+            <img 
+              src={post.cover_image_url} 
+              alt={post.title} 
+              className="w-full aspect-[21/9] object-cover rounded-[2rem] shadow-sm border border-gray-100"
+            />
+          </div>
+        )}
 
         {/* Rich Text Content */}
         <div className="container-editorial">
