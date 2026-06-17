@@ -1,63 +1,84 @@
 import React from 'react';
 
-export function HomeProcess() {
-  const steps = [
-    { 
-      name: 'Discovery & Blueprint', 
-      description: 'We deeply analyze your business bottlenecks and architect a comprehensive technical blueprint before writing a single line of code.'
-    },
-    { 
-      name: 'Rapid Prototyping', 
-      description: 'We build high-fidelity interactive prototypes to validate the user experience and technical feasibility rapidly.'
-    },
-    { 
-      name: 'Agile Development', 
-      description: 'Our engineering team executes the blueprint in aggressive two-week sprints, keeping you fully transparent and in control.'
-    },
-    { 
-      name: 'Deployment & Scale', 
-      description: 'We deploy to production-grade infrastructure, handing over full code ownership and providing ongoing scaling support.'
-    }
-  ];
+const steps = [
+  {
+    num: '01',
+    name: 'Discovery & Blueprint',
+    description:
+      'We deeply analyze your business bottlenecks and architect a comprehensive technical blueprint before writing a single line of code. No discovery retainers. Just clarity.',
+  },
+  {
+    num: '02',
+    name: 'Rapid Prototyping',
+    description:
+      'We build high-fidelity interactive prototypes to validate user experience and technical feasibility rapidly — giving you confidence before full development begins.',
+  },
+  {
+    num: '03',
+    name: 'Agile Development',
+    description:
+      'Our engineering team executes the blueprint in focused two-week sprints, with full transparency and daily updates keeping you in control at every step.',
+  },
+  {
+    num: '04',
+    name: 'Deploy & Scale',
+    description:
+      'We deploy to production-grade infrastructure, hand over full IP ownership, and provide ongoing scaling support to maximize your ROI beyond launch.',
+  },
+];
 
+export function HomeProcess() {
   return (
-    <section className="py-32 bg-white">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
-        
-        <div className="mb-20">
-          <div className="flex items-center gap-4 mb-6">
-            <div className="w-8 h-px bg-blue-600"></div>
-            <span className="text-xs font-bold uppercase tracking-widest text-blue-600">Our Process</span>
-          </div>
-          <h2 className="text-3xl md:text-5xl font-bold text-slate-900 tracking-tight leading-[1.15] max-w-3xl">
-            A precise, battle-tested framework to <span className="text-slate-400 font-medium">guarantee delivery.</span>
+    <section className="section-xl bg-white">
+      <div className="container-content">
+
+        {/* Header */}
+        <div className="max-w-[640px] mb-16 lg:mb-20">
+          <div className="section-overline">Our Process</div>
+          <h2 className="heading-display mt-1">
+            A battle-tested framework <br />
+            <span className="text-ink-400 font-medium">to guarantee delivery.</span>
           </h2>
+          <p className="body-xl text-ink-500 mt-5">
+            No ambiguity, no scope creep — just a clear path from idea to production.
+          </p>
         </div>
 
-        {/* Premium Plus Layout Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 border-y border-slate-200/60">
-          {steps.map((step, idx) => (
-            <div 
-              key={idx} 
-              className={`p-10 md:p-16 relative overflow-hidden group ${
-                idx % 2 === 0 ? 'md:border-r border-slate-200/60' : ''
-              } ${
-                idx < 2 ? 'border-b border-slate-200/60' : ''
-              }`}
-            >
-              {/* Giant Background Number */}
-              <div className="absolute top-4 md:top-8 right-6 md:right-10 text-[100px] md:text-[140px] font-black text-slate-50 transition-transform duration-700 group-hover:-translate-y-4 group-hover:text-slate-100 select-none z-0 leading-none">
-                0{idx + 1}
+        {/* Process Grid (Plus Layout) */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-0 max-w-[1000px] mx-auto relative">
+          
+          {steps.map((step, idx) => {
+            // Determine borders for the plus layout
+            let borderClasses = "border-gray-200 ";
+            if (idx === 0) borderClasses += "border-b md:border-r";
+            if (idx === 1) borderClasses += "border-b";
+            if (idx === 2) borderClasses += "border-b md:border-b-0 md:border-r";
+            if (idx === 3) borderClasses += "";
+
+            return (
+              <div
+                key={idx}
+                className={`group bg-transparent p-8 lg:p-12 transition-all duration-300 relative flex flex-col hover:bg-white ${borderClasses}`}
+              >
+                {/* Content */}
+                <div className="flex-1">
+                  {/* Large serif number */}
+                  <div
+                    className="font-display font-bold text-ink-100 leading-none mb-4 group-hover:text-ink-200 transition-colors duration-300"
+                    style={{ fontSize: '4rem' }}
+                  >
+                    {step.num}
+                  </div>
+                  <h3 className="heading-md text-ink-900 mb-3 group-hover:text-[#6D28D9] transition-colors duration-300">
+                    {step.name}
+                  </h3>
+                  <p className="body-base text-ink-500 leading-relaxed">
+                    {step.description}
+                  </p>
+                </div>
               </div>
-              
-              <div className="relative z-10 pt-16 md:pt-20">
-                <h3 className="text-xl md:text-2xl font-bold text-slate-900 mb-4">{step.name}</h3>
-                <p className="text-slate-500 leading-relaxed max-w-md">
-                  {step.description}
-                </p>
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
       </div>

@@ -33,6 +33,8 @@ import { CheckoutSuccess } from './pages/CheckoutSuccess';
 import { BookAppointment } from './pages/BookAppointment';
 import { CaseStudiesListing } from './pages/CaseStudiesListing';
 import { CaseStudyDetail } from './pages/CaseStudyDetail';
+import { ServiceDetail } from './pages/ServiceDetail';
+import { SolutionDetail } from './pages/SolutionDetail';
 
 // Auth context & route protection
 import { AuthProvider } from './contexts/AuthContext';
@@ -87,6 +89,8 @@ createRoot(document.getElementById('root')!).render(
           <Route path="/pricing" element={<Pricing />} />
           <Route path="/blog" element={<BlogListing />} />
           <Route path="/blog/:slug" element={<BlogPost />} />
+          <Route path="/services/:slug" element={<ServiceDetail />} />
+          <Route path="/solutions/:slug" element={<SolutionDetail />} />
           <Route path="/case-studies" element={<CaseStudiesListing />} />
           <Route path="/case-studies/:slug" element={<CaseStudyDetail />} />
           <Route path="/login" element={<Login />} />

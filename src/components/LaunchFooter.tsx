@@ -1,100 +1,138 @@
 import React from 'react';
-import { IconBrandTwitter, IconBrandLinkedin } from '@tabler/icons-react';
+import { IconBrandTwitter, IconBrandLinkedin, IconBrandGithub } from '@tabler/icons-react';
 import { LogoIcon } from './LogoIcon';
 
+const footerLinks = {
+  Services: [
+    { label: 'SaaS Development', href: '/services/saas-development' },
+    { label: 'MVP Development', href: '/services/mvp-development' },
+    { label: 'AI Development', href: '/services/ai-development' },
+    { label: 'Web Development', href: '/services/web-development' },
+    { label: 'Mobile App Development', href: '/services/mobile-development' },
+    { label: 'UI/UX Design', href: '/services/ui-ux-design' },
+  ],
+  Solutions: [
+    { label: 'AI Apps', href: '/solutions/ai-apps' },
+    { label: 'CRM Development', href: '/solutions/crm-development' },
+    { label: 'ERP Development', href: '/solutions/erp-development' },
+    { label: 'Web Portal', href: '/solutions/web-portal' },
+    { label: 'Mobile Apps', href: '/solutions/mobile-apps' },
+  ],
+  Company: [
+    'About Us',
+    'Case Studies',
+    'Blog',
+    'Careers',
+    'Why Launch AI Pilot',
+  ],
+  Contact: [
+    { label: 'Book a Call', href: '/book-appointment' },
+    { label: 'Contact Us', href: '/#contact' },
+    { label: 'Privacy Policy', href: '/privacy' },
+    { label: 'Terms of Service', href: '/terms' },
+  ],
+};
+
 export function LaunchFooter() {
-  const footerLinks = {
-    services: ['AI Development', 'SaaS Development', 'Web Development', 'Mobile App Development', 'UI/UX Design'],
-    solutions: ['AI Apps', 'CRM Development', 'ERP Development', 'Web Portal', 'Mobile Apps'],
-    company: ['About Us', 'Careers', 'Case Studies', 'Blog', 'Engagement models', 'Global delivery', 'Why Launch AI Pilot'],
-    contact: ['Book a Call', 'Contact Us']
-  };
-
   return (
-    <footer className="bg-white border-t border-slate-200 py-16">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
+    <footer className="bg-white text-ink-900 border-t border-gray-200">
 
-        {/* Top Section */}
-        <div className="flex flex-col md:flex-row justify-between items-start mb-20 gap-10">
-          
-          {/* Brand & Tagline */}
-          <div className="max-w-md">
-            <a href="/" className="flex items-center gap-2 font-bold text-2xl text-slate-900 tracking-tight mb-4">
-              <LogoIcon className="w-8 h-8 shrink-0" />
-              Launch AI Pilot
+      {/* Top gradient accent - light mode */}
+      <div className="h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent" />
+
+      <div className="container-editorial py-16 lg:py-20">
+
+        {/* Top section — brand + CTA */}
+        <div className="flex flex-col lg:flex-row justify-between items-start gap-10 mb-14 pb-14 border-b border-gray-100">
+
+          {/* Brand */}
+          <div className="max-w-[360px]">
+            <a href="/" className="flex items-center gap-2.5 mb-5 group">
+              <div className="flex items-center justify-center">
+                <LogoIcon className="w-7 h-7 text-ink-900" />
+              </div>
+              <span className="font-bold text-lg text-ink-900 tracking-[-0.025em]">Launch AI Pilot</span>
             </a>
-            <p className="text-slate-500 text-sm leading-relaxed mb-6 font-medium">
-              We don't build software. We engineer unfair advantages for industry leaders. 50+ products shipped. 20+ countries. No ghosting after launch.
+            <p className="text-[0.875rem] text-ink-500 leading-relaxed mb-5 font-medium">
+              We don't build software. We engineer unfair advantages for industry leaders.
+              10+ MVPs shipped across 5+ countries. No ghosting after launch.
             </p>
-            <a href="mailto:launchpilotai41@gmail.com" className="inline-flex items-center gap-2 text-sm font-bold text-blue-600 hover:text-blue-700 transition-colors">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+            <a
+              href="mailto:launchpilotai41@gmail.com"
+              className="inline-flex items-center gap-2 text-[0.875rem] font-semibold text-cobalt-600 hover:text-cobalt-700 transition-colors"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <rect width="20" height="16" x="2" y="4" rx="2"/>
+                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+              </svg>
               launchpilotai41@gmail.com
             </a>
           </div>
 
-          {/* Top CTA */}
-          <div className="md:text-right flex flex-col md:items-end">
-            <p className="text-slate-500 text-sm font-medium mb-3">Your competitor isn't waiting.</p>
-            <a href="/book-appointment" className="inline-flex items-center justify-center gap-2 bg-slate-900 text-white px-6 py-3 rounded-xl font-bold text-sm hover:bg-slate-800 transition-colors whitespace-nowrap">
+          {/* CTA */}
+          <div className="lg:text-right">
+            <p className="text-[0.875rem] text-ink-500 font-medium mb-3">Your competitor isn't waiting.</p>
+            <a
+              href="/book-appointment"
+              className="inline-flex items-center gap-2 bg-ink-900 text-white font-bold text-[0.875rem] px-6 py-3 rounded-xl hover:bg-ink-800 transition-all hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(0,0,0,0.12)]"
+            >
               Book Your Free 30-Min Call
-              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M7 7h10v10"/>
+                <path d="M7 17 17 7"/>
+              </svg>
             </a>
           </div>
 
         </div>
 
-        {/* Links Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 py-10 border-t border-slate-100">
-          
-          <div>
-            <h4 className="text-[10px] font-extrabold text-slate-900 uppercase tracking-widest mb-6">Services</h4>
-            <ul className="space-y-4">
-              {footerLinks.services.map(link => (
-                <li key={link}><a href={`/#${link.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`} className="text-xs font-medium text-slate-500 hover:text-blue-600 transition-colors">{link}</a></li>
-              ))}
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="text-[10px] font-extrabold text-slate-900 uppercase tracking-widest mb-6">Solutions</h4>
-            <ul className="space-y-4">
-              {footerLinks.solutions.map(link => (
-                <li key={link}><a href={`/#${link.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`} className="text-xs font-medium text-slate-500 hover:text-blue-600 transition-colors">{link}</a></li>
-              ))}
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="text-[10px] font-extrabold text-slate-900 uppercase tracking-widest mb-6">Company</h4>
-            <ul className="space-y-4">
-              {footerLinks.company.map(link => (
-                <li key={link}><a href={`/#${link.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`} className="text-xs font-medium text-slate-500 hover:text-blue-600 transition-colors">{link}</a></li>
-              ))}
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="text-[10px] font-extrabold text-slate-900 uppercase tracking-widest mb-6">Contact</h4>
-            <ul className="space-y-4">
-              {footerLinks.contact.map(link => (
-                <li key={link}><a href={link === 'Book a Call' ? '/book-appointment' : '/#contact'} className="text-xs font-medium text-slate-500 hover:text-blue-600 transition-colors">{link}</a></li>
-              ))}
-            </ul>
-          </div>
-
+        {/* Link columns */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-14 pb-14 border-b border-gray-100">
+          {Object.entries(footerLinks).map(([category, links]) => (
+            <div key={category}>
+              <h4 className="text-[0.6875rem] font-extrabold text-ink-400 uppercase tracking-[0.12em] mb-5">
+                {category}
+              </h4>
+              <ul className="space-y-3.5">
+                {links.map((link) => {
+                  if (typeof link === 'string') {
+                    return (
+                      <li key={link}>
+                        <a
+                          href={`/#${link.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`}
+                          className="text-[0.8125rem] font-medium text-ink-500 hover:text-cobalt-600 transition-colors"
+                        >
+                          {link}
+                        </a>
+                      </li>
+                    );
+                  }
+                  return (
+                    <li key={link.label}>
+                      <a
+                        href={link.href}
+                        className="text-[0.8125rem] font-medium text-ink-500 hover:text-cobalt-600 transition-colors"
+                      >
+                        {link.label}
+                      </a>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          ))}
         </div>
-        
-        {/* Bottom Bar */}
-        <div className="pt-8 mt-4 border-t border-slate-100 flex flex-col sm:flex-row justify-between items-center gap-4 text-slate-400 text-xs font-medium">
-          <p>© {new Date().getFullYear()} Launch AI Pilot. All rights reserved.</p>
-          <div className="flex gap-4">
-            <a href="#" className="hover:text-slate-600 transition-colors">Privacy Policy</a>
-            <a href="#" className="hover:text-slate-600 transition-colors">Terms of Service</a>
-          </div>
+
+        {/* Bottom bar */}
+        <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
+          <p className="text-[0.75rem] text-ink-400 font-medium">
+            © {new Date().getFullYear()} Launch AI Pilot. All rights reserved.
+          </p>
+
+
         </div>
 
       </div>
     </footer>
   );
 }
-

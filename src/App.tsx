@@ -24,7 +24,7 @@ export { LogoIcon };
 
 export default function App() {
   return (
-    <div className="min-h-screen bg-slate-50 font-sans text-slate-800 overflow-x-hidden antialiased">
+    <div className="min-h-screen bg-[#FAFAFA] font-sans text-ink-900 overflow-x-hidden antialiased">
       <Navbar />
       <main>
         <HomeHero />
