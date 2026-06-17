@@ -181,7 +181,7 @@ Please perform a swift validation check. Focus on high MVP actionability. Be con
 
           <div>
             <a 
-              href="/#contact" 
+              href="/contact" 
               className="bg-violet-600 text-white rounded-full px-5 py-2 text-xs font-bold hover:bg-violet-500 transition-all duration-200 shadow-sm"
             >
               Book a free call

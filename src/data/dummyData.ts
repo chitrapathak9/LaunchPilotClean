@@ -22,7 +22,7 @@ export const mockBlogs = [
       <p>At Launch AI Pilot, we build these systems using cutting-edge orchestration frameworks. We ensure that these agents operate within strict, sandboxed environments with clear guardrails so they never take an action they shouldn't.</p>
     `,
     category: 'AI Engineering',
-    author: 'Dushyant',
+    author: 'David',
     authorRole: 'Founder & Lead Architect',
     date: 'Oct 12, 2023',
     readTime: '6 min read',

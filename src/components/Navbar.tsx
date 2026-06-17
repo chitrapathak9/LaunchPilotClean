@@ -162,7 +162,7 @@ export function Navbar() {
               Book a call
             </a>
             <a
-              href="#contact"
+              href="/contact"
               className="btn-primary text-[0.8125rem] py-2.5 px-5 rounded-full"
             >
               Contact us
@@ -233,7 +233,7 @@ export function Navbar() {
               Book a clarity call
             </a>
             <a
-              href="#contact"
+              href="/contact"
               onClick={() => setMobileOpen(false)}
               className="btn-primary w-full text-center text-[0.875rem] py-3 rounded-xl"
             >

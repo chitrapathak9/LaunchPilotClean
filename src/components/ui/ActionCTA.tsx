@@ -42,7 +42,7 @@ export function ActionCTA({ pillText, pillIcon, title, description, buttonText =
             <span className="text-ink-400 text-[0.9375rem] font-medium hidden sm:block">
               or
             </span>
-            <a href="#contact" className="text-ink-700 font-semibold text-[0.9375rem] hover:text-cobalt-600 transition-colors flex items-center gap-2 group">
+            <a href="/contact" className="text-ink-700 font-semibold text-[0.9375rem] hover:text-cobalt-600 transition-colors flex items-center gap-2 group">
               Send us an email <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
             </a>
           </div>

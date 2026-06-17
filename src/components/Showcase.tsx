@@ -169,7 +169,7 @@ export function Showcase() {
 
               <div className="w-full mt-auto">
                 <a 
-                  href="#contact" 
+                  href="/contact" 
                   className="block w-full bg-violet-600 hover:bg-violet-500 text-white rounded-xl py-3.5 text-center text-sm font-bold transition-all duration-200 tracking-wide"
                 >
                   Start your project →

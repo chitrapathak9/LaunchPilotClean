@@ -53,7 +53,7 @@ export function LaunchValidatorCTA() {
             <FadeUp delay={0.4}>
               <div className="pt-4">
                 <a 
-                  href="#contact" 
+                  href="/contact" 
                   className="inline-flex items-center gap-2 bg-violet-600 text-white rounded-full px-8 py-4 font-bold hover:bg-violet-500 transition-all duration-200 text-base shadow-md shadow-violet-600/10 group"
                 >
                   Audit Your Workflows Now

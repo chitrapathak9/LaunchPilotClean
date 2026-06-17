@@ -2,7 +2,9 @@ import React from 'react';
 import { IconBrandTwitter, IconBrandLinkedin, IconBrandGithub } from '@tabler/icons-react';
 import { LogoIcon } from './LogoIcon';
 
-const footerLinks = {
+type FooterLinkItem = { label: string; href: string } | string;
+
+const footerLinks: Record<string, FooterLinkItem[]> = {
   Services: [
     { label: 'SaaS Development', href: '/services/saas-development' },
     { label: 'MVP Development', href: '/services/mvp-development' },
@@ -33,7 +35,7 @@ const footerLinks = {
   ],
   Contact: [
     { label: 'Book a Call', href: '/book-appointment' },
-    { label: 'Contact Us', href: '/#contact' },
+    { label: 'Contact Us', href: '/contact' },
     { label: 'Privacy Policy', href: '/privacy' },
     { label: 'Terms of Service', href: '/terms' },
   ],

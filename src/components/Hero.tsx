@@ -34,7 +34,7 @@ export function Hero() {
         <FadeUp delay={0.4}>
           <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center items-center">
             <a 
-              href="#contact" 
+              href="/contact" 
               className="bg-violet-600 text-white rounded-full px-8 py-4 font-bold hover:bg-violet-500 transition-all duration-200 text-base shadow-md shadow-violet-600/10 min-w-[240px] text-center"
             >
               Schedule a free operations audit

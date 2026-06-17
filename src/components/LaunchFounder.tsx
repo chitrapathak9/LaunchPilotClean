@@ -77,7 +77,7 @@ export function LaunchFounder() {
           <FadeUp delay={0.5}>
             <div className="pt-4 space-y-3">
               <a 
-                href="#contact" 
+                href="/contact" 
                 className="inline-block bg-violet-600 hover:bg-violet-500 text-white rounded-full px-6 py-3.5 text-sm font-bold transition-colors duration-200 tracking-wide shadow-sm"
               >
                 Book a free clarity call
