@@ -6,7 +6,8 @@ import './index.css';
 
 // Public pages
 import { Features } from './pages/Features';
-import { About } from './pages/About';
+import { AboutUs } from './pages/AboutUs';
+import { EngagementModels } from './pages/EngagementModels';
 import { Contact } from './pages/Contact';
 import { SkillFinder } from './pages/SkillFinder';
 import { SkillsCatalog } from './pages/SkillsCatalog';
@@ -82,7 +83,8 @@ createRoot(document.getElementById('root')!).render(
           {/* ─── Public Routes ─── */}
           <Route path="/" element={<App />} />
           <Route path="/features" element={<Features />} />
-          <Route path="/about" element={<About />} />
+          <Route path="/about" element={<AboutUs />} />
+          <Route path="/engagement-models" element={<EngagementModels />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/skill-finder" element={<SkillFinder />} />
           <Route path="/skills" element={<SkillsCatalog />} />
