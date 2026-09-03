@@ -486,7 +486,24 @@ export function BookAppointment() {
 
               <div className="pt-4 flex flex-col sm:flex-row gap-3">
                 <a 
-                  href="https://calendar.google.com" 
+                  href={`https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(`Startup Clarity Call - ${planDisplayName}`)}&details=${encodeURIComponent(`Consultation booked via LaunchAIPilot.\n\nPlan: ${planDisplayName}\nConcept: ${concept}\nEmail: ${email}`)}&dates=${
+                    selectedDate && selectedSlot 
+                      ? (() => {
+                          const [time, period] = selectedSlot.split(' ');
+                          let [hours, minutes] = time.split(':').map(Number);
+                          if (period === 'PM' && hours !== 12) hours += 12;
+                          if (period === 'AM' && hours === 12) hours = 0;
+                          
+                          const d = new Date(selectedDate.raw);
+                          d.setHours(hours, minutes, 0);
+                          
+                          const endD = new Date(d.getTime() + 30 * 60000); // 30 min duration
+                          
+                          const formatDate = (date: Date) => date.toISOString().replace(/-|:|\.\d\d\d/g, '');
+                          return `${formatDate(d)}/${formatDate(endD)}`;
+                        })()
+                      : ''
+                  }`} 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="flex-1 bg-[#8B5CF6] hover:bg-[#7C3AED] text-white font-bold py-3.5 rounded-xl text-xs flex items-center justify-center gap-2 transition-all shadow-md shadow-[#8B5CF6]/15 border border-[#8B5CF6]/20"

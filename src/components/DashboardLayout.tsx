@@ -92,14 +92,12 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
     },
   ];
 
-  if (user?.email === 'launchpilotai41@gmail.com') {
-    menuItems.push({ 
-      icon: FileText, 
-      label: 'Admin Leads', 
-      path: '/dashboard?tab=leads', 
-      active: location.pathname === '/dashboard' && activeTab === 'leads' 
-    });
-  }
+  menuItems.push({ 
+    icon: FileText, 
+    label: 'Admin Leads & Messages', 
+    path: '/dashboard?tab=leads', 
+    active: location.pathname === '/dashboard' && activeTab === 'leads' 
+  });
 
 
   return (

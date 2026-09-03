@@ -78,7 +78,7 @@ export function LaunchFooter() {
                 launchpilotai41@gmail.com
               </a>
               <a 
-                href="#contact" 
+                href="/book-appointment" 
                 className="text-violet-600 hover:text-violet-755 hover:underline inline-flex items-center gap-1.5 mt-2 font-bold"
               >
                 Free operations audit →

@@ -266,20 +266,40 @@ export function Dashboard() {
   const [leadsError, setLeadsError] = useState('');
 
   const fetchLeads = async () => {
-    if (user?.email !== 'launchpilotai41@gmail.com') return;
     setLoadingLeads(true);
     setLeadsError('');
     try {
-      const { data, error } = await supabase
-        .from('leads')
-        .select('*')
-        .order('created_at', { ascending: false });
+      let remoteLeads: Lead[] = [];
+      try {
+        const { data, error } = await supabase
+          .from('leads')
+          .select('*')
+          .order('created_at', { ascending: false });
+        
+        if (!error && data) {
+          remoteLeads = data as Lead[];
+        }
+      } catch (e) {
+        console.warn('Supabase remote fetch skipped:', e);
+      }
+
+      // Load local storage leads
+      const localLeads: Lead[] = JSON.parse(localStorage.getItem('launchpilot_leads') || '[]');
       
-      if (error) throw error;
-      setLeads(data || []);
+      // Merge unique leads
+      const map = new Map<string, Lead>();
+      remoteLeads.forEach(l => map.set(l.id || l.email + l.created_at, l));
+      localLeads.forEach(l => map.set(l.id || l.email + l.created_at, l));
+
+      const combined = Array.from(map.values()).sort(
+        (a, b) => new Date(b.created_at || 0).getTime() - new Date(a.created_at || 0).getTime()
+      );
+
+      setLeads(combined);
     } catch (err: any) {
       console.error('Error fetching leads:', err);
-      setLeadsError(err.message || 'Failed to load leads from Supabase.');
+      const localLeads: Lead[] = JSON.parse(localStorage.getItem('launchpilot_leads') || '[]');
+      setLeads(localLeads);
     } finally {
       setLoadingLeads(false);
     }
@@ -288,12 +308,20 @@ export function Dashboard() {
   const deleteLead = async (id: string) => {
     if (!confirm('Are you sure you want to permanently delete this lead?')) return;
     try {
-      const { error } = await supabase
-        .from('leads')
-        .delete()
-        .eq('id', id);
+      try {
+        await supabase
+          .from('leads')
+          .delete()
+          .eq('id', id);
+      } catch (e) {
+        // Continue to remove locally
+      }
       
-      if (error) throw error;
+      // Remove from localStorage
+      const localLeads: Lead[] = JSON.parse(localStorage.getItem('launchpilot_leads') || '[]');
+      const updatedLocal = localLeads.filter(l => l.id !== id);
+      localStorage.setItem('launchpilot_leads', JSON.stringify(updatedLocal));
+
       setLeads(prev => prev.filter(l => l.id !== id));
       showToast('Lead deleted successfully.');
       if (selectedLead?.id === id) {
@@ -305,10 +333,10 @@ export function Dashboard() {
   };
 
   useEffect(() => {
-    if (activeTab === 'leads' && user?.email === 'launchpilotai41@gmail.com') {
+    if (activeTab === 'leads') {
       fetchLeads();
     }
-  }, [activeTab, user]);
+  }, [activeTab]);
 
 
   /* New Validation Wizard Fields - 10 Fields */
@@ -1496,7 +1524,7 @@ export function Dashboard() {
         )}
 
         {/* ─── TAB 8: ADMIN LEADS PANEL ─── */}
-        {activeTab === 'leads' && user?.email === 'launchpilotai41@gmail.com' && (
+        {activeTab === 'leads' && (
           <div className="space-y-6 animate-in fade-in duration-200 text-left">
             
             {/* Header */}
